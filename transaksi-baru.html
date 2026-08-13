@@ -1,0 +1,3795 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+  <meta
+    name="theme-color"
+    content="#087f3e">
+
+  <title>Transaksi Baru — RESIK Hub</title>
+
+  <style>
+
+    :root{
+      --green:#087f3e;
+      --green2:#0aa25a;
+      --mint:#eaf8f1;
+      --blue:#eaf1ff;
+      --text:#10231c;
+      --muted:#6f7d77;
+      --line:#dce7e1;
+      --bg:#f5f8f6;
+      --white:#fff;
+      --shadow:0 8px 24px rgba(25,65,45,.07);
+      --radius:14px;
+      --danger:#d32f2f;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html,
+    body{
+      margin:0;
+      min-height:100%;
+      font-family:Inter,Arial,sans-serif;
+      color:var(--text);
+      background:var(--bg);
+    }
+
+    body{
+      padding-bottom:30px;
+    }
+
+    button,
+    input,
+    select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    button:disabled{
+      cursor:not-allowed;
+      opacity:.55;
+    }
+
+    .app{
+      max-width:1180px;
+      margin:auto;
+      padding:20px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+      gap:12px;
+    }
+
+    .brand{
+      font-weight:800;
+      color:var(--green);
+      font-size:22px;
+    }
+
+    .back{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:10px;
+      padding:9px 13px;
+      color:var(--green);
+      font-weight:700;
+    }
+
+    .role-badge{
+      font-size:11px;
+      font-weight:800;
+      color:var(--green);
+      background:#e9f8ef;
+      border-radius:999px;
+      padding:7px 10px;
+      white-space:nowrap;
+    }
+
+    .role-badge.warga{
+      color:#355c9a;
+      background:#eaf1ff;
+    }
+
+    h1{
+      font-size:28px;
+      margin:0 0 4px;
+    }
+
+    .subtitle{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+      gap:16px;
+      align-items:start;
+    }
+
+    .left,
+    .right{
+      display:grid;
+      gap:16px;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+
+    .card-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+
+    .status{
+      font-size:11px;
+      background:#e9f8ef;
+      color:var(--green);
+      padding:6px 9px;
+      border-radius:20px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .status.warning{
+      background:#fff4dc;
+      color:#9a6700;
+    }
+
+    .status.error{
+      background:#ffeded;
+      color:var(--danger);
+    }
+
+    .scan-box{
+      background:#263044;
+      border-radius:10px;
+      min-height:235px;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    video{
+      width:100%;
+      height:235px;
+      object-fit:cover;
+      display:none;
+    }
+
+    .scan-box.scanning video{
+      display:block;
+    }
+
+    .scan-copy{
+      color:#fff;
+      text-align:center;
+      font-size:12px;
+      padding:20px;
+      position:absolute;
+      z-index:2;
+      max-width:440px;
+      line-height:1.5;
+    }
+
+    .scan-box.scanning .scan-copy{
+      background:rgba(15,20,30,.42);
+      border-radius:8px;
+    }
+
+    .qr-frame{
+      position:absolute;
+      width:70%;
+      max-width:300px;
+      aspect-ratio:1;
+      border:1.5px solid #00a95c;
+      border-radius:7px;
+      z-index:3;
+      pointer-events:none;
+    }
+
+    .scan-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:9px;
+      padding:10px 13px;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    .btn.primary{
+      background:var(--green);
+      border-color:var(--green);
+      color:#fff;
+    }
+
+    .btn.secondary{
+      background:#eef8f2;
+      color:var(--green);
+      border-color:#cce8d9;
+    }
+
+    .btn.danger{
+      color:var(--danger);
+    }
+
+    .form-title{
+      font-size:15px;
+      margin:0 0 14px;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    label{
+      display:block;
+      font-size:11px;
+      color:#4c5c55;
+      font-weight:700;
+    }
+
+    input,
+    select{
+      width:100%;
+      margin-top:6px;
+      border:1px solid #d8e1dd;
+      background:#f8faff;
+      border-radius:8px;
+      padding:10px 11px;
+      outline:none;
+      color:#183129;
+    }
+
+    input:focus,
+    select:focus{
+      border-color:#52ae80;
+      box-shadow:0 0 0 3px rgba(8,127,62,.08);
+    }
+
+    input[readonly]{
+      background:#f0f4f2;
+    }
+
+    .search-box{
+      position:relative;
+    }
+
+    .search-box input{
+      padding-right:40px;
+    }
+
+    .search-icon{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-20%);
+      color:#7a8983;
+      pointer-events:none;
+    }
+
+    .citizen-list{
+      margin-top:10px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      overflow:hidden;
+      background:#fff;
+      max-height:250px;
+      overflow-y:auto;
+    }
+
+    .citizen-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      width:100%;
+      border:0;
+      border-bottom:1px solid #edf1ef;
+      background:#fff;
+      padding:11px 12px;
+      text-align:left;
+      transition:.15s ease;
+    }
+
+    .citizen-item:last-child{
+      border-bottom:0;
+    }
+
+    .citizen-item:hover{
+      background:#f3faf6;
+    }
+
+    .citizen-item.active{
+      background:#eaf8f1;
+      box-shadow:inset 3px 0 0 var(--green);
+    }
+
+    .citizen-main{
+      min-width:0;
+    }
+
+    .citizen-name{
+      display:block;
+      font-size:13px;
+      font-weight:800;
+      color:#183129;
+    }
+
+    .citizen-meta{
+      display:block;
+      margin-top:3px;
+      font-size:10px;
+      color:#718079;
+    }
+
+    .citizen-points{
+      font-size:11px;
+      font-weight:800;
+      color:var(--green);
+      white-space:nowrap;
+    }
+
+    .empty-box{
+      padding:18px 12px;
+      text-align:center;
+      color:#718079;
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    .manual-box{
+      margin-top:12px;
+      border:1px dashed #afd2be;
+      background:#f6fbf8;
+      border-radius:10px;
+      padding:12px;
+    }
+
+    .manual-box h3{
+      margin:0 0 5px;
+      font-size:12px;
+      color:var(--green);
+    }
+
+    .manual-box p{
+      margin:0 0 10px;
+      color:#6b7a73;
+      font-size:10px;
+      line-height:1.5;
+    }
+
+    .selected-citizen{
+      margin-top:12px;
+      border-radius:10px;
+      padding:12px;
+      background:linear-gradient(135deg,#edf9f3,#f3f7ff);
+      border:1px solid #d7e8df;
+    }
+
+    .selected-title{
+      font-size:10px;
+      color:#6b7a73;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
+
+    .selected-name{
+      margin-top:3px;
+      font-size:18px;
+      font-weight:800;
+      color:var(--green);
+    }
+
+    .selected-meta{
+      margin-top:4px;
+      font-size:11px;
+      color:#6a7b74;
+    }
+
+    .my-account{
+      background:linear-gradient(135deg,#edf9f3,#eaf1ff);
+      border:1px solid #d3e7df;
+      border-radius:12px;
+      padding:14px;
+    }
+
+    .my-account-label{
+      font-size:10px;
+      color:#6b7a73;
+      font-weight:700;
+      text-transform:uppercase;
+    }
+
+    .my-account-name{
+      margin-top:4px;
+      font-size:19px;
+      font-weight:800;
+      color:var(--green);
+    }
+
+    .my-account-meta{
+      margin-top:4px;
+      font-size:11px;
+      color:#64736d;
+      line-height:1.5;
+    }
+
+    .waste-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+      margin-top:7px;
+    }
+
+    .waste{
+      background:#fff;
+      border:1px solid #d7e1dc;
+      border-radius:8px;
+      padding:10px 5px;
+      font-size:11px;
+      font-weight:700;
+      color:#183129;
+    }
+
+    .waste.active{
+      border-color:var(--green);
+      background:#effaf4;
+      color:var(--green);
+    }
+
+    .field-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .score-card{
+      background:linear-gradient(145deg,#eef9f4,#e7f2ff);
+      border-color:#d3e7df;
+    }
+
+    .score-row{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      padding:8px 0;
+      color:#63726b;
+      font-size:12px;
+    }
+
+    .score-row b{
+      color:#31443c;
+      text-align:right;
+    }
+
+    .value-box{
+      background:#dfe8ff;
+      border-radius:8px;
+      padding:12px;
+      margin-top:8px;
+    }
+
+    .value-main{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .value-main span{
+      font-size:11px;
+      color:#64736d;
+    }
+
+    .value-main strong{
+      font-size:25px;
+      white-space:nowrap;
+    }
+
+    .points{
+      color:var(--green)!important;
+    }
+
+    .info{
+      background:#dcecf8;
+      border-radius:7px;
+      padding:10px;
+      margin:10px 0;
+      color:#5b6d77;
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    .confirm{
+      width:100%;
+      border:0;
+      background:var(--green);
+      color:#fff;
+      border-radius:8px;
+      padding:12px;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    .confirm:hover{
+      background:#066c35;
+    }
+
+    .recent-admin-note{
+      font-size:10px;
+      color:#718079;
+      margin-top:7px;
+    }
+
+    .table-card{
+      margin-top:16px;
+      overflow:hidden;
+    }
+
+    .table-scroll{
+      overflow:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:760px;
+      font-size:11px;
+    }
+
+    th{
+      background:#f1f5ff;
+      color:#51615a;
+      text-align:left;
+      padding:10px;
+    }
+
+    td{
+      padding:10px;
+      border-bottom:1px solid #edf1ef;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:25px;
+      transform:translateX(-50%);
+      background:#087f3e;
+      color:#fff;
+      padding:11px 17px;
+      border-radius:12px;
+      font-weight:700;
+      z-index:100;
+      box-shadow:0 10px 30px #0002;
+      display:none;
+      max-width:min(90vw,500px);
+      text-align:center;
+    }
+
+    .toast.show{
+      display:block;
+    }
+
+    .hidden{
+      display:none!important;
+    }
+
+    @media(max-width:900px){
+
+      .layout{
+        grid-template-columns:1fr;
+      }
+
+    }
+
+    @media(max-width:850px){
+
+      .app{
+        padding:16px;
+        max-width:700px;
+      }
+
+      .grid2{
+        grid-template-columns:1fr 1fr;
+      }
+
+    }
+
+    @media(max-width:600px){
+
+      body{
+        background:#f7f8fc;
+      }
+
+      .app{
+        padding:0 12px 80px;
+      }
+
+      .topbar{
+        height:58px;
+        border-bottom:1px solid var(--line);
+        margin:0 -12px 16px;
+        padding:0 14px;
+        background:#fff;
+      }
+
+      .brand{
+        font-size:19px;
+      }
+
+      h1{
+        font-size:22px;
+      }
+
+      .subtitle{
+        font-size:12px;
+      }
+
+      .layout{
+        gap:12px;
+      }
+
+      .card{
+        padding:14px;
+        border-radius:12px;
+      }
+
+      .scan-box,
+      .scan-box video{
+        height:205px;
+        min-height:205px;
+      }
+
+      .grid2,
+      .field-row{
+        grid-template-columns:1fr;
+        gap:9px;
+      }
+
+      .waste-grid{
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      .waste{
+        padding:9px 2px;
+        font-size:10px;
+      }
+
+      .value-main strong{
+        font-size:23px;
+      }
+
+      .table-card{
+        margin-top:12px;
+        margin-left:-12px;
+        margin-right:-12px;
+        border-radius:0;
+        border-left:0;
+        border-right:0;
+      }
+
+      .bottom{
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        height:64px;
+        background:#fff;
+        border-top:1px solid var(--line);
+        display:flex;
+        z-index:20;
+      }
+
+      .bottom a{
+        flex:1;
+        text-align:center;
+        text-decoration:none;
+        color:#6c7772;
+        font-size:10px;
+        font-weight:700;
+        padding-top:8px;
+      }
+
+      .bottom a span{
+        display:block;
+        font-size:19px;
+        margin-bottom:3px;
+      }
+
+      .bottom a.active{
+        color:var(--green);
+      }
+
+    }
+
+    @media(min-width:601px){
+
+      .bottom{
+        display:none;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+  <header class="topbar">
+
+    <button
+      class="back"
+      type="button"
+      id="backButton">
+
+      ← Kembali
+
+    </button>
+
+
+    <div
+      class="brand"
+      id="pageBrand">
+
+      RESIK Hub
+
+    </div>
+
+
+    <div
+      class="role-badge"
+      id="roleBadge">
+
+      Memuat...
+
+    </div>
+
+  </header>
+
+
+  <h1 id="pageTitle">
+    Transaksi Baru
+  </h1>
+
+
+  <p
+    class="subtitle"
+    id="pageSubtitle">
+
+    Memuat mode transaksi...
+
+  </p>
+
+
+  <div class="layout">
+
+
+    <section class="left">
+
+
+      <!-- =================================================
+           SCANNER
+      ================================================== -->
+
+      <div class="card">
+
+        <div class="card-title">
+
+          <span>
+            ♧ Pemindaian / Kamera
+          </span>
+
+          <span
+            class="status"
+            id="cameraStatus">
+
+            ● Kamera Siap
+
+          </span>
+
+        </div>
+
+
+        <div
+          class="scan-box"
+          id="scanBox">
+
+          <video
+            id="qrVideo"
+            playsinline
+            muted>
+          </video>
+
+          <div class="qr-frame"></div>
+
+          <div
+            class="scan-copy"
+            id="scanCopy">
+
+            Kamera dapat digunakan sebagai fitur
+            tambahan. Untuk warga, identitas akun
+            akan dikenali otomatis.
+
+          </div>
+
+        </div>
+
+
+        <div class="scan-actions">
+
+          <button
+            class="btn primary"
+            type="button"
+            id="startCamera">
+
+            📷 Aktifkan Kamera
+
+          </button>
+
+
+          <button
+            class="btn"
+            type="button"
+            id="stopCamera"
+            disabled>
+
+            Hentikan
+
+          </button>
+
+
+          <button
+            class="btn secondary hidden"
+            type="button"
+            id="manual">
+
+            🔎 Pilih Warga
+
+          </button>
+
+        </div>
+
+
+        <p
+          class="subtitle"
+          id="scanMessage"
+          style="margin:9px 0 0">
+
+          Kamera bersifat opsional.
+
+        </p>
+
+      </div>
+
+
+      <!-- =================================================
+           ADMIN - PILIH WARGA
+      ================================================== -->
+
+      <div
+        class="card hidden"
+        id="adminCitizenCard">
+
+        <h2 class="form-title">
+          Pilih Warga
+        </h2>
+
+
+        <div class="grid2">
+
+          <label>
+
+            RT Warga
+
+            <select id="rtSelect">
+
+              <option value="">
+                Semua RT
+              </option>
+
+              <option value="RT 01">
+                RT 01
+              </option>
+
+              <option value="RT 02">
+                RT 02
+              </option>
+
+              <option value="RT 03">
+                RT 03
+              </option>
+
+              <option value="RT 04">
+                RT 04
+              </option>
+
+            </select>
+
+          </label>
+
+
+          <label>
+
+            Cari Nama Warga
+
+            <div class="search-box">
+
+              <input
+                id="citizenSearch"
+                type="search"
+                placeholder="Contoh: Rudi"
+                autocomplete="off">
+
+              <span class="search-icon">
+                ⌕
+              </span>
+
+            </div>
+
+          </label>
+
+        </div>
+
+
+        <div
+          class="citizen-list"
+          id="citizenList">
+
+          <div class="empty-box">
+            Memuat data warga...
+          </div>
+
+        </div>
+
+
+        <div
+          class="selected-citizen hidden"
+          id="selectedCitizenBox">
+
+          <div class="selected-title">
+            Warga terpilih
+          </div>
+
+          <div
+            class="selected-name"
+            id="selectedCitizenName">
+
+            -
+
+          </div>
+
+          <div
+            class="selected-meta"
+            id="selectedCitizenMeta">
+
+            -
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="grid2"
+          style="margin-top:12px">
+
+          <label>
+
+            ID Warga
+
+            <input
+              id="citizen"
+              placeholder="Akan terisi otomatis"
+              readonly>
+
+          </label>
+
+
+          <label>
+
+            UID Firebase Warga
+
+            <input
+              id="citizenUid"
+              placeholder="Jika warga sudah punya akun"
+              readonly>
+
+          </label>
+
+        </div>
+
+
+        <div class="manual-box">
+
+          <h3>
+            ＋ Warga belum ada?
+          </h3>
+
+          <p>
+            Tambahkan data warga pertama kali.
+          </p>
+
+
+          <div class="grid2">
+
+            <label>
+
+              Nama Warga Baru
+
+              <input
+                id="manualName"
+                type="text"
+                placeholder="Nama lengkap">
+
+            </label>
+
+
+            <label>
+
+              RT
+
+              <select id="manualRT">
+
+                <option value="">
+                  Pilih RT
+                </option>
+
+                <option value="RT 01">
+                  RT 01
+                </option>
+
+                <option value="RT 02">
+                  RT 02
+                </option>
+
+                <option value="RT 03">
+                  RT 03
+                </option>
+
+                <option value="RT 04">
+                  RT 04
+                </option>
+
+              </select>
+
+            </label>
+
+          </div>
+
+
+          <button
+            class="btn secondary"
+            type="button"
+            id="createCitizenButton"
+            style="margin-top:10px">
+
+            Simpan Warga Baru
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           WARGA - AKUN SENDIRI
+      ================================================== -->
+
+      <div
+        class="card hidden"
+        id="citizenSelfCard">
+
+        <h2 class="form-title">
+          Akun Warga
+        </h2>
+
+
+        <div class="my-account">
+
+          <div class="my-account-label">
+            Transaksi akan masuk ke
+          </div>
+
+          <div
+            class="my-account-name"
+            id="myAccountName">
+
+            -
+
+          </div>
+
+          <div
+            class="my-account-meta"
+            id="myAccountMeta">
+
+            -
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           DETAIL PENYETORAN
+      ================================================== -->
+
+      <div class="card">
+
+        <h2 class="form-title">
+          Detail Penyetoran
+        </h2>
+
+
+        <label>
+
+          Warga Penerima Poin
+
+          <input
+            id="citizenName"
+            placeholder="Memuat..."
+            readonly>
+
+        </label>
+
+
+        <label style="margin-top:14px">
+
+          Kategori Sampah
+
+        </label>
+
+
+        <div class="waste-grid">
+
+          <button
+            class="waste active"
+            type="button"
+            data-waste="Plastik">
+
+            ♻
+            <br>
+            Plastik
+
+          </button>
+
+
+          <button
+            class="waste"
+            type="button"
+            data-waste="Kertas">
+
+            ▤
+            <br>
+            Kertas
+
+          </button>
+
+
+          <button
+            class="waste"
+            type="button"
+            data-waste="Elektronik">
+
+            ♧
+            <br>
+            Sampah Elektronik
+
+          </button>
+
+        </div>
+
+
+        <div class="field-row">
+
+          <label>
+
+            Berat (kg)
+
+            <input
+              id="weight"
+              type="number"
+              min="0"
+              step=".1"
+              value="2.5">
+
+          </label>
+
+
+          <label>
+
+            Catatan Kondisi
+
+            <select id="condition">
+
+              <option>
+                Bersih & Tersortir
+              </option>
+
+              <option>
+                Campuran
+              </option>
+
+              <option>
+                Kotor
+              </option>
+
+            </select>
+
+          </label>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         RIGHT
+    ================================================== -->
+
+    <section class="right">
+
+
+      <div class="card score-card">
+
+        <div class="card-title">
+          ✦ Penilaian Nilai
+        </div>
+
+
+        <div class="score-row">
+
+          <span>
+
+            Tarif Dasar
+            (<span id="wasteName">Plastik</span>)
+
+          </span>
+
+          <b>
+
+            Rp
+            <span id="rate">
+              3.500
+            </span>
+            /kg
+
+          </b>
+
+        </div>
+
+
+        <div class="score-row">
+
+          <span>
+            Pengganda Kualitas
+          </span>
+
+          <b
+            class="points"
+            id="qualityMultiplier">
+
+            × 1.2 (Bersih)
+
+          </b>
+
+        </div>
+
+
+        <div class="value-box">
+
+          <div class="value-main">
+
+            <span>
+              NILAI EKONOMI
+            </span>
+
+            <strong>
+
+              Rp
+              <span id="total">
+                10.500
+              </span>
+
+            </strong>
+
+          </div>
+
+
+          <div
+            class="score-row"
+            style="padding-bottom:0">
+
+            <span>
+              ♧ POIN HIJAU
+            </span>
+
+            <b class="points">
+
+              +
+              <span id="points">
+                25
+              </span>
+              pts
+
+            </b>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="info"
+          id="pointInfo">
+
+          Poin akan diberikan kepada warga
+          yang dipilih.
+
+        </div>
+
+
+        <button
+          class="confirm"
+          type="button"
+          id="confirm">
+
+          ◉ Konfirmasi Transaksi
+
+        </button>
+
+      </div>
+
+
+      <!-- =================================================
+           SUMMARY
+      ================================================== -->
+
+      <div class="card">
+
+        <div class="card-title">
+
+          <span>
+            Ringkasan Warga
+          </span>
+
+          <span class="status">
+            Data Warga
+          </span>
+
+        </div>
+
+
+        <div class="score-row">
+
+          <span>
+            RT
+          </span>
+
+          <b id="summaryRT">
+            -
+          </b>
+
+        </div>
+
+
+        <div class="score-row">
+
+          <span>
+            Poin Saat Ini
+          </span>
+
+          <b
+            class="points"
+            id="summaryPoints">
+
+            0 pts
+
+          </b>
+
+        </div>
+
+
+        <div class="score-row">
+
+          <span>
+            Total Sampah
+          </span>
+
+          <b id="summaryWaste">
+
+            0 kg
+
+          </b>
+
+        </div>
+
+
+        <div class="score-row">
+
+          <span>
+            Status Akun
+          </span>
+
+          <b id="summaryAccount">
+
+            -
+
+          </b>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- =================================================
+       RECENT TRANSACTIONS
+  ================================================== -->
+
+  <div class="card table-card">
+
+    <div class="card-title">
+
+      <span>
+        Transaksi Terkini
+      </span>
+
+      <button
+        class="btn"
+        type="button"
+        id="seeAll">
+
+        Lihat Riwayat →
+
+      </button>
+
+    </div>
+
+
+    <p
+      class="recent-admin-note"
+      id="recentNote">
+
+      Memuat transaksi...
+
+    </p>
+
+
+    <div class="table-scroll">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>ID</th>
+            <th>WARGA</th>
+            <th>RT</th>
+            <th>JENIS</th>
+            <th>BERAT</th>
+            <th>POIN</th>
+            <th>NILAI</th>
+            <th>STATUS</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="recent">
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+====================================================== -->
+
+<nav class="bottom" id="bottomNav">
+
+  <a
+    href="dashboard-warga.html"
+    id="navHome">
+
+    <span>▦</span>
+    Beranda
+
+  </a>
+
+
+  <a
+    href="transaksi-baru.html"
+    class="active">
+
+    <span>＋</span>
+    Setor
+
+  </a>
+
+
+  <a href="riwayat-penukaran.html">
+
+    <span>▤</span>
+    Riwayat
+
+  </a>
+
+
+  <a href="profil.html">
+
+    <span>◎</span>
+    Profil
+
+  </a>
+
+</nav>
+
+
+<script
+  type="module"
+  src="js/app.js">
+</script>
+
+
+<script>
+
+(function(){
+
+  "use strict";
+
+
+  const $ =
+    id => document.getElementById(id);
+
+
+  const rates = {
+
+    Plastik:3500,
+
+    Kertas:2200,
+
+    Elektronik:8000
+
+  };
+
+
+  let selected =
+    "Plastik";
+
+
+  let stream =
+    null;
+
+
+  let allCitizens =
+    [];
+
+
+  let filteredCitizens =
+    [];
+
+
+  let selectedCitizen =
+    null;
+
+
+  let currentRole =
+    "warga";
+
+
+  /* =====================================================
+     MONEY
+  ====================================================== */
+
+  function money(value){
+
+    return Number(
+      value || 0
+    ).toLocaleString(
+      "id-ID"
+    );
+
+  }
+
+
+  /* =====================================================
+     ESCAPE
+  ====================================================== */
+
+  function escapeHTML(value){
+
+    return String(
+      value ?? ""
+    )
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+
+  }
+
+
+  /* =====================================================
+     TOAST
+  ====================================================== */
+
+  function localToast(message){
+
+    if(
+      typeof window.resikToast ===
+      "function"
+    ){
+
+      window.resikToast(
+        message
+      );
+
+      return;
+
+    }
+
+    alert(message);
+
+  }
+
+
+  /* =====================================================
+     QUALITY
+  ====================================================== */
+
+  function getQualityMultiplier(){
+
+    const condition =
+      $("condition")?.value ||
+      "Bersih & Tersortir";
+
+
+    if(
+      condition ===
+      "Bersih & Tersortir"
+    ){
+
+      return 1.2;
+
+    }
+
+
+    if(
+      condition ===
+      "Campuran"
+    ){
+
+      return 1;
+
+    }
+
+
+    if(
+      condition ===
+      "Kotor"
+    ){
+
+      return .8;
+
+    }
+
+
+    return 1;
+
+  }
+
+
+  /* =====================================================
+     RECALCULATE
+  ====================================================== */
+
+  function recalc(){
+
+    const weight =
+      Number(
+        $("weight")?.value ||
+        0
+      );
+
+
+    const rate =
+      rates[selected] ||
+      0;
+
+
+    const multiplier =
+      getQualityMultiplier();
+
+
+    const total =
+      Math.round(
+        weight *
+        rate *
+        multiplier
+      );
+
+
+    const points =
+      Math.max(
+        25,
+        Math.round(
+          weight *
+          10
+        )
+      );
+
+
+    $("wasteName").textContent =
+      selected;
+
+
+    $("rate").textContent =
+      money(rate);
+
+
+    $("total").textContent =
+      money(total);
+
+
+    $("points").textContent =
+      points;
+
+
+    const quality =
+      $("qualityMultiplier");
+
+
+    if(quality){
+
+      quality.textContent =
+        `× ${multiplier} (${
+          $("condition")?.value ||
+          "Bersih & Tersortir"
+        })`;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     APPLY WARGA MODE
+  ====================================================== */
+
+  function setupWargaMode(){
+
+    currentRole =
+      "warga";
+
+
+    $("roleBadge").textContent =
+      "WARGA";
+
+
+    $("roleBadge")
+      .classList
+      .add("warga");
+
+
+    $("pageTitle").textContent =
+      "Setor Sampah";
+
+
+    $("pageSubtitle").textContent =
+      "Catat setoran sampah Anda sendiri. Poin dan total sampah akan langsung masuk ke akun Anda.";
+
+
+    $("adminCitizenCard")
+      .classList
+      .add("hidden");
+
+
+    $("citizenSelfCard")
+      .classList
+      .remove("hidden");
+
+
+    $("recentNote").textContent =
+      "Menampilkan transaksi setoran dari akun Anda.";
+
+
+    $("pointInfo").innerHTML =
+      "♻ Poin akan langsung diberikan kepada <strong>akun Anda sendiri</strong>.";
+
+
+    $("confirm").textContent =
+      "◉ Simpan Setoran Saya";
+
+
+    $("navHome").href =
+      "dashboard-warga.html";
+
+
+    const user =
+      window.resikAuth?.currentUser;
+
+
+    const state =
+      window.resikState ||
+      {};
+
+
+    const name =
+      state.name ||
+      user?.displayName ||
+      "Warga";
+
+
+    const uid =
+      state.uid ||
+      user?.uid ||
+      "";
+
+
+    const citizenId =
+      state.citizenId ||
+      "";
+
+
+    const rt =
+      state.rt ||
+      "";
+
+
+    $("myAccountName").textContent =
+      name;
+
+
+    $("myAccountMeta").textContent =
+      [
+        rt || "RT belum diatur",
+        citizenId || "ID warga belum diatur",
+        uid ? "Akun Firebase terhubung" : "Akun belum terhubung"
+      ].join(" · ");
+
+
+    $("citizenName").value =
+      name;
+
+
+    $("summaryRT").textContent =
+      rt || "-";
+
+
+    $("summaryPoints").textContent =
+      `${money(state.points || 0)} pts`;
+
+
+    $("summaryWaste").textContent =
+      `${money(state.waste || 0)} kg`;
+
+
+    $("summaryAccount").textContent =
+      uid
+        ? "Terhubung"
+        : "Belum terhubung";
+
+
+    $("scanCopy").textContent =
+      "Kamera tersedia sebagai fitur tambahan. Untuk akun warga, identitas Anda sudah otomatis dikenali dari akun yang sedang login.";
+
+  }
+
+
+  /* =====================================================
+     APPLY ADMIN MODE
+  ====================================================== */
+
+  function setupAdminMode(){
+
+    currentRole =
+      "admin";
+
+
+    $("roleBadge").textContent =
+      "ADMIN";
+
+
+    $("roleBadge")
+      .classList
+      .remove("warga");
+
+
+    $("pageTitle").textContent =
+      "Transaksi Baru";
+
+
+    $("pageSubtitle").textContent =
+      "Pilih RT dan warga. Poin akan diberikan kepada warga yang dipilih, sedangkan akun admin hanya dicatat sebagai petugas pencatat.";
+
+
+    $("adminCitizenCard")
+      .classList
+      .remove("hidden");
+
+
+    $("citizenSelfCard")
+      .classList
+      .add("hidden");
+
+
+    $("manual")
+      .classList
+      .remove("hidden");
+
+
+    $("recentNote").textContent =
+      "Daftar transaksi seluruh warga yang dicatat oleh admin.";
+
+
+    $("pointInfo").innerHTML =
+      "♻ Poin akan diberikan kepada <strong id='scoreCitizenText'>warga yang dipilih</strong>, bukan kepada akun admin.";
+
+
+    $("confirm").textContent =
+      "◉ Konfirmasi Transaksi";
+
+
+    $("navHome").href =
+      "dashboard-admin.html";
+
+
+    $("scanCopy").textContent =
+      "Aktifkan kamera bila diperlukan. Pilihan RT dan nama warga tetap tersedia sebagai cara utama pencatatan.";
+
+  }
+
+
+  /* =====================================================
+     LOAD CITIZENS
+  ====================================================== */
+
+  async function loadCitizens(){
+
+    const list =
+      $("citizenList");
+
+
+    if(list){
+
+      list.innerHTML =
+        `
+        <div class="empty-box">
+          Memuat data warga...
+        </div>
+        `;
+
+    }
+
+
+    try{
+
+      await window.resikReady;
+
+
+      if(
+        typeof window.resikGetAllCitizens !==
+        "function"
+      ){
+
+        throw new Error(
+          "Fungsi data warga belum tersedia."
+        );
+
+      }
+
+
+      allCitizens =
+        await window.resikGetAllCitizens();
+
+
+      applyCitizenFilter();
+
+
+    }catch(error){
+
+      console.error(
+        "LOAD CITIZENS ERROR:",
+        error
+      );
+
+
+      if(list){
+
+        list.innerHTML =
+          `
+          <div class="empty-box">
+            Gagal mengambil data warga.
+            <br>
+            ${escapeHTML(
+              error?.message || ""
+            )}
+          </div>
+          `;
+
+      }
+
+    }
+
+  }
+
+
+  /* =====================================================
+     FILTER
+  ====================================================== */
+
+  function applyCitizenFilter(){
+
+    const rt =
+      String(
+        $("rtSelect")?.value ||
+        ""
+      )
+      .trim()
+      .toUpperCase();
+
+
+    const keyword =
+      String(
+        $("citizenSearch")?.value ||
+        ""
+      )
+      .trim()
+      .toLowerCase();
+
+
+    filteredCitizens =
+      allCitizens.filter(
+        citizen => {
+
+
+          const citizenRT =
+            String(
+              citizen.rt ||
+              ""
+            )
+            .trim()
+            .toUpperCase();
+
+
+          const name =
+            String(
+              citizen.name ||
+              ""
+            )
+            .toLowerCase();
+
+
+          const citizenId =
+            String(
+              citizen.citizenId ||
+              ""
+            )
+            .toLowerCase();
+
+
+          return (
+            (!rt ||
+             citizenRT === rt) &&
+            (!keyword ||
+             name.includes(keyword) ||
+             citizenId.includes(keyword))
+          );
+
+        }
+      );
+
+
+    renderCitizenList();
+
+  }
+
+
+  /* =====================================================
+     RENDER CITIZENS
+  ====================================================== */
+
+  function renderCitizenList(){
+
+    const list =
+      $("citizenList");
+
+
+    if(!list){
+
+      return;
+
+    }
+
+
+    if(
+      filteredCitizens.length ===
+      0
+    ){
+
+      list.innerHTML =
+        `
+        <div class="empty-box">
+
+          Belum ada warga yang cocok.
+
+          <br><br>
+
+          Tambahkan melalui
+          <strong>Warga belum ada?</strong>
+
+        </div>
+        `;
+
+      return;
+
+    }
+
+
+    list.innerHTML =
+      filteredCitizens
+        .map(
+          citizen => {
+
+
+            const key =
+              citizen.firestoreId ||
+              citizen.citizenId ||
+              citizen.uid ||
+              "";
+
+
+            const active =
+              selectedCitizen &&
+              (
+                String(
+                  selectedCitizen.citizenId ||
+                  ""
+                ) ===
+                String(
+                  citizen.citizenId ||
+                  ""
+                )
+              );
+
+
+            return `
+
+              <button
+                type="button"
+                class="citizen-item ${
+                  active ? "active" : ""
+                }"
+                data-citizen-key="${escapeHTML(
+                  key
+                )}">
+
+                <span class="citizen-main">
+
+                  <span class="citizen-name">
+                    ${escapeHTML(
+                      citizen.name ||
+                      "Warga"
+                    )}
+                  </span>
+
+                  <span class="citizen-meta">
+                    ${escapeHTML(
+                      citizen.rt ||
+                      "-"
+                    )}
+                    ·
+                    ${escapeHTML(
+                      citizen.citizenId ||
+                      "Belum ada ID"
+                    )}
+                  </span>
+
+                </span>
+
+                <span class="citizen-points">
+
+                  ${money(
+                    citizen.points || 0
+                  )}
+                  pts
+
+                </span>
+
+              </button>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
+    list
+      .querySelectorAll(
+        "[data-citizen-key]"
+      )
+      .forEach(
+        button => {
+
+
+          button.addEventListener(
+            "click",
+            function(){
+
+
+              const key =
+                this.dataset.citizenKey;
+
+
+              const citizen =
+                filteredCitizens.find(
+                  item => {
+
+                    const itemKey =
+                      item.firestoreId ||
+                      item.citizenId ||
+                      item.uid ||
+                      "";
+
+
+                    return (
+                      String(itemKey) ===
+                      String(key)
+                    );
+
+                  }
+                );
+
+
+              if(citizen){
+
+                selectCitizen(
+                  citizen
+                );
+
+              }
+
+            }
+          );
+
+
+        }
+      );
+
+  }
+
+
+  /* =====================================================
+     SELECT CITIZEN
+  ====================================================== */
+
+  function selectCitizen(citizen){
+
+    selectedCitizen =
+      citizen;
+
+
+    $("citizen").value =
+      citizen.citizenId ||
+      "";
+
+
+    $("citizenUid").value =
+      citizen.uid ||
+      "";
+
+
+    $("citizenName").value =
+      citizen.name ||
+      "";
+
+
+    $("selectedCitizenName").textContent =
+      citizen.name ||
+      "Warga";
+
+
+    $("selectedCitizenMeta").textContent =
+      `${citizen.rt || "-"} · ${
+        citizen.citizenId ||
+        "Belum ada ID"
+      }`;
+
+
+    $("selectedCitizenBox")
+      .classList
+      .remove("hidden");
+
+
+    $("summaryRT").textContent =
+      citizen.rt ||
+      "-";
+
+
+    $("summaryPoints").textContent =
+      `${money(
+        citizen.points || 0
+      )} pts`;
+
+
+    $("summaryWaste").textContent =
+      `${money(
+        citizen.totalWaste || 0
+      )} kg`;
+
+
+    $("summaryAccount").textContent =
+      citizen.uid
+        ? "Sudah terhubung"
+        : "Belum ada akun";
+
+
+    $("pointInfo").innerHTML =
+      `♻ Poin akan diberikan kepada <strong>${
+        escapeHTML(
+          citizen.name ||
+          "warga yang dipilih"
+        )
+      }</strong>, bukan kepada akun admin.`;
+
+    renderCitizenList();
+
+  }
+
+
+  /* =====================================================
+     GENERATE ID
+  ====================================================== */
+
+  function generateCitizenId(rt){
+
+    const normalized =
+      String(
+        rt || ""
+      )
+      .trim()
+      .toUpperCase();
+
+
+    const numbers =
+      allCitizens
+        .filter(
+          citizen =>
+            String(
+              citizen.rt ||
+              ""
+            )
+            .trim()
+            .toUpperCase() ===
+            normalized
+        )
+        .map(
+          citizen => {
+
+            const match =
+              String(
+                citizen.citizenId ||
+                ""
+              )
+              .match(
+                /(\d+)$/
+              );
+
+
+            return match
+              ? Number(
+                  match[1]
+                )
+              : 0;
+
+          }
+        );
+
+
+    const next =
+      Math.max(
+        0,
+        ...numbers
+      ) + 1;
+
+
+    return (
+      normalized +
+      " - " +
+      String(
+        next
+      )
+      .padStart(
+        3,
+        "0"
+      )
+    );
+
+  }
+
+
+  /* =====================================================
+     CREATE CITIZEN
+  ====================================================== */
+
+  async function createCitizen(){
+
+    const name =
+      String(
+        $("manualName")?.value ||
+        ""
+      )
+      .trim();
+
+
+    const rt =
+      String(
+        $("manualRT")?.value ||
+        ""
+      )
+      .trim()
+      .toUpperCase();
+
+
+    if(!name){
+
+      localToast(
+        "Nama warga wajib diisi."
+      );
+
+      return;
+
+    }
+
+
+    if(!rt){
+
+      localToast(
+        "RT warga wajib dipilih."
+      );
+
+      return;
+
+    }
+
+
+    if(
+      typeof window.resikCreateCitizen !==
+      "function"
+    ){
+
+      localToast(
+        "Fungsi pembuatan warga belum tersedia."
+      );
+
+      return;
+
+    }
+
+
+    const id =
+      generateCitizenId(
+        rt
+      );
+
+
+    const button =
+      $("createCitizenButton");
+
+
+    if(button){
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "Menyimpan...";
+
+    }
+
+
+    try{
+
+      const citizen =
+        await window.resikCreateCitizen({
+
+          citizenId:id,
+
+          name:name,
+
+          rt:rt
+
+        });
+
+
+      allCitizens.push(
+        citizen
+      );
+
+
+      $("manualName").value =
+        "";
+
+
+      $("manualRT").value =
+        "";
+
+
+      $("rtSelect").value =
+        rt;
+
+
+      $("citizenSearch").value =
+        name;
+
+
+      applyCitizenFilter();
+
+
+      const created =
+        allCitizens.find(
+          item =>
+            String(
+              item.citizenId ||
+              ""
+            )
+            .toUpperCase() ===
+            id
+        );
+
+
+      if(created){
+
+        selectCitizen(
+          created
+        );
+
+      }
+
+
+      localToast(
+        `Warga ${name} berhasil ditambahkan.`
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "CREATE CITIZEN ERROR:",
+        error
+      );
+
+
+      localToast(
+        error?.message ||
+        "Gagal membuat warga."
+      );
+
+    }finally{
+
+      if(button){
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Simpan Warga Baru";
+
+      }
+
+    }
+
+  }
+
+
+  /* =====================================================
+     WASTE BUTTON
+  ====================================================== */
+
+  document
+    .querySelectorAll(
+      "[data-waste]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          function(){
+
+            document
+              .querySelectorAll(
+                "[data-waste]"
+              )
+              .forEach(
+                item =>
+                  item.classList.remove(
+                    "active"
+                  )
+              );
+
+
+            button.classList.add(
+              "active"
+            );
+
+
+            selected =
+              button.dataset.waste;
+
+
+            recalc();
+
+          }
+        );
+
+      }
+    );
+
+
+  $("weight")?.addEventListener(
+    "input",
+    recalc
+  );
+
+
+  $("condition")?.addEventListener(
+    "change",
+    recalc
+  );
+
+
+  /* =====================================================
+     FILTER EVENTS
+  ====================================================== */
+
+  $("rtSelect")?.addEventListener(
+    "change",
+    applyCitizenFilter
+  );
+
+
+  $("citizenSearch")?.addEventListener(
+    "input",
+    applyCitizenFilter
+  );
+
+
+  /* =====================================================
+     MANUAL SELECT BUTTON
+  ====================================================== */
+
+  $("manual")?.addEventListener(
+    "click",
+    function(){
+
+      $("rtSelect")?.focus();
+
+      $("scanMessage").textContent =
+        "Pilih RT lalu nama warga untuk menentukan penerima poin.";
+
+    }
+  );
+
+
+  /* =====================================================
+     CAMERA
+  ====================================================== */
+
+  $("startCamera")?.addEventListener(
+    "click",
+    async function(){
+
+      try{
+
+        if(
+          !navigator.mediaDevices ||
+          !navigator.mediaDevices.getUserMedia
+        ){
+
+          throw new Error(
+            "Camera API tidak tersedia."
+          );
+
+        }
+
+
+        stream =
+          await navigator.mediaDevices
+            .getUserMedia({
+
+              video:{
+                facingMode:{
+                  ideal:"environment"
+                }
+              },
+
+              audio:false
+
+            });
+
+
+        $("qrVideo").srcObject =
+          stream;
+
+
+        await $("qrVideo").play();
+
+
+        $("scanBox")
+          .classList
+          .add("scanning");
+
+
+        $("stopCamera").disabled =
+          false;
+
+
+        $("startCamera").disabled =
+          true;
+
+
+        $("cameraStatus").textContent =
+          "● Kamera Aktif";
+
+
+        $("scanMessage").textContent =
+          "Kamera aktif.";
+
+      }catch(error){
+
+        console.error(
+          "CAMERA ERROR:",
+          error
+        );
+
+
+        $("scanMessage").textContent =
+          "Kamera tidak tersedia. Gunakan input manual.";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     STOP CAMERA
+  ====================================================== */
+
+  function stopCamera(){
+
+    if(stream){
+
+      stream
+        .getTracks()
+        .forEach(
+          track =>
+            track.stop()
+        );
+
+
+      stream =
+        null;
+
+    }
+
+
+    if($("qrVideo")){
+
+      $("qrVideo").srcObject =
+        null;
+
+    }
+
+
+    $("scanBox")
+      ?.classList
+      .remove(
+        "scanning"
+      );
+
+
+    if($("stopCamera")){
+
+      $("stopCamera").disabled =
+        true;
+
+    }
+
+
+    if($("startCamera")){
+
+      $("startCamera").disabled =
+        false;
+
+    }
+
+
+    if($("cameraStatus")){
+
+      $("cameraStatus").textContent =
+        "● Kamera Siap";
+
+    }
+
+  }
+
+
+  $("stopCamera")?.addEventListener(
+    "click",
+    stopCamera
+  );
+
+
+  /* =====================================================
+     CONFIRM
+  ====================================================== */
+
+  $("confirm")?.addEventListener(
+    "click",
+    async function(){
+
+      const button =
+        $("confirm");
+
+
+      try{
+
+        await window.resikReady;
+
+
+        const user =
+          window.resikAuth?.currentUser;
+
+
+        if(!user){
+
+          localToast(
+            "Silakan login terlebih dahulu."
+          );
+
+          window.location.href =
+            "login.html";
+
+          return;
+
+        }
+
+
+        const state =
+          window.resikState ||
+          {};
+
+
+        /*
+         * ===============================
+         * MODE WARGA
+         * ===============================
+         */
+
+        if(
+          state.role ===
+          "warga"
+        ){
+
+          const citizenId =
+            state.citizenId ||
+            "";
+
+
+          const citizenName =
+            state.name ||
+            user.displayName ||
+            "Warga";
+
+
+          const rt =
+            state.rt ||
+            "";
+
+
+          const weight =
+            Number(
+              $("weight")?.value ||
+              0
+            );
+
+
+          const condition =
+            $("condition")?.value ||
+            "Bersih & Tersortir";
+
+
+          const multiplier =
+            getQualityMultiplier();
+
+
+          const value =
+            Math.round(
+              weight *
+              rates[selected] *
+              multiplier
+            );
+
+
+          const points =
+            Math.max(
+              25,
+              Math.round(
+                weight *
+                10
+              )
+            );
+
+
+          const co2 =
+            Number(
+              (
+                weight *
+                2.5
+              ).toFixed(1)
+            );
+
+
+          if(
+            !Number.isFinite(weight) ||
+            weight <= 0
+          ){
+
+            localToast(
+              "Berat sampah harus lebih dari 0 kg."
+            );
+
+            $("weight")?.focus();
+
+            return;
+
+          }
+
+
+          if(
+            !window.resikStore ||
+            typeof window.resikStore.addTransaction !==
+            "function"
+          ){
+
+            localToast(
+              "Firebase belum siap."
+            );
+
+            return;
+
+          }
+
+
+          button.disabled =
+            true;
+
+
+          button.textContent =
+            "Menyimpan...";
+
+
+          const result =
+            await window.resikStore
+              .addTransaction({
+
+                citizenId:
+                  citizenId,
+
+                citizenName:
+                  citizenName,
+
+                rt:
+                  rt,
+
+                type:
+                  selected,
+
+                weight:
+                  weight,
+
+                value:
+                  value,
+
+                points:
+                  points,
+
+                co2:
+                  co2,
+
+                condition:
+                  condition,
+
+                status:
+                  "Selesai"
+
+              });
+
+
+          console.log(
+            "WARGA TRANSACTION:",
+            result
+          );
+
+
+          localToast(
+            `Setoran berhasil disimpan. +${points} poin untuk ${citizenName}.`
+          );
+
+
+          stopCamera();
+
+
+          setTimeout(
+            () => {
+
+              window.location.href =
+                "dashboard-warga.html";
+
+            },
+            700
+          );
+
+
+          return;
+
+        }
+
+
+        /*
+         * ===============================
+         * MODE ADMIN
+         * ===============================
+         */
+
+        if(
+          state.role !==
+          "admin"
+        ){
+
+          localToast(
+            "Role akun tidak dikenali."
+          );
+
+          return;
+
+        }
+
+
+        if(
+          !selectedCitizen
+        ){
+
+          localToast(
+            "Pilih warga terlebih dahulu."
+          );
+
+          return;
+
+        }
+
+
+        const citizenId =
+          selectedCitizen.citizenId ||
+          $("citizen")?.value ||
+          "";
+
+
+        const citizenName =
+          selectedCitizen.name ||
+          $("citizenName")?.value ||
+          "";
+
+
+        const rt =
+          selectedCitizen.rt ||
+          "";
+
+
+        const weight =
+          Number(
+            $("weight")?.value ||
+            0
+          );
+
+
+        const condition =
+          $("condition")?.value ||
+          "Bersih & Tersortir";
+
+
+        const multiplier =
+          getQualityMultiplier();
+
+
+        const value =
+          Math.round(
+            weight *
+            rates[selected] *
+            multiplier
+          );
+
+
+        const points =
+          Math.max(
+            25,
+            Math.round(
+              weight *
+              10
+            )
+          );
+
+
+        const co2 =
+          Number(
+            (
+              weight *
+              2.5
+            ).toFixed(1)
+          );
+
+
+        if(
+          !citizenId
+        ){
+
+          localToast(
+            "ID warga belum tersedia."
+          );
+
+          return;
+
+        }
+
+
+        if(
+          !citizenName
+        ){
+
+          localToast(
+            "Nama warga belum tersedia."
+          );
+
+          return;
+
+        }
+
+
+        if(
+          !rt
+        ){
+
+          localToast(
+            "RT warga belum tersedia."
+          );
+
+          return;
+
+        }
+
+
+        if(
+          !Number.isFinite(weight) ||
+          weight <= 0
+        ){
+
+          localToast(
+            "Berat sampah harus lebih dari 0 kg."
+          );
+
+          return;
+
+        }
+
+
+        if(
+          !window.resikStore ||
+          typeof window.resikStore.recordDeposit !==
+          "function"
+        ){
+
+          localToast(
+            "Fungsi admin belum tersedia."
+          );
+
+          return;
+
+        }
+
+
+        button.disabled =
+          true;
+
+
+        button.textContent =
+          "Menyimpan...";
+
+
+        const result =
+          await window.resikStore
+            .recordDeposit({
+
+              id:
+                "TRX-" +
+                Date.now()
+                  .toString()
+                  .slice(-6),
+
+              citizenId:
+                citizenId,
+
+              citizenName:
+                citizenName,
+
+              rt:
+                rt,
+
+              type:
+                selected,
+
+              weight:
+                weight,
+
+              value:
+                value,
+
+              points:
+                points,
+
+              co2:
+                co2,
+
+              condition:
+                condition,
+
+              status:
+                "Selesai"
+
+            });
+
+
+        console.log(
+          "ADMIN TRANSACTION:",
+          result
+        );
+
+
+        localToast(
+          `Transaksi berhasil. +${points} poin untuk ${citizenName}.`
+        );
+
+
+        stopCamera();
+
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "dashboard-admin.html";
+
+          },
+          700
+        );
+
+      }catch(error){
+
+        console.error(
+          "TRANSACTION ERROR:",
+          error
+        );
+
+
+        localToast(
+          error?.message ||
+          "Transaksi gagal disimpan."
+        );
+
+      }finally{
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          currentRole === "admin"
+            ? "◉ Konfirmasi Transaksi"
+            : "◉ Simpan Setoran Saya";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     RENDER RECENT
+  ====================================================== */
+
+  async function renderRecent(){
+
+    const recent =
+      $("recent");
+
+
+    if(!recent){
+
+      return;
+
+    }
+
+
+    recent.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="8"
+          style="
+            text-align:center;
+            color:#7a8983
+          ">
+
+          Memuat transaksi...
+
+        </td>
+
+      </tr>
+
+    `;
+
+
+    try{
+
+      await window.resikReady;
+
+
+      const state =
+        window.resikState ||
+        {};
+
+
+      let rows =
+        [];
+
+
+      /*
+       * WARGA
+       */
+
+      if(
+        state.role ===
+        "warga"
+      ){
+
+        if(
+          typeof window.resikGetTransactions !==
+          "function"
+        ){
+
+          throw new Error(
+            "Fungsi transaksi warga belum tersedia."
+          );
+
+        }
+
+
+        rows =
+          await window.resikGetTransactions(
+            state.uid,
+            20
+          );
+
+      }
+
+
+      /*
+       * ADMIN
+       */
+
+      else if(
+        state.role ===
+        "admin"
+      ){
+
+        if(
+          typeof window.resikGetAllTransactions !==
+          "function"
+        ){
+
+          throw new Error(
+            "Fungsi transaksi admin belum tersedia."
+          );
+
+        }
+
+
+        rows =
+          await window.resikGetAllTransactions(
+            20
+          );
+
+      }
+
+
+      if(
+        !rows ||
+        rows.length ===
+        0
+      ){
+
+        recent.innerHTML = `
+
+          <tr>
+
+            <td
+              colspan="8"
+              style="
+                text-align:center;
+                color:#7a8983
+              ">
+
+              Belum ada transaksi.
+
+            </td>
+
+          </tr>
+
+        `;
+
+        return;
+
+      }
+
+
+      recent.innerHTML =
+        rows
+          .slice(
+            0,
+            20
+          )
+          .map(
+            transaction => `
+
+              <tr>
+
+                <td>
+                  ${escapeHTML(
+                    transaction.id ||
+                    transaction.firestoreId ||
+                    "-"
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHTML(
+                    transaction.citizenName ||
+                    transaction.name ||
+                    "-"
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHTML(
+                    transaction.rt ||
+                    "-"
+                  )}
+                </td>
+
+                <td>
+                  ♻
+                  ${escapeHTML(
+                    transaction.type ||
+                    "-"
+                  )}
+                </td>
+
+                <td>
+                  ${money(
+                    transaction.weight
+                  )}
+                  kg
+                </td>
+
+                <td>
+                  <strong style="color:var(--green)">
+                    +${money(
+                      transaction.points
+                    )}
+                  </strong>
+                </td>
+
+                <td>
+                  Rp
+                  ${money(
+                    transaction.value
+                  )}
+                </td>
+
+                <td>
+                  <span class="status">
+                    ${escapeHTML(
+                      transaction.status ||
+                      "Selesai"
+                    )}
+                  </span>
+                </td>
+
+              </tr>
+
+            `
+          )
+          .join("");
+
+    }catch(error){
+
+      console.error(
+        "RENDER RECENT ERROR:",
+        error
+      );
+
+
+      recent.innerHTML = `
+
+        <tr>
+
+          <td
+            colspan="8"
+            style="
+              text-align:center;
+              color:#d32f2f
+            ">
+
+            ${escapeHTML(
+              error?.message ||
+              "Gagal mengambil transaksi."
+            )}
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     SEE ALL
+  ====================================================== */
+
+  $("seeAll")?.addEventListener(
+    "click",
+    function(){
+
+      if(
+        currentRole ===
+        "admin"
+      ){
+
+        window.location.href =
+          "dashboard-admin.html";
+
+      }else{
+
+        window.location.href =
+          "dashboard-warga.html";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     BACK
+  ====================================================== */
+
+  $("backButton")?.addEventListener(
+    "click",
+    function(){
+
+      if(
+        currentRole ===
+        "admin"
+      ){
+
+        window.location.href =
+          "dashboard-admin.html";
+
+      }else{
+
+        window.location.href =
+          "dashboard-warga.html";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     CREATE CITIZEN
+  ====================================================== */
+
+  $("createCitizenButton")?.addEventListener(
+    "click",
+    createCitizen
+  );
+
+
+  /* =====================================================
+     INITIALIZE ROLE
+  ====================================================== */
+
+  async function initializePage(){
+
+    try{
+
+      await window.resikReady;
+
+
+      const user =
+        window.resikAuth?.currentUser;
+
+
+      const state =
+        window.resikState ||
+        {};
+
+
+      if(!user){
+
+        localToast(
+          "Silakan login terlebih dahulu."
+        );
+
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "login.html";
+
+          },
+          500
+        );
+
+        return;
+
+      }
+
+
+      if(
+        state.role ===
+        "admin"
+      ){
+
+        setupAdminMode();
+
+
+        await loadCitizens();
+
+      }
+
+      else{
+
+        setupWargaMode();
+
+      }
+
+
+      recalc();
+
+
+      await renderRecent();
+
+
+    }catch(error){
+
+      console.error(
+        "PAGE INIT ERROR:",
+        error
+      );
+
+
+      localToast(
+        "Gagal memuat halaman transaksi."
+      );
+
+    }
+
+  }
+
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializePage
+  );
+
+
+  window.addEventListener(
+    "beforeunload",
+    stopCamera
+  );
+
+})();
+
+</script>
+
+
+</body>
+
+</html>

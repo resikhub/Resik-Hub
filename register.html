@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
+
+  <meta
+    name="theme-color"
+    content="#087a38">
+
+  <title>Daftar — RESIK Hub</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css">
+
+  <style>
+
+    .register-info {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #eef8f2;
+      color: #45645a;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .register-info strong {
+      color: #087a38;
+    }
+
+  </style>
+
+</head>
+
+
+<body class="auth-page">
+
+
+  <div class="auth-shell">
+
+
+    <!-- =====================================================
+         LOGO
+    ====================================================== -->
+
+    <a
+      class="logo auth-logo"
+      href="index.html">
+
+      <span class="logo-mark">
+        ↗
+      </span>
+
+      RESIK Hub
+
+    </a>
+
+
+    <!-- =====================================================
+         REGISTER CARD
+    ====================================================== -->
+
+    <section class="auth-card">
+
+
+      <h1>
+        Buat akun
+      </h1>
+
+
+      <p class="muted">
+        Daftarkan akun Warga untuk menggunakan RESIK Hub.
+      </p>
+
+
+      <!-- =====================================================
+           REGISTER FORM
+      ====================================================== -->
+
+      <form
+        id="registerForm"
+        novalidate>
+
+
+        <!-- =================================================
+             NAMA
+        ================================================== -->
+
+        <label for="name">
+
+          Nama Lengkap
+
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Nama lengkap"
+            autocomplete="name"
+            required>
+
+        </label>
+
+
+        <!-- =================================================
+             RT
+        ================================================== -->
+
+        <label for="rt">
+
+          RT / Wilayah
+
+          <select
+            id="rt"
+            name="rt"
+            required>
+
+            <option
+              value=""
+              selected
+              disabled>
+
+              Pilih RT
+
+            </option>
+
+            <option value="RT 01">
+              RT 01
+            </option>
+
+            <option value="RT 02">
+              RT 02
+            </option>
+
+            <option value="RT 03">
+              RT 03
+            </option>
+
+            <option value="RT 04">
+              RT 04
+            </option>
+
+          </select>
+
+        </label>
+
+
+        <!-- =================================================
+             INFO RT
+        ================================================== -->
+
+        <div class="register-info">
+
+          RT digunakan untuk menghubungkan akun Anda
+          dengan wilayah warga di RESIK Hub.
+
+          <strong>
+            ID warga akan dilengkapi kemudian oleh admin
+            bila diperlukan.
+          </strong>
+
+        </div>
+
+
+        <!-- =================================================
+             EMAIL
+        ================================================== -->
+
+        <label for="email">
+
+          Alamat Email
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required>
+
+        </label>
+
+
+        <!-- =================================================
+             PASSWORD
+        ================================================== -->
+
+        <label for="password">
+
+          Kata Sandi
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Minimal 6 karakter"
+            autocomplete="new-password"
+            minlength="6"
+            required>
+
+        </label>
+
+
+        <!-- =================================================
+             KONFIRMASI PASSWORD
+        ================================================== -->
+
+        <label for="confirmPassword">
+
+          Konfirmasi Kata Sandi
+
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            placeholder="Ulangi kata sandi"
+            autocomplete="new-password"
+            minlength="6"
+            required>
+
+        </label>
+
+
+        <!-- =================================================
+             PESAN AUTH
+        ================================================== -->
+
+        <p
+          id="authMessage"
+          class="auth-message"
+          aria-live="polite">
+        </p>
+
+
+        <!-- =================================================
+             TOMBOL DAFTAR
+        ================================================== -->
+
+        <button
+          id="registerButton"
+          class="btn btn-full"
+          type="submit">
+
+          Daftar →
+
+        </button>
+
+
+      </form>
+
+
+      <!-- =================================================
+           LOGIN
+      ================================================== -->
+
+      <p class="auth-foot">
+
+        Sudah punya akun?
+
+        <a href="login.html">
+          Masuk di sini
+        </a>
+
+      </p>
+
+
+    </section>
+
+  </div>
+
+
+  <!-- =====================================================
+       FIREBASE + APP JS
+
+       HANYA app.js.
+       Jangan tambahkan script Firebase lain di sini.
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="js/app.js">
+  </script>
+
+
+</body>
+
+</html>

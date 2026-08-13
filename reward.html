@@ -1,0 +1,1906 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
+
+  <meta
+    name="theme-color"
+    content="#087a38">
+
+  <title>Reward UMKM — RESIK Hub</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css">
+
+  <style>
+
+    /* =====================================================
+       REWARD UMKM
+    ====================================================== */
+
+    .reward-summary-extra {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .reward-mini-stat {
+      background:rgba(255,255,255,.58);
+      border:1px solid rgba(255,255,255,.8);
+      border-radius:14px;
+      padding:14px;
+    }
+
+    .reward-mini-stat small {
+      display:block;
+      color:#65756e;
+      font-size:11px;
+      font-weight:700;
+      margin-bottom:5px;
+    }
+
+    .reward-mini-stat strong {
+      display:block;
+      font-size:20px;
+      color:#064f35;
+    }
+
+    .reward-mini-stat span {
+      font-size:11px;
+      color:#087f3e;
+      font-weight:700;
+    }
+
+    .reward-user {
+      margin-top:6px;
+      color:#587068;
+      font-size:12px;
+    }
+
+    .marketplace-note {
+      margin-top:14px;
+      padding:13px;
+      border-radius:12px;
+      background:#eef8f3;
+      border:1px solid #cce8d9;
+      color:#466158;
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    .marketplace-note strong {
+      color:#087a38;
+    }
+
+    .reward-heading {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:14px;
+      margin-top:22px;
+    }
+
+    .reward-heading h1 {
+      margin-bottom:4px;
+    }
+
+    .reward-search {
+      margin-top:14px;
+    }
+
+    .reward-search input {
+      width:100%;
+      border:1px solid #d8e1dd;
+      background:#fff;
+      border-radius:12px;
+      padding:12px 14px;
+      outline:none;
+      font:inherit;
+    }
+
+    .reward-filter {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+      margin-bottom:18px;
+    }
+
+    .quick-btn {
+      border:1px solid #d9e4df;
+      background:#fff;
+      color:#566760;
+      border-radius:999px;
+      padding:8px 13px;
+      font-size:11px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .quick-btn.active-filter {
+      background:#087f3e;
+      border-color:#087f3e;
+      color:#fff;
+    }
+
+    .catalog-grid {
+      display:grid;
+      grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+      gap:15px;
+    }
+
+    .reward-card {
+      background:#fff;
+      border:1px solid #dce7e1;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 7px 22px rgba(25,65,45,.06);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .reward-image {
+      min-height:155px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:65px;
+      background:
+        linear-gradient(
+          145deg,
+          #eff9f3,
+          #edf4ff
+        );
+    }
+
+    .reward-body {
+      padding:15px;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+
+    .reward-card-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .price-pill {
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      background:#eaf8f1;
+      color:#087a38;
+      font-size:10px;
+      font-weight:800;
+      padding:6px 9px;
+    }
+
+    .reward-price {
+      font-size:10px;
+      color:#7b8882;
+      font-weight:700;
+    }
+
+    .reward-card h3 {
+      margin:12px 0 6px;
+      font-size:16px;
+      color:#183129;
+    }
+
+    .reward-card p {
+      margin:0;
+      color:#697972;
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    .umkm-name {
+      margin-top:10px;
+      font-size:10px;
+      color:#087f3e;
+      font-weight:800;
+    }
+
+    .reward-redeem {
+      margin-top:auto;
+      padding-top:14px;
+    }
+
+    .reward-redeem button {
+      width:100%;
+      border:1px solid #d6e2dc;
+      background:#f0f4f2;
+      color:#61716a;
+      border-radius:10px;
+      padding:11px;
+      font-weight:800;
+      cursor:not-allowed;
+    }
+
+    .reward-redeem button.unlocked {
+      border-color:#087f3e;
+      background:#087f3e;
+      color:#fff;
+      cursor:pointer;
+    }
+
+    .reward-redeem button.unlocked:hover {
+      background:#066c35;
+    }
+
+    .reward-status.unlocked {
+      background:#e8f8ef;
+      color:#087a4d;
+      border-color:#bfe8d0;
+    }
+
+    .umkm-badge {
+      display:inline-block;
+      margin-top:8px;
+      background:#f3f7ff;
+      color:#556a81;
+      border:1px solid #dbe5f3;
+      border-radius:999px;
+      padding:5px 8px;
+      font-size:9px;
+      font-weight:800;
+    }
+
+    .reward-info-bottom {
+      margin-top:20px;
+      padding:14px;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid #dce7e1;
+      color:#64736d;
+      font-size:11px;
+      line-height:1.6;
+    }
+
+    .reward-info-bottom strong {
+      color:#087a38;
+    }
+
+    @media (max-width:600px) {
+
+      .reward-summary-extra {
+        grid-template-columns:1fr 1fr;
+      }
+
+      .catalog-grid {
+        grid-template-columns:
+          repeat(2,minmax(0,1fr));
+        gap:10px;
+      }
+
+      .reward-image {
+        min-height:120px;
+        font-size:48px;
+      }
+
+      .reward-body {
+        padding:12px;
+      }
+
+      .reward-card h3 {
+        font-size:14px;
+      }
+
+      .reward-card p {
+        font-size:10px;
+      }
+
+      .reward-card-top {
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app-shell">
+
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="app-header">
+
+    <button
+      class="icon-btn"
+      type="button"
+      aria-label="Menu">
+
+      ☰
+
+    </button>
+
+
+    <div class="app-brand">
+
+      RESIK Hub
+
+    </div>
+
+
+    <button
+      class="icon-btn"
+      type="button"
+      aria-label="Notifikasi">
+
+      ♧
+
+    </button>
+
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="app-main">
+
+
+    <!-- =================================================
+         POINT SUMMARY
+    ================================================== -->
+
+    <section class="points-card reward-summary">
+
+      <div class="reward-summary-top">
+
+        <div>
+
+          <small>
+            POIN HIJAU ANDA ✨
+          </small>
+
+          <div
+            class="points-value"
+            id="rewardPoints">
+
+            0
+
+            <small>
+              pts
+            </small>
+
+          </div>
+
+          <p class="page-subtitle">
+
+            Tukarkan poin Anda dengan
+            produk dan voucher dari UMKM lokal.
+
+          </p>
+
+          <div
+            class="reward-user"
+            id="rewardUserName">
+
+            Memuat data warga...
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- TOTAL SAMPAH -->
+
+      <div class="reward-progress">
+
+        <div class="reward-progress-head">
+
+          <span>
+            Total Sampah Disetor
+          </span>
+
+          <strong>
+
+            <span id="totalWasteReward">
+              0
+            </span>
+
+            kg
+
+          </strong>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            class="progress-bar"
+            id="rewardProgress">
+          </div>
+
+        </div>
+
+
+        <div class="reward-progress-info">
+
+          <span>
+            Target marketplace
+          </span>
+
+          <strong>
+            150 kg
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- STATUS -->
+
+      <div
+        class="reward-status locked"
+        id="rewardStatus">
+
+        🔒 Kumpulkan minimal
+        <strong>150 kg</strong>
+        sampah untuk membuka katalog reward.
+
+      </div>
+
+
+      <!-- STAT -->
+
+      <div class="reward-summary-extra">
+
+        <div class="reward-mini-stat">
+
+          <small>
+            SKOR HIJAU
+          </small>
+
+          <strong id="rewardGreenScore">
+            0
+          </strong>
+
+          <span>
+            kontribusi lingkungan
+          </span>
+
+        </div>
+
+
+        <div class="reward-mini-stat">
+
+          <small>
+            CO₂ TEREDUKSI
+          </small>
+
+          <strong>
+
+            <span id="rewardCo2">
+              0
+            </span>
+            kg
+
+          </strong>
+
+          <span>
+            dampak lingkungan
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- NARASI LOOP UMKM -->
+
+      <div class="marketplace-note">
+
+        ♻ <strong>Poin Hijau → Produk Lokal</strong>
+
+        <br>
+
+        Setiap poin yang Anda gunakan untuk
+        menukarkan reward membantu menghubungkan
+        aktivitas daur ulang dengan UMKM lokal.
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         MARKETPLACE HEADER
+    ================================================== -->
+
+    <div class="reward-heading">
+
+      <div>
+
+        <h1 class="page-title">
+
+          Reward UMKM Lokal
+
+        </h1>
+
+        <p class="page-subtitle">
+
+          Pilih produk atau voucher yang tersedia
+          dari mitra UMKM lokal.
+
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <div class="reward-search">
+
+      <input
+        id="rewardSearch"
+        type="search"
+        placeholder="⌕ Cari produk UMKM...">
+
+    </div>
+
+
+    <!-- =================================================
+         FILTER
+    ================================================== -->
+
+    <div class="reward-filter">
+
+      <button
+        type="button"
+        class="quick-btn active-filter"
+        data-filter="all">
+
+        Semua
+
+      </button>
+
+
+      <button
+        type="button"
+        class="quick-btn"
+        data-filter="fashion">
+
+        Fashion
+
+      </button>
+
+
+      <button
+        type="button"
+        class="quick-btn"
+        data-filter="tanaman">
+
+        Tanaman
+
+      </button>
+
+
+      <button
+        type="button"
+        class="quick-btn"
+        data-filter="pupuk">
+
+        Pupuk
+
+      </button>
+
+
+      <button
+        type="button"
+        class="quick-btn"
+        data-filter="kerajinan">
+
+        Kerajinan
+
+      </button>
+
+
+      <button
+        type="button"
+        class="quick-btn"
+        data-filter="voucher">
+
+        Voucher
+
+      </button>
+
+    </div>
+
+
+    <!-- =================================================
+         REWARD GRID
+    ================================================== -->
+
+    <div
+      class="catalog-grid"
+      id="rewardGrid">
+
+
+      <!-- =================================================
+           DOMPET KULIT
+      ================================================== -->
+
+      <article
+        class="reward-card"
+        data-category="fashion"
+        data-name="Dompet Kulit UMKM Lokal"
+        data-min-weight="150">
+
+        <div class="reward-image">
+          👜
+        </div>
+
+        <div class="reward-body">
+
+          <div class="reward-card-top">
+
+            <span class="price-pill">
+              3.000 pts
+            </span>
+
+            <span class="reward-price">
+              ± Rp75.000
+            </span>
+
+          </div>
+
+          <h3>
+            Dompet Kulit
+          </h3>
+
+          <p>
+            Dompet kulit buatan pengrajin
+            UMKM lokal dengan desain praktis
+            untuk penggunaan sehari-hari.
+          </p>
+
+          <div class="umkm-name">
+            🏪 Mitra UMKM Lokal
+          </div>
+
+          <span class="umkm-badge">
+            PRODUK UMKM
+          </span>
+
+          <div class="reward-redeem">
+
+            <button
+              type="button"
+              class="reward-action"
+              data-redeem="3000"
+              data-name="Dompet Kulit">
+
+              🔒 Belum Terbuka
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           TANAMAN
+      ================================================== -->
+
+      <article
+        class="reward-card"
+        data-category="tanaman"
+        data-name="Tanaman Hias UMKM Lokal"
+        data-min-weight="150">
+
+        <div class="reward-image">
+          🌱
+        </div>
+
+        <div class="reward-body">
+
+          <div class="reward-card-top">
+
+            <span class="price-pill">
+              1.500 pts
+            </span>
+
+            <span class="reward-price">
+              ± Rp40.000
+            </span>
+
+          </div>
+
+          <h3>
+            Tanaman Hias
+          </h3>
+
+          <p>
+            Tanaman hias dari UMKM pembibitan
+            lokal untuk mempercantik rumah
+            sekaligus memperkuat budaya hijau.
+          </p>
+
+          <div class="umkm-name">
+            🏪 UMKM Tanaman Lokal
+          </div>
+
+          <span class="umkm-badge">
+            PRODUK UMKM
+          </span>
+
+          <div class="reward-redeem">
+
+            <button
+              type="button"
+              class="reward-action"
+              data-redeem="1500"
+              data-name="Tanaman Hias">
+
+              🔒 Belum Terbuka
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           PUPUK KOMPOS
+      ================================================== -->
+
+      <article
+        class="reward-card"
+        data-category="pupuk"
+        data-name="Pupuk Kompos UMKM Lokal"
+        data-min-weight="150">
+
+        <div class="reward-image">
+          🌿
+        </div>
+
+        <div class="reward-body">
+
+          <div class="reward-card-top">
+
+            <span class="price-pill">
+              1.000 pts
+            </span>
+
+            <span class="reward-price">
+              ± Rp25.000
+            </span>
+
+          </div>
+
+          <h3>
+            Pupuk Kompos
+          </h3>
+
+          <p>
+            Pupuk kompos olahan UMKM lokal dari
+            bahan organik untuk membantu menyuburkan
+            tanaman dan mengurangi limbah organik.
+          </p>
+
+          <div class="umkm-name">
+            🏪 UMKM Pupuk Lokal
+          </div>
+
+          <span class="umkm-badge">
+            PRODUK UMKM
+          </span>
+
+          <div class="reward-redeem">
+
+            <button
+              type="button"
+              class="reward-action"
+              data-redeem="1000"
+              data-name="Pupuk Kompos">
+
+              🔒 Belum Terbuka
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           KERAJINAN DAUR ULANG
+      ================================================== -->
+
+      <article
+        class="reward-card"
+        data-category="kerajinan"
+        data-name="Kerajinan Daur Ulang UMKM Lokal"
+        data-min-weight="150">
+
+        <div class="reward-image">
+          🧺
+        </div>
+
+        <div class="reward-body">
+
+          <div class="reward-card-top">
+
+            <span class="price-pill">
+              2.000 pts
+            </span>
+
+            <span class="reward-price">
+              ± Rp50.000
+            </span>
+
+          </div>
+
+          <h3>
+            Kerajinan Daur Ulang
+          </h3>
+
+          <p>
+            Produk kerajinan kreatif buatan UMKM lokal
+            dari material yang dimanfaatkan kembali
+            menjadi barang bernilai guna.
+          </p>
+
+          <div class="umkm-name">
+            🏪 UMKM Kerajinan Lokal
+          </div>
+
+          <span class="umkm-badge">
+            PRODUK UMKM
+          </span>
+
+          <div class="reward-redeem">
+
+            <button
+              type="button"
+              class="reward-action"
+              data-redeem="2000"
+              data-name="Kerajinan Daur Ulang">
+
+              🔒 Belum Terbuka
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           VOUCHER INTERNET
+      ================================================== -->
+
+      <article
+        class="reward-card"
+        data-category="voucher"
+        data-name="Voucher Internet UMKM Lokal"
+        data-min-weight="150">
+
+        <div class="reward-image">
+          📶
+        </div>
+
+        <div class="reward-body">
+
+          <div class="reward-card-top">
+
+            <span class="price-pill">
+              1.000 pts
+            </span>
+
+            <span class="reward-price">
+              ± Rp25.000
+            </span>
+
+          </div>
+
+          <h3>
+            Voucher Internet
+          </h3>
+
+          <p>
+            Voucher internet untuk mendukung
+            kebutuhan digital warga dengan
+            mekanisme reward berbasis poin.
+          </p>
+
+          <div class="umkm-name">
+            🏪 Mitra Voucher Lokal
+          </div>
+
+          <span class="umkm-badge">
+            VOUCHER
+          </span>
+
+          <div class="reward-redeem">
+
+            <button
+              type="button"
+              class="reward-action"
+              data-redeem="1000"
+              data-name="Voucher Internet">
+
+              🔒 Belum Terbuka
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           VOUCHER BELANJA
+      ================================================== -->
+
+      <article
+        class="reward-card"
+        data-category="voucher"
+        data-name="Voucher Belanja UMKM Lokal"
+        data-min-weight="150">
+
+        <div class="reward-image">
+          🛒
+        </div>
+
+        <div class="reward-body">
+
+          <div class="reward-card-top">
+
+            <span class="price-pill">
+              1.500 pts
+            </span>
+
+            <span class="reward-price">
+              ± Rp35.000
+            </span>
+
+          </div>
+
+          <h3>
+            Voucher Belanja
+          </h3>
+
+          <p>
+            Voucher belanja yang dapat digunakan
+            pada toko atau warung UMKM mitra
+            RESIK Hub.
+          </p>
+
+          <div class="umkm-name">
+            🏪 Toko / Warung Mitra Lokal
+          </div>
+
+          <span class="umkm-badge">
+            VOUCHER BELANJA
+          </span>
+
+          <div class="reward-redeem">
+
+            <button
+              type="button"
+              class="reward-action"
+              data-redeem="1500"
+              data-name="Voucher Belanja">
+
+              🔒 Belum Terbuka
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- =================================================
+           KERUDUNG
+      ================================================== -->
+
+      <article
+        class="reward-card"
+        data-category="fashion"
+        data-name="Kerudung UMKM Lokal"
+        data-min-weight="150">
+
+        <div class="reward-image">
+          🧕
+        </div>
+
+        <div class="reward-body">
+
+          <div class="reward-card-top">
+
+            <span class="price-pill">
+              2.000 pts
+            </span>
+
+            <span class="reward-price">
+              ± Rp50.000
+            </span>
+
+          </div>
+
+          <h3>
+            Kerudung
+          </h3>
+
+          <p>
+            Kerudung dari pelaku UMKM fashion
+            lokal dengan pilihan motif yang
+            cocok untuk kebutuhan sehari-hari.
+          </p>
+
+          <div class="umkm-name">
+            🏪 UMKM Fashion Lokal
+          </div>
+
+          <span class="umkm-badge">
+            PRODUK UMKM
+          </span>
+
+          <div class="reward-redeem">
+
+            <button
+              type="button"
+              class="reward-action"
+              data-redeem="2000"
+              data-name="Kerudung">
+
+              🔒 Belum Terbuka
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+    </div>
+
+
+    <!-- =================================================
+         EMPTY
+    ================================================== -->
+
+    <div
+      id="rewardEmpty"
+      style="
+        display:none;
+        text-align:center;
+        padding:40px 20px;
+        color:#718096;
+      ">
+
+      Tidak ada reward yang ditemukan.
+
+    </div>
+
+
+
+  </main>
+
+
+  <!-- =====================================================
+       BOTTOM NAV
+  ====================================================== -->
+
+  <nav class="app-bottom">
+
+    <a
+      class="nav-item"
+      href="dashboard-warga.html">
+
+      <span>
+        ▦
+      </span>
+
+      Beranda
+
+    </a>
+
+
+    <a
+      class="nav-item"
+      href="riwayat-penukaran.html">
+
+      <span>
+        ▤
+      </span>
+
+      Riwayat
+
+    </a>
+
+
+    <a
+      class="nav-item"
+      href="sampah.html">
+
+      <span>
+        ♻
+      </span>
+
+      Sampah
+
+    </a>
+
+
+    <a
+      class="nav-item active"
+      href="reward.html">
+
+      <span>
+        ◇
+      </span>
+
+      Reward
+
+    </a>
+
+
+    <a
+      class="nav-item"
+      href="profil.html">
+
+      <span>
+        ◎
+      </span>
+
+      Profil
+
+    </a>
+
+  </nav>
+
+</div>
+
+
+<!-- =====================================================
+     APP JS
+====================================================== -->
+
+<script
+  type="module"
+  src="js/app.js">
+</script>
+
+
+<!-- =====================================================
+     REWARD SCRIPT
+====================================================== -->
+
+<script>
+
+(function () {
+
+  "use strict";
+
+
+  const REWARD_TARGET = 150;
+
+
+  const rewardPoints =
+    document.getElementById(
+      "rewardPoints"
+    );
+
+
+  const totalWasteReward =
+    document.getElementById(
+      "totalWasteReward"
+    );
+
+
+  const rewardProgress =
+    document.getElementById(
+      "rewardProgress"
+    );
+
+
+  const rewardStatus =
+    document.getElementById(
+      "rewardStatus"
+    );
+
+
+  const rewardGreenScore =
+    document.getElementById(
+      "rewardGreenScore"
+    );
+
+
+  const rewardCo2 =
+    document.getElementById(
+      "rewardCo2"
+    );
+
+
+  const rewardUserName =
+    document.getElementById(
+      "rewardUserName"
+    );
+
+
+  const rewardCards =
+    Array.from(
+      document.querySelectorAll(
+        ".reward-card"
+      )
+    );
+
+
+  function formatNumber(
+    value
+  ) {
+
+    return Number(
+      value || 0
+    ).toLocaleString(
+      "id-ID",
+      {
+        maximumFractionDigits:1
+      }
+    );
+
+  }
+
+
+  async function loadRewardData() {
+
+    try {
+
+      await window.resikReady;
+
+
+      const user =
+        window.resikAuth?.currentUser;
+
+
+      if (!user) {
+
+        if (rewardUserName) {
+
+          rewardUserName.textContent =
+            "Silakan login terlebih dahulu.";
+
+        }
+
+        return;
+
+      }
+
+
+      let profile = null;
+
+
+      if (
+        typeof window.resikGetProfile ===
+        "function"
+      ) {
+
+        profile =
+          await window.resikGetProfile(
+            user.uid
+          );
+
+      }
+
+
+      if (!profile) {
+
+        return;
+
+      }
+
+
+      const points =
+        Number(
+          profile.points || 0
+        );
+
+
+      const totalWaste =
+        Number(
+          profile.totalWaste || 0
+        );
+
+
+      const totalCo2 =
+        Number(
+          profile.totalCo2 || 0
+        );
+
+
+      const greenScore =
+        Number(
+          profile.greenScore || 0
+        );
+
+
+      const name =
+        profile.name ||
+        user.displayName ||
+        "Warga";
+
+
+      if (rewardUserName) {
+
+        rewardUserName.textContent =
+          `Halo, ${name} • Poin tersinkronisasi`;
+
+      }
+
+
+      if (rewardPoints) {
+
+        rewardPoints.innerHTML =
+          formatNumber(
+            points
+          ) +
+          ' <small>pts</small>';
+
+      }
+
+
+      if (totalWasteReward) {
+
+        totalWasteReward.textContent =
+          formatNumber(
+            totalWaste
+          );
+
+      }
+
+
+      if (rewardCo2) {
+
+        rewardCo2.textContent =
+          formatNumber(
+            totalCo2
+          );
+
+      }
+
+
+      if (rewardGreenScore) {
+
+        rewardGreenScore.textContent =
+          formatNumber(
+            greenScore
+          );
+
+      }
+
+
+      const progress =
+        Math.min(
+          (
+            totalWaste /
+            REWARD_TARGET
+          ) * 100,
+          100
+        );
+
+
+      if (rewardProgress) {
+
+        rewardProgress.style.width =
+          `${progress}%`;
+
+      }
+
+
+      const unlocked =
+        totalWaste >=
+        REWARD_TARGET;
+
+
+      if (rewardStatus) {
+
+        rewardStatus.classList.toggle(
+          "locked",
+          !unlocked
+        );
+
+
+        rewardStatus.classList.toggle(
+          "unlocked",
+          unlocked
+        );
+
+
+        if (unlocked) {
+
+          rewardStatus.innerHTML =
+            "🎉 Anda sudah membuka Marketplace Reward UMKM. Pilih reward menggunakan Poin Hijau.";
+
+        } else {
+
+          const remaining =
+            Math.max(
+              REWARD_TARGET -
+              totalWaste,
+              0
+            );
+
+
+          rewardStatus.innerHTML =
+            "🔒 Kumpulkan lagi <strong>" +
+            formatNumber(
+              remaining
+            ) +
+            " kg</strong> sampah untuk membuka reward UMKM.";
+
+        }
+
+      }
+
+
+      rewardCards.forEach(
+        card => {
+
+          const button =
+            card.querySelector(
+              ".reward-action"
+            );
+
+
+          if (!button) {
+            return;
+          }
+
+
+          if (unlocked) {
+
+            button.disabled =
+              false;
+
+            button.classList.add(
+              "unlocked"
+            );
+
+            button.textContent =
+              `🎁 Tukar ${Number(
+                button.dataset.redeem || 0
+              ).toLocaleString(
+                "id-ID"
+              )} pts`;
+
+          } else {
+
+            button.disabled =
+              true;
+
+            button.classList.remove(
+              "unlocked"
+            );
+
+            button.textContent =
+              "🔒 Belum Terbuka";
+
+          }
+
+        }
+      );
+
+
+      if (window.resikState) {
+
+        window.resikState.points =
+          points;
+
+        window.resikState.waste =
+          totalWaste;
+
+        window.resikState.co2 =
+          totalCo2;
+
+        window.resikState.greenScore =
+          greenScore;
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "REWARD DATA ERROR:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     FILTER
+  ====================================================== */
+
+  const filterButtons =
+    document.querySelectorAll(
+      "[data-filter]"
+    );
+
+
+  filterButtons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          filterButtons.forEach(
+            item => {
+
+              item.classList.remove(
+                "active-filter"
+              );
+
+            }
+          );
+
+
+          this.classList.add(
+            "active-filter"
+          );
+
+
+          const filter =
+            this.dataset.filter;
+
+
+          rewardCards.forEach(
+            card => {
+
+              const category =
+                card.dataset.category;
+
+
+              card.style.display =
+                (
+                  filter === "all" ||
+                  category === filter
+                )
+                  ? ""
+                  : "none";
+
+            }
+          );
+
+
+          checkEmpty();
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     SEARCH
+  ====================================================== */
+
+  const search =
+    document.getElementById(
+      "rewardSearch"
+    );
+
+
+  if (search) {
+
+    search.addEventListener(
+      "input",
+      function () {
+
+        const keyword =
+          this.value
+            .toLowerCase()
+            .trim();
+
+
+        rewardCards.forEach(
+          card => {
+
+            const name =
+              String(
+                card.dataset.name ||
+                ""
+              ).toLowerCase();
+
+
+            card.style.display =
+              name.includes(
+                keyword
+              )
+                ? ""
+                : "none";
+
+          }
+        );
+
+
+        checkEmpty();
+
+      }
+    );
+
+  }
+
+
+  function checkEmpty() {
+
+    const visible =
+      rewardCards.some(
+        card =>
+          card.style.display !==
+          "none"
+      );
+
+
+    const empty =
+      document.getElementById(
+        "rewardEmpty"
+      );
+
+
+    if (empty) {
+
+      empty.style.display =
+        visible
+          ? "none"
+          : "block";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     REDEEM
+  ====================================================== */
+
+  rewardCards.forEach(
+    card => {
+
+      const button =
+        card.querySelector(
+          ".reward-action"
+        );
+
+
+      if (!button) {
+        return;
+      }
+
+
+      button.addEventListener(
+        "click",
+        async function () {
+
+          if (
+            this.disabled
+          ) {
+
+            return;
+
+          }
+
+
+          try {
+
+            await window.resikReady;
+
+
+            const user =
+              window.resikAuth?.currentUser;
+
+
+            if (!user) {
+
+              alert(
+                "Silakan login terlebih dahulu."
+              );
+
+              return;
+
+            }
+
+
+            const profile =
+              await window.resikGetProfile(
+                user.uid
+              );
+
+
+            const currentPoints =
+              Number(
+                profile?.points || 0
+              );
+
+
+            const currentWaste =
+              Number(
+                profile?.totalWaste || 0
+              );
+
+
+            const cost =
+              Number(
+                this.dataset.redeem || 0
+              );
+
+
+            const rewardName =
+              this.dataset.name ||
+              "Reward UMKM";
+
+
+            if (
+              currentWaste <
+              REWARD_TARGET
+            ) {
+
+              alert(
+                "Reward belum terbuka. Anda harus mencapai minimal 150 kg sampah."
+              );
+
+              return;
+
+            }
+
+
+            if (
+              cost <= 0
+            ) {
+
+              alert(
+                "Nilai reward tidak valid."
+              );
+
+              return;
+
+            }
+
+
+            if (
+              currentPoints <
+              cost
+            ) {
+
+              alert(
+                "Poin Hijau Anda tidak cukup."
+              );
+
+              return;
+
+            }
+
+
+            this.disabled =
+              true;
+
+            this.textContent =
+              "Memproses...";
+
+
+            if (
+              typeof window.resikRedeem !==
+              "function"
+            ) {
+
+              throw new Error(
+                "Fungsi redeem Firebase belum tersedia."
+              );
+
+            }
+
+
+            await window.resikRedeem(
+              rewardName,
+              cost
+            );
+
+
+          } catch (
+            error
+          ) {
+
+            console.error(
+              "REDEEM REWARD ERROR:",
+              error
+            );
+
+
+            alert(
+              error?.message ||
+              "Penukaran reward gagal."
+            );
+
+
+            this.disabled =
+              false;
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =====================================================
+     LOAD
+  ====================================================== */
+
+  loadRewardData();
+
+
+  setTimeout(
+    loadRewardData,
+    1000
+  );
+
+
+  setTimeout(
+    loadRewardData,
+    2500
+  );
+
+})();
+
+</script>
+
+
+</body>
+
+</html>

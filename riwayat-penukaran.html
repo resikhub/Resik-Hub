@@ -1,0 +1,1821 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Riwayat Penukaran — RESIK Hub</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+</head>
+
+
+<body>
+
+<div class="app-shell">
+
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="app-header">
+
+    <button
+      class="icon-btn"
+      type="button"
+      id="menuBtn"
+      aria-label="Menu"
+    >
+      ☰
+    </button>
+
+
+    <div class="app-brand">
+      RESIK Hub
+    </div>
+
+
+    <button
+      class="icon-btn"
+      type="button"
+      id="notificationBtn"
+      aria-label="Notifikasi"
+    >
+      ♧
+    </button>
+
+  </header>
+
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="app-main">
+
+
+    <!-- =================================================
+         TITLE
+    ================================================== -->
+
+    <h1 class="page-title">
+      Riwayat Penukaran
+    </h1>
+
+
+    <p class="page-subtitle">
+      Pantau status penukaran hadiah Anda.
+      Poin Hijau yang telah digunakan akan
+      tercatat di sini.
+    </p>
+
+
+
+    <!-- =================================================
+         POINT CARD
+    ================================================== -->
+
+    <section class="points-card">
+
+      <small>
+        SISA POIN HIJAU
+      </small>
+
+
+      <div
+        class="points-value"
+        id="points"
+      >
+        0
+        <small>pts</small>
+      </div>
+
+
+      <button
+        class="btn"
+        type="button"
+        data-nav="reward.html"
+      >
+        ▣ Tukar Poin Lainnya
+      </button>
+
+    </section>
+
+
+
+    <!-- =================================================
+         AKTIVITAS
+    ================================================== -->
+
+    <section
+      class="panel"
+      style="margin-top:18px;"
+    >
+
+      <div class="panel-head">
+
+        <h2>
+          Aktivitas Anda
+        </h2>
+
+      </div>
+
+
+      <div
+        style="
+          display:grid;
+          grid-template-columns:1fr 1fr;
+          gap:12px;
+        "
+      >
+
+
+        <!-- SKOR HIJAU -->
+
+        <div
+          style="
+            padding:14px;
+            border-radius:14px;
+            background:#f0faf5;
+          "
+        >
+
+          <small>
+            SKOR HIJAU
+          </small>
+
+          <strong
+            id="greenScore"
+            style="
+              display:block;
+              margin-top:5px;
+              font-size:22px;
+              color:#087a4d;
+            "
+          >
+            0
+          </strong>
+
+        </div>
+
+
+
+        <!-- TOTAL SETORAN -->
+
+        <div
+          style="
+            padding:14px;
+            border-radius:14px;
+            background:#f5f8ff;
+          "
+        >
+
+          <small>
+            TOTAL SETORAN
+          </small>
+
+          <strong
+            id="totalWaste"
+            style="
+              display:block;
+              margin-top:5px;
+              font-size:22px;
+            "
+          >
+            0 kg
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         RIWAYAT
+    ================================================== -->
+
+    <section
+      class="panel"
+      style="margin-top:18px;"
+    >
+
+
+      <div class="panel-head">
+
+        <h2>
+          Riwayat Penukaran
+        </h2>
+
+
+        <span
+          id="historyCount"
+          style="
+            font-size:12px;
+            color:#718096;
+          "
+        >
+          Memuat...
+        </span>
+
+      </div>
+
+
+
+      <!-- =================================================
+           LOADING
+      ================================================== -->
+
+      <div
+        id="historyLoading"
+        style="
+          text-align:center;
+          padding:30px 15px;
+          color:#718096;
+        "
+      >
+
+        <div
+          style="
+            font-size:26px;
+            margin-bottom:10px;
+          "
+        >
+          ⏳
+        </div>
+
+        Memuat riwayat penukaran...
+
+      </div>
+
+
+
+      <!-- =================================================
+           ERROR
+      ================================================== -->
+
+      <div
+        id="historyError"
+        style="
+          display:none;
+          text-align:center;
+          padding:30px 15px;
+          color:#c53030;
+        "
+      >
+
+        <div
+          style="
+            font-size:28px;
+            margin-bottom:10px;
+          "
+        >
+          ⚠️
+        </div>
+
+        <strong>
+          Gagal memuat riwayat
+        </strong>
+
+        <p
+          id="historyErrorText"
+          style="
+            margin-top:8px;
+            font-size:13px;
+            color:#718096;
+          "
+        >
+          Terjadi kesalahan saat mengambil data.
+        </p>
+
+      </div>
+
+
+
+      <!-- =================================================
+           DATA RIWAYAT
+      ================================================== -->
+
+      <div
+        id="history"
+        style="display:none;"
+      >
+      </div>
+
+
+
+      <!-- =================================================
+           EMPTY STATE
+      ================================================== -->
+
+      <div
+        class="history-empty"
+        id="emptyHistory"
+        style="display:none;"
+      >
+
+        <div class="empty-icon">
+          🎁
+        </div>
+
+
+        <h3>
+          Belum ada penukaran
+        </h3>
+
+
+        <p>
+          Anda belum menukarkan
+          Poin Hijau dengan hadiah apa pun.
+        </p>
+
+
+        <button
+          class="btn"
+          type="button"
+          data-nav="reward.html"
+        >
+          Lihat Reward
+        </button>
+
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =====================================================
+       BOTTOM NAVIGATION
+  ====================================================== -->
+
+  <nav class="app-bottom">
+
+
+    <a
+      class="nav-item"
+      href="dashboard-warga.html"
+    >
+
+      <span>
+        ▦
+      </span>
+
+      <label>
+        Beranda
+      </label>
+
+    </a>
+
+
+
+    <a
+      class="nav-item active"
+      href="riwayat-penukaran.html"
+    >
+
+      <span>
+        ▤
+      </span>
+
+      <label>
+        Riwayat
+      </label>
+
+    </a>
+
+
+
+    <a
+      class="nav-item"
+      href="sampah.html"
+    >
+
+      <span>
+        ♻
+      </span>
+
+      <label>
+        Limbah
+      </label>
+
+    </a>
+
+
+
+    <a
+      class="nav-item"
+      href="profil.html"
+    >
+
+      <span>
+        ◎
+      </span>
+
+      <label>
+        Profil
+      </label>
+
+    </a>
+
+
+  </nav>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     APP JS
+
+     PENTING:
+     app.js RESIK HUB menggunakan ES MODULE.
+====================================================== -->
+
+<script
+  type="module"
+  src="js/app.js"
+></script>
+
+
+
+<!-- =====================================================
+     RIWAYAT PENUKARAN JS
+====================================================== -->
+
+<script>
+
+(function () {
+
+  "use strict";
+
+
+  /* =====================================================
+     STATE
+  ====================================================== */
+
+  let lastRenderedSignature = "";
+
+  let appReady = false;
+
+
+
+  /* =====================================================
+     ELEMENT
+  ====================================================== */
+
+  const pointsElement =
+    document.getElementById("points");
+
+  const greenScoreElement =
+    document.getElementById("greenScore");
+
+  const totalWasteElement =
+    document.getElementById("totalWaste");
+
+  const historyElement =
+    document.getElementById("history");
+
+  const emptyHistoryElement =
+    document.getElementById("emptyHistory");
+
+  const historyLoadingElement =
+    document.getElementById("historyLoading");
+
+  const historyErrorElement =
+    document.getElementById("historyError");
+
+  const historyErrorTextElement =
+    document.getElementById("historyErrorText");
+
+  const historyCountElement =
+    document.getElementById("historyCount");
+
+
+
+  /* =====================================================
+     FORMAT ANGKA
+  ====================================================== */
+
+  function formatNumber(value) {
+
+    const number =
+      Number(value) || 0;
+
+    return number.toLocaleString(
+      "id-ID",
+      {
+        maximumFractionDigits: 1
+      }
+    );
+
+  }
+
+
+
+  /* =====================================================
+     FORMAT TANGGAL
+  ====================================================== */
+
+  function formatDate(value) {
+
+    if (!value) {
+      return "-";
+    }
+
+
+    let date = null;
+
+
+    /*
+      Firebase Timestamp
+    */
+
+    if (
+      value &&
+      typeof value.toDate === "function"
+    ) {
+
+      date = value.toDate();
+
+    }
+
+
+    /*
+      Firestore timestamp
+      { seconds, nanoseconds }
+    */
+
+    else if (
+      typeof value === "object" &&
+      typeof value.seconds === "number"
+    ) {
+
+      date =
+        new Date(
+          value.seconds * 1000
+        );
+
+    }
+
+
+    /*
+      JS Date
+    */
+
+    else if (
+      value instanceof Date
+    ) {
+
+      date = value;
+
+    }
+
+
+    /*
+      String / number
+    */
+
+    else {
+
+      date =
+        new Date(value);
+
+    }
+
+
+    if (
+      !date ||
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return "-";
+
+    }
+
+
+    return date.toLocaleString(
+      "id-ID",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+  }
+
+
+
+  /* =====================================================
+     GET TIME
+  ====================================================== */
+
+  function getTime(value) {
+
+    if (!value) {
+      return 0;
+    }
+
+
+    if (
+      value &&
+      typeof value.toDate === "function"
+    ) {
+
+      return value
+        .toDate()
+        .getTime();
+
+    }
+
+
+    if (
+      typeof value === "object" &&
+      typeof value.seconds === "number"
+    ) {
+
+      return value.seconds * 1000;
+
+    }
+
+
+    const date =
+      new Date(value);
+
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return 0;
+
+    }
+
+
+    return date.getTime();
+
+  }
+
+
+
+  /* =====================================================
+     ESCAPE HTML
+  ====================================================== */
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+
+  /* =====================================================
+     GET APP STATE
+  ====================================================== */
+
+  function getAppState() {
+
+    if (
+      window.resikState &&
+      typeof window.resikState === "object"
+    ) {
+
+      return window.resikState;
+
+    }
+
+
+    return null;
+
+  }
+
+
+
+  /* =====================================================
+     GET REDEMPTIONS
+  ====================================================== */
+
+  function getRedemptions(state) {
+
+    if (!state) {
+      return [];
+    }
+
+
+    /*
+      Struktur utama RESIK Hub
+    */
+
+    if (
+      Array.isArray(
+        state.redemptions
+      )
+    ) {
+
+      return state.redemptions;
+
+    }
+
+
+    /*
+      Beberapa fallback
+    */
+
+    if (
+      Array.isArray(
+        state.redemptionHistory
+      )
+    ) {
+
+      return state.redemptionHistory;
+
+    }
+
+
+    if (
+      Array.isArray(
+        state.redeemHistory
+      )
+    ) {
+
+      return state.redeemHistory;
+
+    }
+
+
+    if (
+      Array.isArray(
+        state.transactions
+      )
+    ) {
+
+      return state.transactions.filter(
+        function (item) {
+
+          return (
+            item &&
+            (
+              item.type === "redemption" ||
+              item.type === "redeem" ||
+              item.type === "penukaran"
+            )
+          );
+
+        }
+      );
+
+    }
+
+
+    return [];
+
+  }
+
+
+
+  /* =====================================================
+     GET ITEM NAME
+  ====================================================== */
+
+  function getRewardName(item) {
+
+    if (!item) {
+      return "Hadiah RESIK";
+    }
+
+
+    return (
+      item.name ||
+      item.rewardName ||
+      item.title ||
+      item.reward ||
+      item.rewardTitle ||
+      "Hadiah RESIK"
+    );
+
+  }
+
+
+
+  /* =====================================================
+     GET ITEM COST
+  ====================================================== */
+
+  function getRewardCost(item) {
+
+    if (!item) {
+      return 0;
+    }
+
+
+    const value =
+      item.cost ??
+      item.points ??
+      item.pointCost ??
+      item.pointsUsed ??
+      item.usedPoints ??
+      item.rewardCost ??
+      0;
+
+
+    return Number(value) || 0;
+
+  }
+
+
+
+  /* =====================================================
+     GET ITEM DATE
+  ====================================================== */
+
+  function getRewardDate(item) {
+
+    if (!item) {
+      return null;
+    }
+
+
+    return (
+      item.date ||
+      item.createdAt ||
+      item.redeemedAt ||
+      item.redeemed_at ||
+      item.timestamp ||
+      item.created_at ||
+      null
+    );
+
+  }
+
+
+
+  /* =====================================================
+     GET ITEM STATUS
+  ====================================================== */
+
+  function getRewardStatus(item) {
+
+    if (!item) {
+      return "Selesai";
+    }
+
+
+    return (
+      item.status ||
+      item.state ||
+      "Selesai"
+    );
+
+  }
+
+
+
+  /* =====================================================
+     GET ICON
+  ====================================================== */
+
+  function getRewardIcon(name) {
+
+    const lowerName =
+      String(name)
+        .toLowerCase();
+
+
+    if (
+      lowerName.includes("internet") ||
+      lowerName.includes("voucher") ||
+      lowerName.includes("pulsa") ||
+      lowerName.includes("kuota")
+    ) {
+
+      return "📱";
+
+    }
+
+
+    if (
+      lowerName.includes("monstera")
+    ) {
+
+      return "🌱";
+
+    }
+
+
+    if (
+      lowerName.includes("bibit") ||
+      lowerName.includes("tanaman") ||
+      lowerName.includes("pohon")
+    ) {
+
+      return "🪴";
+
+    }
+
+
+    if (
+      lowerName.includes("sembako") ||
+      lowerName.includes("makanan")
+    ) {
+
+      return "🛍️";
+
+    }
+
+
+    return "🎁";
+
+  }
+
+
+
+  /* =====================================================
+     UPDATE SUMMARY
+  ====================================================== */
+
+  function updateSummary(state) {
+
+    if (!state) {
+      return;
+    }
+
+
+    /*
+      POIN
+    */
+
+    const points =
+      Number(
+        state.points
+      ) || 0;
+
+
+    if (pointsElement) {
+
+      pointsElement.innerHTML =
+        formatNumber(points) +
+        " <small>pts</small>";
+
+    }
+
+
+
+    /*
+      GREEN SCORE
+    */
+
+    const greenScore =
+      Number(
+        state.greenScore
+      ) ||
+      Number(
+        state.score
+      ) ||
+      points;
+
+
+    if (greenScoreElement) {
+
+      greenScoreElement.textContent =
+        formatNumber(
+          greenScore
+        );
+
+    }
+
+
+
+    /*
+      TOTAL WASTE
+    */
+
+    const waste =
+      Number(
+        state.waste
+      ) ||
+      Number(
+        state.totalWaste
+      ) ||
+      Number(
+        state.totalWasteKg
+      ) ||
+      0;
+
+
+    if (totalWasteElement) {
+
+      totalWasteElement.textContent =
+        formatNumber(
+          waste
+        ) +
+        " kg";
+
+    }
+
+  }
+
+
+
+  /* =====================================================
+     BUAT SIGNATURE DATA
+  ====================================================== */
+
+  function createSignature(redemptions) {
+
+    try {
+
+      return JSON.stringify(
+        redemptions.map(
+          function (item) {
+
+            return {
+
+              id:
+                item?.id ||
+                item?.redemptionId ||
+                "",
+
+              name:
+                getRewardName(item),
+
+              cost:
+                getRewardCost(item),
+
+              status:
+                getRewardStatus(item),
+
+              date:
+                String(
+                  getRewardDate(item) ?? ""
+                )
+
+            };
+
+          }
+        )
+      );
+
+    }
+    catch (error) {
+
+      return String(
+        Date.now()
+      );
+
+    }
+
+  }
+
+
+
+  /* =====================================================
+     RENDER HISTORY
+  ====================================================== */
+
+  function renderHistory(state) {
+
+    if (!historyElement) {
+      return;
+    }
+
+
+    const redemptions =
+      getRedemptions(state);
+
+
+    /*
+      SORT TERBARU
+    */
+
+    const sorted =
+      [...redemptions].sort(
+        function (a, b) {
+
+          const dateA =
+            getTime(
+              getRewardDate(a)
+            );
+
+          const dateB =
+            getTime(
+              getRewardDate(b)
+            );
+
+          return dateB - dateA;
+
+        }
+      );
+
+
+
+    /*
+      COUNT
+    */
+
+    if (historyCountElement) {
+
+      historyCountElement.textContent =
+        sorted.length +
+        " " +
+        (
+          sorted.length === 1
+            ? "penukaran"
+            : "penukaran"
+        );
+
+    }
+
+
+
+    /*
+      DATA KOSONG
+    */
+
+    if (sorted.length === 0) {
+
+      historyElement.innerHTML = "";
+
+      historyElement.style.display =
+        "none";
+
+
+      if (emptyHistoryElement) {
+
+        emptyHistoryElement.style.display =
+          "block";
+
+      }
+
+
+      return;
+
+    }
+
+
+
+    /*
+      ADA DATA
+    */
+
+    if (emptyHistoryElement) {
+
+      emptyHistoryElement.style.display =
+        "none";
+
+    }
+
+
+    historyElement.style.display =
+      "block";
+
+
+    historyElement.innerHTML = "";
+
+
+
+    /*
+      RENDER SETIAP PENUKARAN
+    */
+
+    sorted.forEach(
+      function (item) {
+
+        const name =
+          getRewardName(item);
+
+
+        const cost =
+          getRewardCost(item);
+
+
+        const status =
+          getRewardStatus(item);
+
+
+        const dateValue =
+          getRewardDate(item);
+
+
+        const dateText =
+          formatDate(
+            dateValue
+          );
+
+
+        const icon =
+          getRewardIcon(
+            name
+          );
+
+
+        const statusLower =
+          String(status)
+            .toLowerCase();
+
+
+        let statusClass =
+          "";
+
+
+        if (
+          statusLower.includes("selesai") ||
+          statusLower.includes("berhasil") ||
+          statusLower.includes("success") ||
+          statusLower.includes("completed")
+        ) {
+
+          statusClass =
+            "completed";
+
+        }
+
+
+
+        /*
+          ITEM
+        */
+
+        const itemElement =
+          document.createElement(
+            "div"
+          );
+
+
+        itemElement.className =
+          "history-item";
+
+
+        itemElement.innerHTML = `
+
+          <div class="thumb">
+            ${icon}
+          </div>
+
+
+          <div
+            style="
+              flex:1;
+              min-width:0;
+            "
+          >
+
+            <h3>
+
+              ${escapeHTML(name)}
+
+              <span class="negative">
+                -${formatNumber(cost)} pts
+              </span>
+
+            </h3>
+
+
+            <div class="meta">
+              ▣ ${escapeHTML(dateText)}
+            </div>
+
+
+            <span
+              class="status ${statusClass}"
+            >
+              ● ${escapeHTML(status)}
+            </span>
+
+          </div>
+
+        `;
+
+
+        historyElement.appendChild(
+          itemElement
+        );
+
+      }
+    );
+
+  }
+
+
+
+  /* =====================================================
+     UPDATE SEMUA DATA
+  ====================================================== */
+
+  function updatePage() {
+
+    const state =
+      getAppState();
+
+
+    /*
+      Jangan render kosong sebelum
+      app.js selesai mengambil Firebase.
+    */
+
+    if (!state) {
+
+      return false;
+
+    }
+
+
+    updateSummary(
+      state
+    );
+
+
+    const redemptions =
+      getRedemptions(
+        state
+      );
+
+
+    const signature =
+      createSignature(
+        redemptions
+      );
+
+
+    /*
+      Render jika data berubah.
+    */
+
+    if (
+      signature !==
+      lastRenderedSignature
+    ) {
+
+      lastRenderedSignature =
+        signature;
+
+
+      renderHistory(
+        state
+      );
+
+    }
+
+
+    /*
+      Data sudah selesai dimuat.
+    */
+
+    if (historyLoadingElement) {
+
+      historyLoadingElement.style.display =
+        "none";
+
+    }
+
+
+    if (historyErrorElement) {
+
+      historyErrorElement.style.display =
+        "none";
+
+    }
+
+
+    appReady = true;
+
+
+    return true;
+
+  }
+
+
+
+  /* =====================================================
+     TUNGGU APP.JS
+  ====================================================== */
+
+  function waitForApp() {
+
+    let attempts = 0;
+
+    const maxAttempts = 120;
+
+
+    const timer =
+      setInterval(
+        function () {
+
+          attempts++;
+
+
+          /*
+            Coba update state
+          */
+
+          const success =
+            updatePage();
+
+
+          /*
+            Kalau berhasil,
+            tidak perlu loading lagi.
+          */
+
+          if (success) {
+
+            /*
+              Tetap polling supaya
+              perubahan Firestore
+              langsung terlihat.
+            */
+
+            if (
+              attempts >=
+              maxAttempts
+            ) {
+
+              clearInterval(
+                timer
+              );
+
+            }
+
+            return;
+
+          }
+
+
+          /*
+            Timeout
+          */
+
+          if (
+            attempts >=
+            maxAttempts
+          ) {
+
+            clearInterval(
+              timer
+            );
+
+
+            /*
+              Hanya tampilkan error
+              kalau memang app.js
+              tidak memberikan state.
+            */
+
+            if (!appReady) {
+
+              if (
+                historyLoadingElement
+              ) {
+
+                historyLoadingElement.style.display =
+                  "none";
+
+              }
+
+
+              if (
+                historyErrorElement
+              ) {
+
+                historyErrorElement.style.display =
+                  "block";
+
+              }
+
+
+              if (
+                historyErrorTextElement
+              ) {
+
+                historyErrorTextElement.textContent =
+                  "Data RESIK Hub belum tersedia dari app.js. Pastikan pengguna sudah login dan Firebase berhasil dimuat.";
+
+              }
+
+            }
+
+          }
+
+        },
+        500
+      );
+
+  }
+
+
+
+  /* =====================================================
+     CEK RESIK READY
+  ====================================================== */
+
+  function connectToApp() {
+
+    /*
+      Kalau app.js sudah membuat Promise
+      resikReady
+    */
+
+    if (
+      window.resikReady &&
+      typeof window.resikReady.then === "function"
+    ) {
+
+      window.resikReady
+        .then(
+          function () {
+
+            updatePage();
+
+          }
+        )
+        .catch(
+          function (error) {
+
+            console.error(
+              "RESIK app ready error:",
+              error
+            );
+
+          }
+        );
+
+    }
+
+
+
+    /*
+      Kalau app.js menggunakan
+      resikDataReady
+    */
+
+    if (
+      window.resikDataReady &&
+      typeof window.resikDataReady.then === "function"
+    ) {
+
+      window.resikDataReady
+        .then(
+          function () {
+
+            updatePage();
+
+          }
+        )
+        .catch(
+          function (error) {
+
+            console.error(
+              "RESIK data ready error:",
+              error
+            );
+
+          }
+        );
+
+    }
+
+
+    /*
+      Tetap polling sebagai pengaman
+      untuk Firebase async.
+    */
+
+    waitForApp();
+
+  }
+
+
+
+  /* =====================================================
+     NAVIGATION
+  ====================================================== */
+
+  function setupNavigation() {
+
+    document
+      .querySelectorAll(
+        "[data-nav]"
+      )
+      .forEach(
+        function (element) {
+
+          element.addEventListener(
+            "click",
+            function () {
+
+              const target =
+                element.dataset.nav;
+
+
+              if (target) {
+
+                window.location.href =
+                  target;
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+
+  /* =====================================================
+     MENU BUTTON
+  ====================================================== */
+
+  function setupMenu() {
+
+    const menuButton =
+      document.getElementById(
+        "menuBtn"
+      );
+
+
+    if (!menuButton) {
+      return;
+    }
+
+
+    menuButton.addEventListener(
+      "click",
+      function () {
+
+        /*
+          Biarkan app.js menangani
+          menu jika tersedia.
+        */
+
+        if (
+          typeof window.resikOpenMenu ===
+          "function"
+        ) {
+
+          window.resikOpenMenu();
+
+        }
+
+      }
+    );
+
+  }
+
+
+
+  /* =====================================================
+     NOTIFICATION BUTTON
+  ====================================================== */
+
+  function setupNotification() {
+
+    const notificationButton =
+      document.getElementById(
+        "notificationBtn"
+      );
+
+
+    if (!notificationButton) {
+      return;
+    }
+
+
+    notificationButton.addEventListener(
+      "click",
+      function () {
+
+        if (
+          typeof window.resikOpenNotifications ===
+          "function"
+        ) {
+
+          window.resikOpenNotifications();
+
+        }
+
+      }
+    );
+
+  }
+
+
+
+  /* =====================================================
+     DOM READY
+  ====================================================== */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+      setupNavigation();
+
+      setupMenu();
+
+      setupNotification();
+
+      connectToApp();
+
+    }
+  );
+
+
+
+  /* =====================================================
+     JIKA app.js SUDAH SELESAI SEBELUM DOM READY
+  ====================================================== */
+
+  if (
+    document.readyState ===
+    "interactive" ||
+    document.readyState ===
+    "complete"
+  ) {
+
+    setupNavigation();
+
+    setupMenu();
+
+    setupNotification();
+
+    connectToApp();
+
+  }
+
+
+
+  /* =====================================================
+     EVENT CUSTOM DARI APP.JS
+  ====================================================== */
+
+  window.addEventListener(
+    "resik:data-ready",
+    function () {
+
+      updatePage();
+
+    }
+  );
+
+
+  window.addEventListener(
+    "resik:ready",
+    function () {
+
+      updatePage();
+
+    }
+  );
+
+
+  window.addEventListener(
+    "resik:state-updated",
+    function () {
+
+      updatePage();
+
+    }
+  );
+
+
+})();
+
+</script>
+
+
+</body>
+
+</html>

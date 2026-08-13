@@ -1,0 +1,13 @@
+index.html
+peringkat-desa.html
+dashboard-admin.html
+dashboard-warga.html
+sampah.html
+transaksi-baru.html
+README.md
+reward.html
+riwayat-penukaran.html
+login.html
+profil.html
+js/app.js
+css/style.css

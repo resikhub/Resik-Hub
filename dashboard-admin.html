@@ -1,0 +1,1721 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Dashboard Admin — RESIK Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+
+<body>
+
+
+<div class="app-shell">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="app-header">
+
+        <button
+            class="icon-btn"
+            type="button"
+            aria-label="Menu"
+        >
+            ☰
+        </button>
+
+
+        <div class="app-brand">
+            RESIK Hub · Admin
+        </div>
+
+
+        <button
+            class="icon-btn"
+            type="button"
+            data-logout
+            aria-label="Keluar"
+            title="Keluar"
+        >
+            ♧
+        </button>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="app-main">
+
+
+        <h1 class="page-title">
+            Dashboard Admin
+        </h1>
+
+
+        <p class="page-subtitle">
+            Ringkasan performa bank sampah dan ekonomi sirkular desa.
+        </p>
+
+
+
+        <!-- =================================================
+             AUTH / LOADING MESSAGE
+        ================================================== -->
+
+        <div
+            id="adminLoading"
+            style="
+                padding:20px;
+                text-align:center;
+                margin-bottom:20px;
+            "
+        >
+            Memuat data dashboard admin...
+        </div>
+
+
+
+        <!-- =================================================
+             STATISTIK
+        ================================================== -->
+
+        <div class="admin-grid">
+
+
+            <!-- TOTAL SAMPAH -->
+
+            <div class="admin-card">
+
+                <small>
+                    Total Sampah
+                </small>
+
+                <strong id="totalWaste">
+                    0 kg
+                </strong>
+
+                <span
+                    class="green-text"
+                    id="wasteGrowth"
+                >
+                    0%
+                </span>
+
+            </div>
+
+
+
+            <!-- WARGA AKTIF -->
+
+            <div class="admin-card">
+
+                <small>
+                    Warga Aktif
+                </small>
+
+                <strong id="activeUsers">
+                    0
+                </strong>
+
+                <span class="green-text">
+                    Terdaftar
+                </span>
+
+            </div>
+
+
+
+            <!-- NILAI EKONOMI -->
+
+            <div class="admin-card">
+
+                <small>
+                    Nilai Ekonomi
+                </small>
+
+                <strong id="economicValue">
+                    Rp 0
+                </strong>
+
+                <span class="green-text">
+                    Total
+                </span>
+
+            </div>
+
+
+
+            <!-- CO2 -->
+
+            <div class="admin-card">
+
+                <small>
+                    CO₂ Reduksi
+                </small>
+
+                <strong id="co2Reduction">
+                    0 kg
+                </strong>
+
+                <span class="green-text">
+                    Estimasi
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             TREN PENGUMPULAN
+        ================================================== -->
+
+        <section class="panel">
+
+
+            <div class="panel-head">
+
+                <h2>
+                    Tren Pengumpulan
+                </h2>
+
+                <span class="tag">
+                    Data Real-time
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="chart"
+                id="collectionChart"
+            >
+
+                <i style="height:10%"></i>
+                <i style="height:10%"></i>
+                <i style="height:10%"></i>
+                <i style="height:10%"></i>
+                <i style="height:10%"></i>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             TRANSAKSI
+        ================================================== -->
+
+        <section class="panel">
+
+
+            <div class="panel-head">
+
+
+                <h2>
+                    Transaksi Terbaru
+                </h2>
+
+
+                <span
+                    class="tag"
+                    id="transactionCount"
+                >
+                    0 transaksi
+                </span>
+
+
+            </div>
+
+
+
+            <div class="table-wrap">
+
+
+                <table class="data-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                Warga
+                            </th>
+
+                            <th>
+                                Jenis
+                            </th>
+
+                            <th>
+                                Berat
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody id="transactionTable">
+
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                style="text-align:center"
+                            >
+                                Memuat transaksi...
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     APP.JS FIREBASE
+     
+     PENTING:
+     app.js memakai ES Module import.
+========================================================= -->
+
+<script
+    type="module"
+    src="js/app.js"
+></script>
+
+
+
+<!-- =========================================================
+     ADMIN DASHBOARD
+========================================================= -->
+
+<script type="module">
+
+/*
+=============================================================
+RESIK HUB
+ADMIN DASHBOARD
+FIREBASE FIRESTORE REAL-TIME
+=============================================================
+*/
+
+
+/*
+=============================================================
+FIREBASE FIRESTORE IMPORT
+=============================================================
+*/
+
+import {
+
+    collection,
+    query,
+    orderBy,
+    limit,
+    onSnapshot,
+    getDocs
+
+}
+from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+/*
+=============================================================
+GLOBAL
+=============================================================
+*/
+
+let transactionUnsubscribe = null;
+
+let profileUnsubscribe = null;
+
+let allTransactions = [];
+
+let allProfiles = [];
+
+
+
+/*
+=============================================================
+ELEMENT HELPER
+=============================================================
+*/
+
+function getElement(id) {
+
+    return document.getElementById(id);
+
+}
+
+
+
+/*
+=============================================================
+FORMAT NUMBER
+=============================================================
+*/
+
+function formatNumber(value) {
+
+    return Number(value || 0)
+        .toLocaleString(
+            "id-ID",
+            {
+                maximumFractionDigits: 2
+            }
+        );
+
+}
+
+
+
+/*
+=============================================================
+FORMAT RUPIAH
+=============================================================
+*/
+
+function formatRupiah(value) {
+
+    return Number(value || 0)
+        .toLocaleString(
+            "id-ID",
+            {
+                style: "currency",
+                currency: "IDR",
+                maximumFractionDigits: 0
+            }
+        );
+
+}
+
+
+
+/*
+=============================================================
+ESCAPE HTML
+=============================================================
+*/
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+
+/*
+=============================================================
+TIMESTAMP
+=============================================================
+*/
+
+function getTimestampMillis(timestamp) {
+
+    if (!timestamp) {
+
+        return 0;
+
+    }
+
+
+    try {
+
+        if (
+            typeof timestamp.toMillis ===
+            "function"
+        ) {
+
+            return timestamp.toMillis();
+
+        }
+
+
+        if (
+            typeof timestamp.toDate ===
+            "function"
+        ) {
+
+            return timestamp
+                .toDate()
+                .getTime();
+
+        }
+
+
+        if (
+            timestamp.seconds !==
+            undefined
+        ) {
+
+            return Number(
+                timestamp.seconds
+            ) * 1000;
+
+        }
+
+
+        const date =
+            new Date(timestamp);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return 0;
+
+        }
+
+
+        return date.getTime();
+
+
+    } catch (error) {
+
+        return 0;
+
+    }
+
+}
+
+
+
+/*
+=============================================================
+GET TRANSACTION WEIGHT
+=============================================================
+*/
+
+function getTransactionWeight(transaction) {
+
+    return Number(
+        transaction?.weight ??
+        transaction?.berat ??
+        transaction?.waste ??
+        0
+    ) || 0;
+
+}
+
+
+
+/*
+=============================================================
+GET TRANSACTION VALUE
+=============================================================
+*/
+
+function getTransactionValue(transaction) {
+
+    return Number(
+        transaction?.value ??
+        transaction?.nilai ??
+        transaction?.price ??
+        0
+    ) || 0;
+
+}
+
+
+
+/*
+=============================================================
+GET TRANSACTION CO2
+=============================================================
+*/
+
+function getTransactionCo2(transaction) {
+
+    const explicitCo2 =
+        Number(
+            transaction?.co2 ??
+            transaction?.co2Reduction ??
+            0
+        ) || 0;
+
+
+    if (
+        explicitCo2 > 0
+    ) {
+
+        return explicitCo2;
+
+    }
+
+
+    const weight =
+        getTransactionWeight(
+            transaction
+        );
+
+
+    /*
+     * Estimasi:
+     * 0,5 kg CO2 per 1 kg sampah
+     */
+
+    return weight * 0.5;
+
+}
+
+
+
+/*
+=============================================================
+UPDATE STATISTIK
+=============================================================
+*/
+
+function updateStatistics() {
+
+
+    /*
+     * TOTAL SAMPAH
+     */
+
+    const totalWaste =
+        allTransactions.reduce(
+            (
+                total,
+                transaction
+            ) => {
+
+                return total +
+                    getTransactionWeight(
+                        transaction
+                    );
+
+            },
+            0
+        );
+
+
+
+    /*
+     * NILAI EKONOMI
+     */
+
+    const economicValue =
+        allTransactions.reduce(
+            (
+                total,
+                transaction
+            ) => {
+
+                return total +
+                    getTransactionValue(
+                        transaction
+                    );
+
+            },
+            0
+        );
+
+
+
+    /*
+     * CO2
+     */
+
+    const co2Reduction =
+        allTransactions.reduce(
+            (
+                total,
+                transaction
+            ) => {
+
+                return total +
+                    getTransactionCo2(
+                        transaction
+                    );
+
+            },
+            0
+        );
+
+
+
+    /*
+     * WARGA AKTIF
+     *
+     * Prioritas:
+     * 1. Profile warga
+     * 2. UID transaksi
+     */
+
+    const uniqueUsers =
+        new Set();
+
+
+    allProfiles.forEach(
+        profile => {
+
+            if (
+                profile?.uid
+            ) {
+
+                uniqueUsers.add(
+                    profile.uid
+                );
+
+            }
+
+        }
+    );
+
+
+    allTransactions.forEach(
+        transaction => {
+
+            if (
+                transaction?.uid
+            ) {
+
+                uniqueUsers.add(
+                    transaction.uid
+                );
+
+            }
+
+        }
+    );
+
+
+
+    /*
+     * UPDATE DOM
+     */
+
+    const totalWasteElement =
+        getElement(
+            "totalWaste"
+        );
+
+
+    if (
+        totalWasteElement
+    ) {
+
+        totalWasteElement.textContent =
+            formatNumber(
+                totalWaste
+            ) +
+            " kg";
+
+    }
+
+
+
+    const activeUsersElement =
+        getElement(
+            "activeUsers"
+        );
+
+
+    if (
+        activeUsersElement
+    ) {
+
+        activeUsersElement.textContent =
+            formatNumber(
+                uniqueUsers.size
+            );
+
+    }
+
+
+
+    const economicValueElement =
+        getElement(
+            "economicValue"
+        );
+
+
+    if (
+        economicValueElement
+    ) {
+
+        economicValueElement.textContent =
+            formatRupiah(
+                economicValue
+            );
+
+    }
+
+
+
+    const co2Element =
+        getElement(
+            "co2Reduction"
+        );
+
+
+    if (
+        co2Element
+    ) {
+
+        co2Element.textContent =
+            formatNumber(
+                co2Reduction
+            ) +
+            " kg";
+
+    }
+
+
+
+    const transactionCount =
+        getElement(
+            "transactionCount"
+        );
+
+
+    if (
+        transactionCount
+    ) {
+
+        transactionCount.textContent =
+            formatNumber(
+                allTransactions.length
+            ) +
+            " transaksi";
+
+    }
+
+
+
+    /*
+     * WASTE GROWTH
+     *
+     * Untuk sekarang dibuat
+     * sebagai informasi total.
+     */
+
+    const wasteGrowth =
+        getElement(
+            "wasteGrowth"
+        );
+
+
+    if (
+        wasteGrowth
+    ) {
+
+        wasteGrowth.textContent =
+            "Real-time";
+
+    }
+
+
+}
+
+
+
+/*
+=============================================================
+UPDATE TRANSACTION TABLE
+=============================================================
+*/
+
+function updateTransactionTable() {
+
+
+    const table =
+        getElement(
+            "transactionTable"
+        );
+
+
+    if (!table) {
+
+        return;
+
+    }
+
+
+
+    if (
+        allTransactions.length ===
+        0
+    ) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    style="text-align:center"
+                >
+
+                    Belum ada transaksi
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    /*
+     * Urutkan terbaru
+     */
+
+    const transactions =
+        [...allTransactions]
+            .sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    return (
+                        getTimestampMillis(
+                            b.createdAt
+                        ) -
+                        getTimestampMillis(
+                            a.createdAt
+                        )
+                    );
+
+                }
+            )
+            .slice(
+                0,
+                10
+            );
+
+
+
+    table.innerHTML =
+        transactions
+            .map(
+                (
+                    transaction,
+                    index
+                ) => {
+
+
+                    const id =
+                        transaction.id ||
+                        transaction.firestoreId ||
+                        (
+                            "TRX-" +
+                            String(
+                                index + 1
+                            )
+                                .padStart(
+                                    4,
+                                    "0"
+                                )
+                        );
+
+
+
+                    const name =
+                        transaction.name ||
+                        transaction.citizen ||
+                        transaction.userName ||
+                        transaction.warga ||
+                        "Warga";
+
+
+
+                    const type =
+                        transaction.type ||
+                        transaction.jenis ||
+                        transaction.category ||
+                        "Sampah";
+
+
+
+                    const weight =
+                        getTransactionWeight(
+                            transaction
+                        );
+
+
+
+                    const status =
+                        transaction.status ||
+                        "Selesai";
+
+
+
+                    return `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHTML(id)}
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(name)}
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(type)}
+                            </td>
+
+
+                            <td>
+                                ${formatNumber(weight)}
+                                kg
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(status)}
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+
+/*
+=============================================================
+UPDATE CHART
+=============================================================
+*/
+
+function updateChart() {
+
+
+    const chart =
+        getElement(
+            "collectionChart"
+        );
+
+
+    if (!chart) {
+
+        return;
+
+    }
+
+
+
+    const transactions =
+        [...allTransactions]
+            .sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    return (
+                        getTimestampMillis(
+                            b.createdAt
+                        ) -
+                        getTimestampMillis(
+                            a.createdAt
+                        )
+                    );
+
+                }
+            )
+            .slice(
+                0,
+                5
+            )
+            .reverse();
+
+
+
+    if (
+        transactions.length ===
+        0
+    ) {
+
+        chart.innerHTML = `
+
+            <i style="height:10%"></i>
+            <i style="height:10%"></i>
+            <i style="height:10%"></i>
+            <i style="height:10%"></i>
+            <i style="height:10%"></i>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    const values =
+        transactions.map(
+            transaction =>
+                getTransactionWeight(
+                    transaction
+                )
+        );
+
+
+
+    const max =
+        Math.max(
+            ...values,
+            1
+        );
+
+
+
+    chart.innerHTML =
+        values
+            .map(
+                value => {
+
+                    const height =
+                        value > 0
+                            ? Math.max(
+                                10,
+                                (
+                                    value /
+                                    max
+                                ) *
+                                100
+                            )
+                            : 10;
+
+
+                    return `
+
+                        <i
+                            style="
+                                height:${height}%
+                            "
+                            title="${formatNumber(value)} kg"
+                        ></i>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+
+/*
+=============================================================
+UPDATE DASHBOARD
+=============================================================
+*/
+
+function updateAdminDashboard() {
+
+    updateStatistics();
+
+    updateTransactionTable();
+
+    updateChart();
+
+}
+
+
+
+/*
+=============================================================
+LOAD ALL TRANSACTIONS
+=============================================================
+*/
+
+async function loadTransactions() {
+
+
+    const db =
+        window.resikDB;
+
+
+    if (!db) {
+
+        throw new Error(
+            "Firebase Firestore belum siap."
+        );
+
+    }
+
+
+
+    /*
+     * QUERY UTAMA
+     *
+     * Ambil transaksi terbaru.
+     */
+
+    try {
+
+        const transactionsQuery =
+            query(
+
+                collection(
+                    db,
+                    "transactions"
+                ),
+
+                orderBy(
+                    "createdAt",
+                    "desc"
+                ),
+
+                limit(
+                    500
+                )
+
+            );
+
+
+        onSnapshot(
+            transactionsQuery,
+
+            snapshot => {
+
+                allTransactions =
+                    snapshot.docs.map(
+                        transactionDoc => ({
+
+                            firestoreId:
+                                transactionDoc.id,
+
+                            ...transactionDoc.data()
+
+                        })
+                    );
+
+
+                updateAdminDashboard();
+
+            },
+
+            error => {
+
+                console.error(
+                    "TRANSACTION REALTIME ERROR:",
+                    error
+                );
+
+
+                loadTransactionsFallback();
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "TRANSACTION QUERY ERROR:",
+            error
+        );
+
+
+        await loadTransactionsFallback();
+
+    }
+
+}
+
+
+
+/*
+=============================================================
+TRANSACTION FALLBACK
+=============================================================
+*/
+
+async function loadTransactionsFallback() {
+
+
+    const db =
+        window.resikDB;
+
+
+    if (!db) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "transactions"
+                )
+            );
+
+
+        allTransactions =
+            snapshot.docs.map(
+                transactionDoc => ({
+
+                    firestoreId:
+                        transactionDoc.id,
+
+                    ...transactionDoc.data()
+
+                })
+            );
+
+
+        allTransactions.sort(
+            (
+                a,
+                b
+            ) => {
+
+                return (
+                    getTimestampMillis(
+                        b.createdAt
+                    ) -
+                    getTimestampMillis(
+                        a.createdAt
+                    )
+                );
+
+            }
+        );
+
+
+        updateAdminDashboard();
+
+
+        console.log(
+            "TRANSAKSI FALLBACK BERHASIL"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "TRANSACTION FALLBACK ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/*
+=============================================================
+LOAD PROFILES
+=============================================================
+*/
+
+async function loadProfiles() {
+
+
+    const db =
+        window.resikDB;
+
+
+    if (!db) {
+
+        return;
+
+    }
+
+
+
+    try {
+
+        /*
+         * onSnapshot supaya jumlah warga
+         * ikut berubah secara real-time.
+         */
+
+        profileUnsubscribe =
+            onSnapshot(
+
+                collection(
+                    db,
+                    "profiles"
+                ),
+
+                snapshot => {
+
+                    allProfiles =
+                        snapshot.docs.map(
+                            profileDoc => ({
+
+                                firestoreId:
+                                    profileDoc.id,
+
+                                ...profileDoc.data()
+
+                            })
+                        );
+
+
+                    updateAdminDashboard();
+
+                },
+
+                async error => {
+
+                    console.error(
+                        "PROFILE REALTIME ERROR:",
+                        error
+                    );
+
+
+                    try {
+
+                        const snapshot =
+                            await getDocs(
+                                collection(
+                                    db,
+                                    "profiles"
+                                )
+                            );
+
+
+                        allProfiles =
+                            snapshot.docs.map(
+                                profileDoc => ({
+
+                                    firestoreId:
+                                        profileDoc.id,
+
+                                    ...profileDoc.data()
+
+                                })
+                            );
+
+
+                        updateAdminDashboard();
+
+
+                    } catch (
+                        fallbackError
+                    ) {
+
+                        console.error(
+                            "PROFILE FALLBACK ERROR:",
+                            fallbackError
+                        );
+
+                    }
+
+                }
+
+            );
+
+
+    } catch (error) {
+
+        console.error(
+            "PROFILE QUERY ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/*
+=============================================================
+CHECK ADMIN
+=============================================================
+*/
+
+async function initializeAdminDashboard() {
+
+
+    const loading =
+        getElement(
+            "adminLoading"
+        );
+
+
+    try {
+
+
+        /*
+         * Tunggu app.js.
+         */
+
+        await window.resikReady;
+
+
+
+        const auth =
+            window.resikAuth;
+
+
+        if (!auth) {
+
+            throw new Error(
+                "Firebase Authentication belum tersedia."
+            );
+
+        }
+
+
+
+        /*
+         * Cek user login.
+         */
+
+        const user =
+            auth.currentUser;
+
+
+        if (!user) {
+
+            if (
+                loading
+            ) {
+
+                loading.textContent =
+                    "Anda belum login. Mengarahkan ke halaman login...";
+
+            }
+
+
+            setTimeout(
+                () => {
+
+                    window.location.replace(
+                        "login.html"
+                    );
+
+                },
+                500
+            );
+
+
+            return;
+
+        }
+
+
+
+        /*
+         * Ambil state dari app.js.
+         */
+
+        const state =
+            window.resikState;
+
+
+        /*
+         * Cek role admin.
+         */
+
+        if (
+            state?.role !==
+            "admin"
+        ) {
+
+            console.warn(
+                "AKSES ADMIN DITOLAK. ROLE:",
+                state?.role
+            );
+
+
+            if (
+                loading
+            ) {
+
+                loading.textContent =
+                    "Akses ditolak. Halaman ini hanya untuk Admin.";
+
+            }
+
+
+            setTimeout(
+                () => {
+
+                    window.location.replace(
+                        "dashboard-warga.html"
+                    );
+
+                },
+                800
+            );
+
+
+            return;
+
+        }
+
+
+
+        /*
+         * Admin valid.
+         */
+
+        if (
+            loading
+        ) {
+
+            loading.style.display =
+                "none";
+
+        }
+
+
+
+        console.log(
+            "ADMIN LOGIN:",
+            {
+                uid:
+                    user.uid,
+
+                email:
+                    user.email,
+
+                role:
+                    state.role
+            }
+        );
+
+
+
+        /*
+         * Ambil data Firebase.
+         */
+
+        await loadTransactions();
+
+        await loadProfiles();
+
+
+
+        /*
+         * Update awal.
+         */
+
+        updateAdminDashboard();
+
+
+    } catch (error) {
+
+
+        console.error(
+            "ADMIN INITIALIZATION ERROR:",
+            error
+        );
+
+
+        if (
+            loading
+        ) {
+
+            loading.textContent =
+                "Gagal memuat dashboard admin. " +
+                (
+                    error?.message ||
+                    "Silakan coba lagi."
+                );
+
+        }
+
+    }
+
+}
+
+
+
+/*
+=============================================================
+START
+=============================================================
+*/
+
+initializeAdminDashboard();
+
+</script>
+
+
+</body>
+
+</html>

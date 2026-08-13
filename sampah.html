@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>Kategori Sampah — RESIK Hub</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+  <!-- ================= HEADER ================= -->
+  <header class="app-header">
+
+    <button class="icon-btn" id="menuBtn" type="button">
+      ☰
+    </button>
+
+    <div class="app-brand">
+      RESIK Hub
+    </div>
+
+    <button class="icon-btn" id="notificationBtn" type="button">
+      ♧
+    </button>
+
+  </header>
+
+
+  <!-- ================= MAIN ================= -->
+  <main class="app-main waste-page">
+
+    <div class="waste-page-head">
+
+      <h1 class="page-title">
+        Kategori Sampah
+      </h1>
+
+      <p class="page-subtitle">
+        Pantau harga pasar saat ini dan volume pengumpulan bulanan.
+      </p>
+
+    </div>
+
+
+    <!-- ================= LIVE STATUS ================= -->
+    <div class="live-market">
+
+      <span class="live-dot"></span>
+
+      <span>
+        Harga diperbarui otomatis
+      </span>
+
+      <span id="lastUpdate">
+        Baru saja
+      </span>
+
+    </div>
+
+
+    <!-- ================= WASTE LIST ================= -->
+    <section class="waste-list" id="wasteList"></section>
+
+
+  </main>
+
+
+  <!-- ================= BOTTOM NAV ================= -->
+  <nav class="app-bottom">
+
+    <a
+      class="nav-item"
+      href="dashboard-warga.html"
+    >
+      <span>▦</span>
+      <small>Beranda</small>
+    </a>
+
+
+    <a
+      class="nav-item"
+      href="riwayat-penukaran.html"
+    >
+      <span>▤</span>
+      <small>Riwayat</small>
+    </a>
+
+
+    <a
+      class="nav-item active"
+      href="sampah.html"
+    >
+      <span>♻</span>
+      <small>Sampah</small>
+    </a>
+
+
+    <a
+      class="nav-item"
+      href="profil.html"
+    >
+      <span>◎</span>
+      <small>Profil</small>
+    </a>
+
+  </nav>
+
+</div>
+
+
+<!-- ================= APP JS ================= -->
+<script src="js/app.js"></script>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  /*
+   * ============================================
+   * DATA KATEGORI SAMPAH
+   * ============================================
+   *
+   * Harga dibuat dalam Rupiah/kg agar lebih
+   * relevan untuk RESIK Hub Indonesia.
+   *
+   * Harga akan diperbarui otomatis setiap 30 detik.
+   */
+
+  const wasteData = [
+
+    {
+      id: "plastik",
+      name: "Plastik",
+      icon: "♻",
+      iconClass: "plastic",
+      price: 7000,
+      monthlyVolume: 1240
+    },
+
+    {
+      id: "kertas",
+      name: "Kertas",
+      icon: "▤",
+      iconClass: "paper",
+      price: 3500,
+      monthlyVolume: 3500
+    },
+
+    {
+      id: "logam",
+      name: "Logam",
+      icon: "⚒",
+      iconClass: "metal",
+      price: 12000,
+      monthlyVolume: 850
+    },
+
+    {
+      id: "kaca",
+      name: "Kaca",
+      icon: "▣",
+      iconClass: "glass",
+      price: 2500,
+      monthlyVolume: 620
+    },
+
+    {
+      id: "elektronik",
+      name: "Elektronik",
+      icon: "▥",
+      iconClass: "electronic",
+      price: 15000,
+      monthlyVolume: 280
+    }
+
+  ];
+
+
+  /*
+   * ============================================
+   * FORMAT RUPIAH
+   * ============================================
+   */
+
+  function formatRupiah(value) {
+
+    return new Intl.NumberFormat("id-ID", {
+
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+
+    }).format(value);
+
+  }
+
+
+  /*
+   * ============================================
+   * FORMAT ANGKA
+   * ============================================
+   */
+
+  function formatNumber(value) {
+
+    return new Intl.NumberFormat("id-ID").format(value);
+
+  }
+
+
+  /*
+   * ============================================
+   * HITUNG PERUBAHAN HARGA
+   * ============================================
+   *
+   * Perubahan kecil dibuat supaya tampilan
+   * terasa seperti data pasar yang bergerak.
+   */
+
+  function updateMarketPrices() {
+
+    wasteData.forEach(item => {
+
+      const change =
+        (Math.random() * 0.04) - 0.02;
+
+      item.currentPrice =
+        Math.round(
+          item.price * (1 + change)
+        );
+
+    });
+
+  }
+
+
+  /*
+   * ============================================
+   * AMBIL TOTAL SAMPAH USER
+   * ============================================
+   *
+   * Mencoba mengambil beberapa kemungkinan
+   * property dari resikState supaya kompatibel
+   * dengan app.js yang sudah dibuat.
+   */
+
+  function getUserWaste() {
+
+    if (
+      typeof resikState !== "undefined" &&
+      resikState
+    ) {
+
+      if (
+        typeof resikState.totalWasteKg === "number"
+      ) {
+        return resikState.totalWasteKg;
+      }
+
+      if (
+        typeof resikState.totalWaste === "number"
+      ) {
+        return resikState.totalWaste;
+      }
+
+      if (
+        typeof resikState.wasteKg === "number"
+      ) {
+        return resikState.wasteKg;
+      }
+
+    }
+
+    return 0;
+
+  }
+
+
+  /*
+   * ============================================
+   * RENDER CARD
+   * ============================================
+   */
+
+  function renderWasteCards() {
+
+    const container =
+      document.getElementById("wasteList");
+
+    if (!container) return;
+
+
+    container.innerHTML = wasteData.map(item => {
+
+      const currentPrice =
+        item.currentPrice || item.price;
+
+      const estimatedValue =
+        currentPrice * item.monthlyVolume;
+
+
+      return `
+
+        <article
+          class="waste-card"
+          data-category="${item.id}"
+        >
+
+          <!-- TOP -->
+          <div class="waste-top">
+
+            <div
+              class="waste-icon ${item.iconClass}"
+            >
+              ${item.icon}
+            </div>
+
+            <span class="waste-category">
+              ${item.name}
+            </span>
+
+          </div>
+
+
+          <!-- PRICE -->
+          <div class="price-row">
+
+            <span>
+              Harga Saat Ini
+            </span>
+
+            <strong>
+              ${formatRupiah(currentPrice)}
+              <small>/kg</small>
+            </strong>
+
+          </div>
+
+
+          <!-- METRICS -->
+          <div class="waste-metrics">
+
+            <div>
+
+              <small>
+                VOLUME BULANAN
+              </small>
+
+              <b>
+                ${formatNumber(item.monthlyVolume)} kg
+              </b>
+
+            </div>
+
+
+            <div>
+
+              <small>
+                ESTIMASI NILAI
+              </small>
+
+              <b class="green-text">
+                ${formatRupiah(estimatedValue)}
+              </b>
+
+            </div>
+
+          </div>
+
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  /*
+   * ============================================
+   * LAST UPDATE
+   * ============================================
+   */
+
+  function updateTime() {
+
+    const element =
+      document.getElementById("lastUpdate");
+
+    if (!element) return;
+
+    const now = new Date();
+
+    element.textContent =
+      "Update " +
+      now.toLocaleTimeString(
+        "id-ID",
+        {
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+  }
+
+
+  /*
+   * ============================================
+   * INITIAL LOAD
+   * ============================================
+   */
+
+  updateMarketPrices();
+
+  renderWasteCards();
+
+  updateTime();
+
+
+  /*
+   * ============================================
+   * AUTO UPDATE
+   * ============================================
+   *
+   * Update setiap 30 detik.
+   */
+
+  setInterval(function () {
+
+    updateMarketPrices();
+
+    renderWasteCards();
+
+    updateTime();
+
+  }, 30000);
+
+
+});
+
+</script>
+
+</body>
+</html>

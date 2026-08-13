@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard Warga — RESIK Hub</title>
+
+
+  <!-- =====================================================
+       CSS UTAMA
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="css/style.css">
+
+
+  <!-- =====================================================
+       CSS TAMBAHAN DASHBOARD
+  ====================================================== -->
+
+  <style>
+
+    /* =====================================================
+       GRAFIK MINGGUAN
+    ====================================================== */
+
+    .chart {
+      position: relative;
+    }
+
+
+    .chart i {
+      display: block;
+      min-height: 5%;
+      transition:
+        height 0.35s ease,
+        transform 0.2s ease;
+      cursor: pointer;
+    }
+
+
+    .chart i:hover {
+      transform: scaleY(1.03);
+    }
+
+
+    /*
+      Pastikan label memiliki
+      7 kolom yang sama dengan
+      7 batang grafik.
+    */
+
+    .chart-labels {
+      display: grid;
+
+      grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+
+      width: 100%;
+
+      text-align: center;
+
+      margin-top: 8px;
+
+      gap: 0;
+    }
+
+
+    .chart-labels span {
+      display: block;
+
+      text-align: center;
+
+      font-size: 11px;
+    }
+
+
+    /* =====================================================
+       WAWASAN AI
+    ====================================================== */
+
+    .ai-insight-panel {
+      overflow: hidden;
+    }
+
+
+    .ai-insight-header {
+
+      display: flex;
+
+      align-items: flex-start;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .ai-label {
+
+      display: block;
+
+      color: #087f3e;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      margin-bottom: 5px;
+
+    }
+
+
+    .ai-insight-header h2 {
+
+      margin: 0;
+
+      font-size: 20px;
+
+      color: #10231c;
+
+    }
+
+
+    .ai-status {
+
+      background: #eaf8f1;
+
+      color: #087f3e;
+
+      padding: 7px 11px;
+
+      border-radius: 20px;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      white-space: nowrap;
+
+    }
+
+
+    /* =====================================================
+       SUMMARY
+    ====================================================== */
+
+    #aiInsightSummary {
+
+      color: #617069;
+
+      font-size: 13px;
+
+      line-height: 1.6;
+
+      margin: 0 0 15px;
+
+    }
+
+
+    /* =====================================================
+       INSIGHT BOX
+    ====================================================== */
+
+    .ai-analysis-box {
+
+      background: linear-gradient(
+        135deg,
+        #eefaf4,
+        #f5fbf8
+      );
+
+      border: 1px solid #d8eee2;
+
+      border-radius: 12px;
+
+      padding: 15px;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .ai-analysis-title {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      color: #087f3e;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      margin-bottom: 7px;
+
+    }
+
+
+    .ai-level {
+
+      background: #d8f1e3;
+
+      color: #087f3e;
+
+      border-radius: 20px;
+
+      padding: 5px 9px;
+
+      font-size: 9px;
+
+      white-space: nowrap;
+
+    }
+
+
+    #aiInsightDetail {
+
+      margin: 0;
+
+      color: #53635b;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+
+    }
+
+
+    /* =====================================================
+       REKOMENDASI
+    ====================================================== */
+
+    .ai-recommendation {
+
+      background: #fffaf0;
+
+      border: 1px solid #f0e5c9;
+
+      border-radius: 12px;
+
+      padding: 14px;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .ai-recommendation strong {
+
+      display: block;
+
+      color: #765b17;
+
+      font-size: 11px;
+
+      margin-bottom: 6px;
+
+    }
+
+
+    .ai-recommendation p {
+
+      margin: 0;
+
+      color: #6d6248;
+
+      font-size: 11px;
+
+      line-height: 1.7;
+
+    }
+
+
+    /* =====================================================
+       TARGET MINGGU DEPAN
+    ====================================================== */
+
+    .ai-target {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      background: #f4f7ff;
+
+      border: 1px solid #e0e7f5;
+
+      border-radius: 12px;
+
+      padding: 13px 14px;
+
+    }
+
+
+    .ai-target > div {
+
+      min-width: 0;
+
+    }
+
+
+    .ai-target > div > span {
+
+      display: block;
+
+      color: #697789;
+
+      font-size: 10px;
+
+      margin-bottom: 5px;
+
+    }
+
+
+    .ai-target strong {
+
+      display: block;
+
+      color: #27384d;
+
+      font-size: 12px;
+
+      line-height: 1.4;
+
+    }
+
+
+    .ai-target-value {
+
+      background: #e3f5eb;
+
+      color: #087f3e;
+
+      padding: 7px 10px;
+
+      border-radius: 8px;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      white-space: nowrap;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ====================================================== */
+
+    @media (max-width: 600px) {
+
+      .ai-insight-header h2 {
+        font-size: 17px;
+      }
+
+
+      .ai-target {
+        align-items: flex-start;
+      }
+
+
+      .ai-target strong {
+        font-size: 11px;
+      }
+
+
+      .chart-labels span {
+        font-size: 10px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       APP SHELL
+  ====================================================== -->
+
+  <div class="app-shell">
+
+
+    <!-- ===================================================
+         HEADER
+    ==================================================== -->
+
+    <header class="app-header">
+
+
+      <button
+        class="icon-btn"
+        type="button"
+        aria-label="Menu">
+
+        ☰
+
+      </button>
+
+
+      <div class="app-brand">
+
+        RESIK Hub
+
+      </div>
+
+
+      <button
+        class="icon-btn"
+        type="button"
+        aria-label="Notifikasi">
+
+        ♧
+
+      </button>
+
+
+    </header>
+
+
+    <!-- ===================================================
+         MAIN
+    ==================================================== -->
+
+    <main class="app-main">
+
+
+      <!-- =================================================
+           GREETING
+      ================================================== -->
+
+      <h1 class="page-title">
+
+        Selamat pagi,
+
+        <span id="userName">
+          Warga
+        </span>
+
+        👋
+
+      </h1>
+
+
+      <p class="page-subtitle">
+
+        Berikut adalah dampak daur ulang Anda minggu ini.
+
+      </p>
+
+
+      <!-- =================================================
+           AKSI UTAMA
+      ================================================== -->
+
+      <div class="dashboard-actions">
+
+
+        <button
+          class="quick-btn"
+          type="button"
+          data-nav="transaksi-baru.html">
+
+          ＋ Tambah Sampah
+
+        </button>
+
+
+        <button
+          class="quick-btn primary"
+          type="button"
+          data-nav="transaksi-baru.html">
+
+          ⌗ Pindai QR
+
+        </button>
+
+
+      </div>
+
+
+      <!-- =================================================
+           METRICS
+      ================================================== -->
+
+      <div class="metrics">
+
+
+        <!-- TOTAL SAMPAH -->
+
+        <div class="metric-card">
+
+          <small>
+            ♻ Total Sampah
+          </small>
+
+
+          <strong>
+
+            <span id="totalWaste">
+              0
+            </span>
+
+            <small>
+              kg
+            </small>
+
+          </strong>
+
+
+          <em id="wasteGrowth">
+            0%
+          </em>
+
+        </div>
+
+
+        <!-- CO2 -->
+
+        <div class="metric-card">
+
+          <small>
+            ◯ CO₂ Tereduksi
+          </small>
+
+
+          <strong>
+
+            <span id="totalCo2">
+              0
+            </span>
+
+            <small>
+              kg
+            </small>
+
+          </strong>
+
+
+          <em id="co2Growth">
+            0%
+          </em>
+
+        </div>
+
+
+        <!-- POINTS -->
+
+        <div class="metric-card">
+
+          <small>
+            ◎ Poin Didapat
+          </small>
+
+
+          <strong id="totalPoints">
+
+            0
+
+          </strong>
+
+        </div>
+
+
+        <!-- RANKING -->
+
+        <div class="metric-card">
+
+          <small>
+            ♜ Peringkat Desa
+          </small>
+
+
+          <strong id="ranking">
+
+            -
+
+          </strong>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- =================================================
+           TREN MINGGUAN
+      ================================================== -->
+
+      <section class="panel">
+
+
+        <div class="panel-head">
+
+
+          <h2>
+
+            Tren Mingguan
+
+          </h2>
+
+
+          <span class="tag">
+
+            Minggu Ini⌄
+
+          </span>
+
+
+        </div>
+
+
+        <!-- =================================================
+             GRAFIK
+
+             INDEX:
+             0 = Senin
+             1 = Selasa
+             2 = Rabu
+             3 = Kamis
+             4 = Jumat
+             5 = Sabtu
+             6 = Minggu
+        ================================================== -->
+
+        <div
+          class="chart"
+          id="weeklyChart"
+          aria-label="Grafik tren mingguan">
+
+
+          <i
+            data-day="0"
+            title="Senin">
+          </i>
+
+
+          <i
+            data-day="1"
+            title="Selasa">
+          </i>
+
+
+          <i
+            data-day="2"
+            title="Rabu">
+          </i>
+
+
+          <i
+            data-day="3"
+            title="Kamis">
+          </i>
+
+
+          <i
+            data-day="4"
+            title="Jumat">
+          </i>
+
+
+          <i
+            data-day="5"
+            title="Sabtu">
+          </i>
+
+
+          <i
+            data-day="6"
+            title="Minggu">
+          </i>
+
+
+        </div>
+
+
+        <!-- =================================================
+             LABEL HARI
+
+             HARUS SEJAJAR DENGAN BATANG
+        ================================================== -->
+
+        <div class="chart-labels">
+
+
+          <span data-label-day="0">
+            Sen
+          </span>
+
+
+          <span data-label-day="1">
+            Sel
+          </span>
+
+
+          <span data-label-day="2">
+            Rab
+          </span>
+
+
+          <span data-label-day="3">
+            Kam
+          </span>
+
+
+          <span data-label-day="4">
+            Jum
+          </span>
+
+
+          <span data-label-day="5">
+            Sab
+          </span>
+
+
+          <span data-label-day="6">
+            Min
+          </span>
+
+
+        </div>
+
+
+      </section>
+
+
+      <!-- =================================================
+           WAWASAN AI
+      ================================================== -->
+
+      <section
+        class="panel ai-insight-panel"
+        id="aiInsight">
+
+
+        <!-- HEADER -->
+
+        <div class="ai-insight-header">
+
+
+          <div>
+
+
+            <span class="ai-label">
+
+              ✦ Wawasan AI
+
+            </span>
+
+
+            <h2 id="aiInsightTitle">
+
+              Analisis Aktivitas Anda
+
+            </h2>
+
+
+          </div>
+
+
+          <span class="ai-status">
+
+            Otomatis
+
+          </span>
+
+
+        </div>
+
+
+        <!-- =================================================
+             SUMMARY
+        ================================================== -->
+
+        <p id="aiInsightSummary">
+
+          Minggu ini Anda telah melakukan beberapa
+          aktivitas daur ulang dan memberikan kontribusi
+          positif terhadap lingkungan.
+
+        </p>
+
+
+        <!-- =================================================
+             INSIGHT
+        ================================================== -->
+
+        <div class="ai-analysis-box">
+
+
+          <div class="ai-analysis-title">
+
+
+            <span>
+
+              ✦ Insight Anda
+
+            </span>
+
+
+            <span
+              class="ai-level"
+              id="aiLevel">
+
+              Sangat Aktif
+
+            </span>
+
+
+          </div>
+
+
+          <p id="aiInsightDetail">
+
+            Aktivitas terbaik Anda terjadi pada Rabu.
+            Total kontribusi mencapai sekitar
+            31,2 kg CO₂ yang berhasil dikurangi
+            dengan 125 poin hijau yang diperoleh.
+
+          </p>
+
+
+        </div>
+
+
+        <!-- =================================================
+             REKOMENDASI
+        ================================================== -->
+
+        <div class="ai-recommendation">
+
+
+          <strong>
+
+            💡 Rekomendasi untuk Anda
+
+          </strong>
+
+
+          <p id="aiInsightRecommendation">
+
+            Anda cukup aktif mengumpulkan plastik.
+            Cobalah mulai memisahkan plastik berdasarkan
+            jenisnya agar proses pengolahan menjadi
+            lebih efisien.
+
+          </p>
+
+
+        </div>
+
+
+        <!-- =================================================
+             TARGET MINGGU DEPAN
+        ================================================== -->
+
+        <div class="ai-target">
+
+
+          <div>
+
+
+            <span>
+
+              🎯 Target Minggu Depan
+
+            </span>
+
+
+            <strong id="aiTarget">
+
+              Targetkan sekitar 13,8 kg
+              sampah minggu depan
+
+            </strong>
+
+
+          </div>
+
+
+          <span
+            class="ai-target-value"
+            id="aiTargetValue">
+
+            +10%
+
+          </span>
+
+
+        </div>
+
+
+      </section>
+
+
+      <!-- =================================================
+           AKSI CEPAT
+      ================================================== -->
+
+      <section class="panel">
+
+
+        <div class="panel-head">
+
+
+          <h2>
+
+            Aksi Cepat
+
+          </h2>
+
+
+        </div>
+
+
+        <div class="dashboard-actions">
+
+
+          <button
+            class="quick-btn"
+            type="button"
+            data-nav="riwayat-penukaran.html">
+
+            Riwayat
+
+          </button>
+
+
+          <button
+            class="quick-btn"
+            type="button"
+            data-nav="reward.html">
+
+            Reward
+
+          </button>
+
+
+        </div>
+
+
+      </section>
+
+
+    </main>
+
+
+    <!-- ===================================================
+         BOTTOM NAVIGATION
+    ==================================================== -->
+
+    <nav class="app-bottom">
+
+
+      <a
+        class="nav-item active"
+        href="dashboard-warga.html">
+
+
+        <span>
+          ▦
+        </span>
+
+        Beranda
+
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="riwayat-penukaran.html">
+
+
+        <span>
+          ▤
+        </span>
+
+        Riwayat
+
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="sampah.html">
+
+
+        <span>
+          ♻
+        </span>
+
+        Sampah
+
+
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="profil.html">
+
+
+        <span>
+          ◎
+        </span>
+
+        Profil
+
+
+      </a>
+
+
+    </nav>
+
+
+  </div>
+
+
+  <!-- =====================================================
+       JAVASCRIPT UTAMA
+
+       HANYA js/app.js YANG BOLEH
+       MEMANGGIL initializeApp(firebaseConfig)
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="js/app.js">
+  </script>
+
+
+</body>
+
+</html>
