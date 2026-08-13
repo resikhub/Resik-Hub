@@ -1196,18 +1196,6 @@
           <button
             class="waste active"
             type="button"
-            data-waste="Plastik">
-
-            ♻
-            <br>
-            Plastik
-
-          </button>
-
-
-          <button
-            class="waste"
-            type="button"
             data-waste="Kertas">
 
             ▤
@@ -1220,11 +1208,47 @@
           <button
             class="waste"
             type="button"
-            data-waste="Elektronik">
+            data-waste="Duplek">
 
-            ♧
+            ▤
             <br>
-            Sampah Elektronik
+            Duplek
+
+          </button>
+
+
+          <button
+            class="waste"
+            type="button"
+            data-waste="Plastik">
+
+            ♻
+            <br>
+            Plastik
+
+          </button>
+
+
+          <button
+            class="waste"
+            type="button"
+            data-waste="Campur">
+
+            ◈
+            <br>
+            Campur
+
+          </button>
+
+
+          <button
+            class="waste"
+            type="button"
+            data-waste="Kardus">
+
+            ▤
+            <br>
+            Kardus
 
           </button>
 
@@ -1295,7 +1319,7 @@
           <span>
 
             Tarif Dasar
-            (<span id="wasteName">Plastik</span>)
+            (<span id="wasteName">Kertas</span>)
 
           </span>
 
@@ -1303,7 +1327,7 @@
 
             Rp
             <span id="rate">
-              3.500
+              2.200
             </span>
             /kg
 
@@ -1610,17 +1634,21 @@
 
   const rates = {
 
-    Plastik:3500,
-
     Kertas:2200,
 
-    Elektronik:8000
+    Duplek:2200,
+
+    Plastik:3500,
+
+    Campur:2200,
+
+    Kardus:2200
 
   };
 
 
   let selected =
-    "Plastik";
+    "Kertas";
 
 
   let stream =
