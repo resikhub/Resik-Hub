@@ -3,17 +3,707 @@
 
 <head>
 
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1">
 
-  <title>Peringkat Desa — RESIK Hub</title>
+    <title>Peringkat Desa — RESIK Hub</title>
 
-  <link
-    rel="stylesheet"
-    href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css">
+
+
+    <style>
+
+        /* =====================================================
+           RANKING PAGE
+        ===================================================== */
+
+        .ranking-page {
+
+            max-width: 520px;
+
+            margin: 0 auto;
+
+            padding-bottom: 110px;
+
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .ranking-page-header {
+
+            text-align: center;
+
+            padding: 18px 20px 10px;
+
+        }
+
+
+        .ranking-page-header h1 {
+
+            margin: 0;
+
+            color: #087a4d;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+        }
+
+
+        .ranking-page-header p {
+
+            margin: 5px 0 0;
+
+            color: #7a8b84;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           TAB
+        ===================================================== */
+
+        .rank-tabs {
+
+            display: flex;
+
+            width: calc(100% - 40px);
+
+            max-width: 340px;
+
+            margin: 12px auto 22px;
+
+            padding: 4px;
+
+            background: #e8edff;
+
+            border-radius: 999px;
+
+        }
+
+
+        .rank-tab {
+
+            flex: 1;
+
+            border: none;
+
+            background: transparent;
+
+            color: #52617a;
+
+            padding: 9px 12px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+
+        }
+
+
+        .rank-tab.active {
+
+            background: #087a4d;
+
+            color: white;
+
+            box-shadow:
+                0 4px 10px
+                rgba(8, 122, 77, 0.20);
+
+        }
+
+
+        /* =====================================================
+           PODIUM
+        ===================================================== */
+
+        .podium {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1.15fr
+                1fr;
+
+            align-items: end;
+
+            gap: 8px;
+
+            padding: 0 18px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .podium-person {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            text-align: center;
+
+            min-width: 0;
+
+        }
+
+
+        .podium-person.first {
+
+            padding-top: 0;
+
+        }
+
+
+        .podium-person.second,
+
+        .podium-person.third {
+
+            padding-top: 28px;
+
+        }
+
+
+        /* =====================================================
+           AVATAR TANPA FOTO
+        ===================================================== */
+
+        .podium-avatar-wrap {
+
+            position: relative;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .rank-avatar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            font-weight: 800;
+
+            color: #087a4d;
+
+            background: #dff5e9;
+
+            border: 3px solid #ffffff;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.10);
+
+        }
+
+
+        .rank-avatar.large {
+
+            width: 76px;
+
+            height: 76px;
+
+            font-size: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #d8f5e5,
+                    #bde9d1
+                );
+
+            border:
+                4px solid #087a4d;
+
+        }
+
+
+        .rank-avatar.medium {
+
+            width: 58px;
+
+            height: 58px;
+
+            font-size: 19px;
+
+        }
+
+
+        .rank-avatar.small {
+
+            width: 42px;
+
+            height: 42px;
+
+            min-width: 42px;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =====================================================
+           NOMOR PODIUM
+        ===================================================== */
+
+        .podium-number {
+
+            position: absolute;
+
+            right: -3px;
+
+            bottom: -5px;
+
+            width: 24px;
+
+            height: 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #dce3f8;
+
+            color: #52617a;
+
+            border: 2px solid white;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+        }
+
+
+        .winner-number {
+
+            background: #087a4d;
+
+            color: white;
+
+            width: 27px;
+
+            height: 27px;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =====================================================
+           NAMA PODIUM
+        ===================================================== */
+
+        .podium-person strong {
+
+            display: block;
+
+            max-width: 110px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+            color: #153b2f;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+        }
+
+
+        .podium-person.first strong {
+
+            font-size: 16px;
+
+        }
+
+
+        .podium-score {
+
+            margin-top: 3px;
+
+            color: #087a4d;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        .podium-score span {
+
+            color: #087a4d;
+
+        }
+
+
+        /* =====================================================
+           WINNER BOX
+        ===================================================== */
+
+        .winner-box {
+
+            width: 100%;
+
+            max-width: 96px;
+
+            height: 66px;
+
+            margin-top: 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #dce9f2,
+                    #c9eedf
+                );
+
+            border-radius:
+                8px 8px 0 0;
+
+            color: #6bb08e;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+        }
+
+
+        .podium-person.second .winner-box,
+
+        .podium-person.third .winner-box {
+
+            height: 52px;
+
+            background: #eef0fb;
+
+            color: #b1b9d0;
+
+        }
+
+
+        /* =====================================================
+           RANKING LIST PANEL
+        ===================================================== */
+
+        .ranking-list-panel {
+
+            margin: 0 16px;
+
+            padding: 10px 12px 14px;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            border:
+                1px solid
+                #e5ece8;
+
+            box-shadow:
+                0 8px 24px
+                rgba(20, 70, 50, 0.06);
+
+        }
+
+
+        /* =====================================================
+           RANK ROW
+        ===================================================== */
+
+        .rank-row {
+
+            display: grid;
+
+            grid-template-columns:
+                30px
+                1fr
+                auto;
+
+            align-items: center;
+
+            gap: 10px;
+
+            min-height: 58px;
+
+            padding: 7px 8px;
+
+            border-bottom:
+                1px solid
+                #edf1ef;
+
+            border-radius: 10px;
+
+        }
+
+
+        .rank-row:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .rank-row.current {
+
+            background: #e7f8ef;
+
+            border:
+                1px solid
+                #c6ead8;
+
+        }
+
+
+        .rank-position {
+
+            color: #66746e;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            text-align: center;
+
+        }
+
+
+        .rank-user {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            min-width: 0;
+
+        }
+
+
+        .rank-user-info {
+
+            min-width: 0;
+
+        }
+
+
+        .rank-user-info strong {
+
+            display: block;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+            color: #173d30;
+
+            font-size: 14px;
+
+            font-weight: 750;
+
+        }
+
+
+        .rank-user-info small {
+
+            display: block;
+
+            margin-top: 2px;
+
+            color: #7d8984;
+
+            font-size: 10px;
+
+        }
+
+
+        .rank-score {
+
+            color: #087a4d;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+
+        }
+
+
+        .rank-score span {
+
+            font-size: 10px;
+
+            margin-left: 2px;
+
+        }
+
+
+        /* =====================================================
+           CURRENT BADGE
+        ===================================================== */
+
+        .current-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            margin-left: 5px;
+
+            padding: 2px 6px;
+
+            border-radius: 999px;
+
+            background: #ccefdc;
+
+            color: #087a4d;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            vertical-align: middle;
+
+        }
+
+
+        /* =====================================================
+           LIHAT SEMUA
+        ===================================================== */
+
+        .see-all-btn {
+
+            display: block;
+
+            width: 100%;
+
+            margin-top: 8px;
+
+            padding: 10px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #087a4d;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+        }
+
+
+        .see-all-btn:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .ranking-empty {
+
+            padding: 30px 15px;
+
+            text-align: center;
+
+            color: #7a8781;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 480px) {
+
+            .ranking-page {
+
+                width: 100%;
+
+            }
+
+
+            .podium {
+
+                padding: 0 12px;
+
+            }
+
+
+            .ranking-list-panel {
+
+                margin:
+                    0 12px;
+
+            }
+
+        }
+
+
+    </style>
 
 </head>
 
@@ -24,1624 +714,947 @@
 <div class="app-shell">
 
 
-  <!-- =====================================================
-       HEADER
-       ===================================================== -->
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
 
-  <header class="app-header">
+    <header class="app-header">
 
-    <button
-      class="icon-btn"
-      id="menuBtn"
-      aria-label="Menu">
+        <button
+            class="icon-btn"
+            id="menuBtn"
+            type="button"
+            aria-label="Menu">
 
-      ☰
+            ☰
 
-    </button>
+        </button>
 
 
-    <div class="app-brand">
+        <div class="app-brand">
 
-      Peringkat Desa
+            Peringkat Desa
 
-    </div>
+        </div>
 
 
-    <button
-      class="icon-btn"
-      id="notifBtn"
-      aria-label="Notifikasi">
+        <button
+            class="icon-btn"
+            id="notifBtn"
+            type="button"
+            aria-label="Notifikasi">
 
-      ♧
+            ♧
 
-    </button>
+        </button>
 
-  </header>
+    </header>
 
 
 
-  <!-- =====================================================
-       MAIN
-       ===================================================== -->
 
-  <main class="app-main ranking-page">
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
 
+    <main class="app-main ranking-page">
 
-    <!-- ===================================================
-         TAB PERIODE
-         =================================================== -->
 
-    <div class="rank-tabs">
+        <!-- =================================================
+             JUDUL
+        ================================================== -->
 
-      <button
-        class="rank-tab active"
-        data-period="month">
+        <section class="ranking-page-header">
 
-        Bulan Ini
+            <h1>
 
-      </button>
+                Peringkat Desa
 
+            </h1>
 
-      <button
-        class="rank-tab"
-        data-period="all">
+            <p>
 
-        Sepanjang Waktu
+                Kontribusi hijau warga Desa
 
-      </button>
+            </p>
 
-    </div>
+        </section>
 
 
 
-    <!-- ===================================================
-         PODIUM
-         =================================================== -->
 
-    <section
-      class="podium"
-      id="podium">
+        <!-- =================================================
+             TAB
+        ================================================== -->
 
-      <!--
-        Podium dibuat otomatis oleh JavaScript
-      -->
+        <div class="rank-tabs">
 
-    </section>
+            <button
+                class="rank-tab active"
+                data-period="month"
+                type="button">
 
+                Bulan Ini
 
+            </button>
 
-    <!-- ===================================================
-         DAFTAR PERINGKAT
-         =================================================== -->
 
-    <section class="panel ranking-list-panel">
+            <button
+                class="rank-tab"
+                data-period="all"
+                type="button">
 
+                Sepanjang Waktu
 
-      <div id="rankingList">
+            </button>
 
-        <!--
-          Daftar ranking dibuat otomatis oleh JavaScript
-        -->
+        </div>
 
-      </div>
 
 
-      <button
-        class="see-all-btn"
-        id="seeAllBtn">
 
-        Lihat Semua
+        <!-- =================================================
+             PODIUM
+        ================================================== -->
 
-      </button>
+        <section
+            class="podium"
+            id="podium">
 
+        </section>
 
-    </section>
 
 
-  </main>
 
+        <!-- =================================================
+             RANKING LIST
+        ================================================== -->
 
+        <section class="ranking-list-panel">
 
-  <!-- =====================================================
-       BOTTOM NAVIGATION
-       ===================================================== -->
 
-  <nav class="app-bottom">
+            <div id="rankingList">
 
+            </div>
 
-    <a
-      class="nav-item"
-      href="dashboard-warga.html">
 
-      <span>▦</span>
+            <button
+                class="see-all-btn"
+                id="seeAllBtn"
+                type="button">
 
-      Beranda
+                Lihat Semua
 
-    </a>
+            </button>
 
 
+        </section>
 
-    <a
-      class="nav-item"
-      href="riwayat-penukaran.html">
 
-      <span>▤</span>
+    </main>
 
-      Riwayat
 
-    </a>
 
 
+    <!-- =====================================================
+         BOTTOM NAVIGATION
+    ===================================================== -->
 
-    <a
-      class="nav-item"
-      href="sampah.html">
+    <nav class="app-bottom">
 
-      <span>♻</span>
 
-      Sampah
+        <a
+            class="nav-item"
+            href="dashboard-warga.html">
 
-    </a>
+            <span>
 
+                ▦
 
+            </span>
 
-    <a
-      class="nav-item active"
-      href="profil.html">
+            <label>
 
-      <span>◎</span>
+                Beranda
 
-      Profil
+            </label>
 
-    </a>
+        </a>
 
 
-  </nav>
+
+
+        <a
+            class="nav-item"
+            href="riwayat-penukaran.html">
+
+            <span>
+
+                ▤
+
+            </span>
+
+            <label>
+
+                Riwayat
+
+            </label>
+
+        </a>
+
+
+
+
+        <a
+            class="nav-item"
+            href="sampah.html">
+
+            <span>
+
+                ♻
+
+            </span>
+
+            <label>
+
+                Sampah
+
+            </label>
+
+        </a>
+
+
+
+
+        <a
+            class="nav-item active"
+            href="profil.html">
+
+            <span>
+
+                ◎
+
+            </span>
+
+            <label>
+
+                Profil
+
+            </label>
+
+        </a>
+
+
+    </nav>
 
 
 </div>
 
 
 
+
 <!-- =====================================================
-     APP JS
-     ===================================================== -->
-
-<script src="js/app.js"></script>
-
-
+     JAVASCRIPT
+====================================================== -->
 
 <script>
 
-/* =========================================================
-   RESIK HUB
-   PERINGKAT DESA
-   ========================================================= */
 
-
-/* ---------------------------------------------------------
-   DATA PERINGKAT DESA
-   ---------------------------------------------------------
-
-   Data dibuat langsung di halaman agar ranking
-   menggunakan data yang sudah ditentukan.
-
-   Urutan akan tetap dihitung otomatis berdasarkan score.
-   --------------------------------------------------------- */
+/* =====================================================
+   DATA RANKING
+===================================================== */
 
 const rankingUsers = [
 
-  {
-    id: "hartatik",
-    name: "Hartatik",
-    score: 313,
-    greenScore: 313,
-    village: "Dusun Mojoroto",
-    gender: "female",
-    avatar: ""
-  },
+    {
+        id: "hartatik",
+        name: "Hartatik",
+        score: 313,
+        village: "Dusun Mojoroto",
+        initials: "H"
+    },
 
-  {
-    id: "saroh",
-    name: "Saroh",
-    score: 308,
-    greenScore: 308,
-    village: "Dusun Mojoroto",
-    gender: "female",
-    avatar: ""
-  },
+    {
+        id: "saroh",
+        name: "Saroh",
+        score: 308,
+        village: "Dusun Mojoroto",
+        initials: "S"
+    },
 
-  {
-    id: "tini",
-    name: "Tini",
-    score: 254,
-    greenScore: 254,
-    village: "Dusun Mojoroto",
-    gender: "female",
-    avatar: ""
-  },
+    {
+        id: "tini",
+        name: "Tini",
+        score: 254,
+        village: "Dusun Mojoroto",
+        initials: "T"
+    },
 
-  {
-    id: "pini",
-    name: "Pini",
-    score: 195,
-    greenScore: 195,
-    village: "Dusun Mojoroto",
-    gender: "female",
-    avatar: ""
-  },
+    {
+        id: "pini",
+        name: "Pini",
+        score: 195,
+        village: "Dusun Mojoroto",
+        initials: "P"
+    },
 
-  {
-    id: "iin",
-    name: "Iin",
-    score: 187,
-    greenScore: 187,
-    village: "Dusun Mojoroto",
-    gender: "female",
-    avatar: ""
-  },
+    {
+        id: "iin",
+        name: "Iin",
+        score: 187,
+        village: "Dusun Mojoroto",
+        initials: "I"
+    },
 
-  {
-    id: "ana",
-    name: "Ana",
-    score: 182,
-    greenScore: 182,
-    village: "Dusun Mojoroto",
-    gender: "female",
-    avatar: ""
-  },
+    {
+        id: "ana",
+        name: "Ana",
+        score: 182,
+        village: "Dusun Mojoroto",
+        initials: "A"
+    },
 
-  {
-    id: "wiwik",
-    name: "Wiwik",
-    score: 95,
-    greenScore: 95,
-    village: "Dusun Mojoroto",
-    gender: "female",
-    avatar: ""
-  }
+    {
+        id: "wiwik",
+        name: "Wiwik",
+        score: 95,
+        village: "Dusun Mojoroto",
+        initials: "W"
+    }
 
 ];
 
 
 
-/* ---------------------------------------------------------
-   CURRENT USER
-   --------------------------------------------------------- */
 
-function getCurrentUser() {
-
-  try {
-
-    if (
-      typeof getCurrentUserFromStorage === "function"
-    ) {
-
-      const user =
-        getCurrentUserFromStorage();
-
-      if (user) {
-
-        return user;
-
-      }
-
-    }
-
-  } catch (error) {
-
-    console.warn(
-      "Tidak dapat mengambil current user."
-    );
-
-  }
-
-
-  /*
-    Cek beberapa kemungkinan key
-    dari localStorage.
-  */
-
-  const keys = [
-
-    "resik_current_user",
-
-    "currentUser",
-
-    "current_user",
-
-    "loggedUser",
-
-    "user"
-
-  ];
-
-
-  for (const key of keys) {
-
-    const value =
-      localStorage.getItem(key);
-
-
-    if (!value) {
-
-      continue;
-
-    }
-
-
-    try {
-
-      return JSON.parse(value);
-
-    } catch (error) {
-
-      console.warn(
-        "Data current user tidak valid:",
-        key
-      );
-
-    }
-
-  }
-
-
-  return null;
-
-}
-
-
-
-/* ---------------------------------------------------------
-   NORMALISASI USER
-   --------------------------------------------------------- */
-
-function normalizeUser(user) {
-
-  if (!user) {
-
-    return null;
-
-  }
-
-
-  const name =
-
-    user.name ||
-
-    user.nama ||
-
-    user.fullName ||
-
-    user.full_name ||
-
-    user.username ||
-
-    "Pengguna";
-
-
-  const score =
-
-    Number(
-
-      user.score ??
-
-      user.greenScore ??
-
-      user.green_score ??
-
-      user.greenPoints ??
-
-      user.green_points ??
-
-      user.points ??
-
-      user.point ??
-
-      0
-
-    );
-
-
-  const village =
-
-    user.village ||
-
-    user.villageName ||
-
-    user.desa ||
-
-    "Dusun Mojoroto";
-
-
-  const avatar =
-
-    user.avatar ||
-
-    user.photo ||
-
-    user.photoURL ||
-
-    user.profilePhoto ||
-
-    user.image ||
-
-    "";
-
-
-  const id =
-
-    user.id ||
-
-    user.userId ||
-
-    user.user_id ||
-
-    user.email ||
-
-    user.username ||
-
-    name;
-
-
-  return {
-
-    ...user,
-
-    id: id,
-
-    name: name,
-
-    score: Number.isFinite(score)
-
-      ? score
-
-      : 0,
-
-    village: village,
-
-    avatar: avatar
-
-  };
-
-}
-
-
-
-/* ---------------------------------------------------------
-   AMBIL DATA RANKING
-   --------------------------------------------------------- */
-
-function getRankingData() {
-
-
-  /*
-    Gunakan data ranking yang sudah ditentukan.
-  */
-
-  const users = rankingUsers
-
-    .map(normalizeUser)
-
-    .filter(Boolean);
-
-
-  /*
-    Urutkan dari score terbesar
-    ke score terkecil.
-  */
-
-  users.sort(
-
-    (a, b) =>
-
-      b.score - a.score
-
-  );
-
-
-  /*
-    Tambahkan nomor ranking.
-  */
-
-  return users.map(
-
-    (user, index) => ({
-
-      ...user,
-
-      rank: index + 1
-
-    })
-
-  );
-
-}
-
-
-
-/* ---------------------------------------------------------
-   AVATAR HTML
-   --------------------------------------------------------- */
-
-function avatarHTML(
-  user,
-  size = "normal"
-) {
-
-
-  /*
-    Jika user mempunyai foto,
-    gunakan foto tersebut.
-  */
-
-  if (user.avatar) {
-
-    return `
-
-      <img
-
-        class="rank-avatar ${size}"
-
-        src="${escapeHTML(user.avatar)}"
-
-        alt="${escapeHTML(user.name)}"
-
-        onerror="
-          this.style.display='none';
-          this.nextElementSibling.style.display='flex';
-        "
-
-      >
-
-
-      <div
-
-        class="rank-avatar-fallback ${size}"
-
-        style="display:none"
-
-      >
-
-        ${getAvatarEmoji(user)}
-
-      </div>
-
-    `;
-
-  }
-
-
-  /*
-    Jika tidak ada foto,
-    gunakan avatar emoji.
-  */
-
-  return `
-
-    <div
-      class="rank-avatar-fallback ${size}">
-
-      ${getAvatarEmoji(user)}
-
-    </div>
-
-  `;
-
-}
-
-
-
-/* ---------------------------------------------------------
-   AVATAR EMOJI
-   --------------------------------------------------------- */
-
-function getAvatarEmoji(user) {
-
-
-  const gender =
-
-    String(
-
-      user.gender ||
-
-      user.jenisKelamin ||
-
-      ""
-
-    ).toLowerCase();
-
-
-  if (
-
-    gender === "female" ||
-
-    gender === "perempuan" ||
-
-    gender === "wanita"
-
-  ) {
-
-    return "👩";
-
-  }
-
-
-  if (
-
-    gender === "male" ||
-
-    gender === "laki-laki" ||
-
-    gender === "pria"
-
-  ) {
-
-    return "👨";
-
-  }
-
-
-  return "👤";
-
-}
-
-
-
-/* ---------------------------------------------------------
+/* =====================================================
    ESCAPE HTML
-   --------------------------------------------------------- */
+===================================================== */
 
 function escapeHTML(value) {
 
-  return String(value)
+    return String(value)
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+        .replace(/&/g, "&amp;")
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+        .replace(/</g, "&lt;")
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
+        .replace(/>/g, "&gt;")
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
+        .replace(/"/g, "&quot;")
 
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+        .replace(/'/g, "&#039;");
 
 }
 
 
 
-/* ---------------------------------------------------------
-   FORMAT ANGKA
-   --------------------------------------------------------- */
+
+/* =====================================================
+   FORMAT SCORE
+===================================================== */
 
 function formatScore(score) {
 
-  return Number(score || 0)
-
-    .toLocaleString("id-ID");
+    return Number(score || 0)
+        .toLocaleString("id-ID");
 
 }
 
 
 
-/* ---------------------------------------------------------
+
+/* =====================================================
+   AVATAR TANPA FOTO
+===================================================== */
+
+function avatarHTML(user, size) {
+
+    return `
+
+        <div
+            class="rank-avatar ${size}"
+            aria-label="Avatar ${escapeHTML(
+                user.name
+            )}">
+
+            ${escapeHTML(
+                user.initials ||
+                user.name.charAt(0)
+            )}
+
+        </div>
+
+    `;
+
+}
+
+
+
+
+/* =====================================================
+   GET RANKING
+===================================================== */
+
+function getRankingData() {
+
+    return rankingUsers
+
+        .slice()
+
+        .sort(
+            (a, b) =>
+                b.score - a.score
+        )
+
+        .map(
+            (user, index) => ({
+
+                ...user,
+
+                rank:
+                    index + 1
+
+            })
+        );
+
+}
+
+
+
+
+/* =====================================================
    RENDER PODIUM
-   --------------------------------------------------------- */
+===================================================== */
 
 function renderPodium(ranking) {
 
-
-  const podium =
-
-    document.getElementById(
-      "podium"
-    );
-
-
-  if (!podium) {
-
-    return;
-
-  }
-
-
-  const first =
-
-    ranking[0] || null;
-
-
-  const second =
-
-    ranking[1] || null;
-
-
-  const third =
-
-    ranking[2] || null;
-
-
-
-  if (!first) {
-
-    podium.innerHTML = `
-
-      <div class="ranking-empty">
-
-        Belum ada data peringkat.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-
-  /*
-    Susunan podium:
-
-    Kiri   = Peringkat 2
-    Tengah = Peringkat 1
-    Kanan  = Peringkat 3
-  */
-
-
-  podium.innerHTML = `
-
-
-    <!-- =================================================
-         PERINGKAT 2
-         ================================================= -->
-
-    <div class="podium-person second">
-
-
-      <div class="podium-avatar-wrap">
-
-
-        ${
-          second
-
-            ? avatarHTML(
-                second,
-                "medium"
-              )
-
-            : `
-              <div
-                class="rank-avatar-fallback medium">
-
-                👤
-
-              </div>
-            `
-        }
-
-
-        <span class="podium-number">
-
-          2
-
-        </span>
-
-
-      </div>
-
-
-      <strong>
-
-        ${
-          second
-
-            ? escapeHTML(
-                second.name
-              )
-
-            : "-"
-        }
-
-      </strong>
-
-
-      <span class="podium-score">
-
-        ●
-
-        ${
-          second
-
-            ? formatScore(
-                second.score
-              )
-
-            : "0"
-        }
-
-      </span>
-
-
-    </div>
-
-
-
-    <!-- =================================================
-         PERINGKAT 1
-         ================================================= -->
-
-    <div class="podium-person first">
-
-
-      <div class="podium-avatar-wrap">
-
-
-        ${
-
-          avatarHTML(
-            first,
-            "large"
-          )
-
-        }
-
-
-        <span
-          class="podium-number winner-number">
-
-          1
-
-        </span>
-
-
-      </div>
-
-
-      <strong>
-
-        ${
-
-          escapeHTML(
-            first.name
-          )
-
-        }
-
-      </strong>
-
-
-      <span class="podium-score">
-
-        ●
-
-        ${
-
-          formatScore(
-            first.score
-          )
-
-        }
-
-      </span>
-
-
-      <div class="winner-label">
-
-        WINNER
-
-      </div>
-
-
-    </div>
-
-
-
-    <!-- =================================================
-         PERINGKAT 3
-         ================================================= -->
-
-    <div class="podium-person third">
-
-
-      <div class="podium-avatar-wrap">
-
-
-        ${
-          third
-
-            ? avatarHTML(
-                third,
-                "medium"
-              )
-
-            : `
-              <div
-                class="rank-avatar-fallback medium">
-
-                👤
-
-              </div>
-            `
-        }
-
-
-        <span class="podium-number">
-
-          3
-
-        </span>
-
-
-      </div>
-
-
-      <strong>
-
-        ${
-          third
-
-            ? escapeHTML(
-                third.name
-              )
-
-            : "-"
-        }
-
-      </strong>
-
-
-      <span class="podium-score">
-
-        ●
-
-        ${
-          third
-
-            ? formatScore(
-                third.score
-              )
-
-            : "0"
-        }
-
-      </span>
-
-
-    </div>
-
-  `;
-
-}
-
-
-
-/* ---------------------------------------------------------
-   RENDER DAFTAR RANKING
-   --------------------------------------------------------- */
-
-function renderRankingList(ranking) {
-
-
-  const container =
-
-    document.getElementById(
-      "rankingList"
-    );
-
-
-  if (!container) {
-
-    return;
-
-  }
-
-
-  /*
-    Ambil ranking 4 sampai 7.
-  */
-
-  const displayList =
-
-    ranking.slice(3, 7);
-
-
-
-  if (
-    displayList.length === 0
-  ) {
-
-    container.innerHTML = `
-
-      <div class="ranking-empty">
-
-        Belum ada pengguna lain.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-
-  container.innerHTML =
-
-    displayList
-
-      .map(user => {
-
-
-        /*
-          Karena data ranking dibuat
-          sebagai data desa tetap,
-          tidak ada label "Anda"
-          yang dipaksakan.
-        */
-
-
-        return `
-
-          <div
-
-            class="rank-row"
-
-            data-user-id="${escapeHTML(
-              user.id
-            )}"
-
-          >
-
-
-            <!-- NOMOR RANKING -->
-
-            <div class="rank-position">
-
-              ${user.rank}
-
-            </div>
-
-
-
-            <!-- USER -->
-
-            <div class="rank-user">
-
-
-              ${
-
-                avatarHTML(
-                  user,
-                  "small"
-                )
-
-              }
-
-
-              <div class="rank-user-info">
-
-
-                <strong>
-
-                  ${
-
-                    escapeHTML(
-                      user.name
-                    )
-
-                  }
-
-                </strong>
-
-
-              </div>
-
-
-            </div>
-
-
-
-            <!-- SCORE -->
-
-            <div class="rank-score">
-
-              ${
-
-                formatScore(
-                  user.score
-                )
-
-              }
-
-
-              <span>
-
-                ●
-
-              </span>
-
-            </div>
-
-
-          </div>
-
-        `;
-
-      })
-
-      .join("");
-
-}
-
-
-
-/* ---------------------------------------------------------
-   RENDER SEMUA RANKING
-   --------------------------------------------------------- */
-
-function renderRanking() {
-
-
-  const ranking =
-
-    getRankingData();
-
-
-  renderPodium(
-    ranking
-  );
-
-
-  renderRankingList(
-    ranking
-  );
-
-}
-
-
-
-/* ---------------------------------------------------------
-   TAB BULAN INI / SEPANJANG WAKTU
-   --------------------------------------------------------- */
-
-document
-
-  .querySelectorAll(
-    ".rank-tab"
-  )
-
-  .forEach(button => {
-
-
-    button.addEventListener(
-      "click",
-      function () {
-
-
-        /*
-          Hapus active dari semua tab.
-        */
-
-        document
-
-          .querySelectorAll(
-            ".rank-tab"
-          )
-
-          .forEach(item => {
-
-            item.classList.remove(
-              "active"
-            );
-
-          });
-
-
-
-        /*
-          Aktifkan tab yang dipilih.
-        */
-
-        this.classList.add(
-          "active"
-        );
-
-
-
-        /*
-          Saat ini kedua tab menggunakan
-          data ranking yang sama.
-
-          Kalau nanti ingin membuat
-          data bulanan dan sepanjang waktu
-          berbeda, bagian ini bisa
-          dikembangkan.
-        */
-
-        renderRanking();
-
-      }
-    );
-
-  });
-
-
-
-/* ---------------------------------------------------------
-   TOMBOL LIHAT SEMUA
-   --------------------------------------------------------- */
-
-const seeAllBtn =
-
-  document.getElementById(
-    "seeAllBtn"
-  );
-
-
-if (seeAllBtn) {
-
-
-  seeAllBtn.addEventListener(
-    "click",
-    function () {
-
-
-      const ranking =
-
-        getRankingData();
-
-
-      const container =
-
+    const podium =
         document.getElementById(
-          "rankingList"
+            "podium"
         );
 
 
-      if (!container) {
+    if (!podium) {
 
         return;
 
-      }
+    }
 
 
-      /*
-        Tampilkan seluruh ranking
-        ketika tombol Lihat Semua
-        ditekan.
-      */
-
-      container.innerHTML =
-
-        ranking
-
-          .map(user => `
-
-            <div
-
-              class="rank-row"
-
-              data-user-id="${escapeHTML(
-                user.id
-              )}"
-
-            >
+    const first =
+        ranking[0];
 
 
-              <div class="rank-position">
-
-                ${user.rank}
-
-              </div>
+    const second =
+        ranking[1];
 
 
-              <div class="rank-user">
+    const third =
+        ranking[2];
 
 
-                ${
+    if (!first) {
 
-                  avatarHTML(
-                    user,
-                    "small"
-                  )
+        podium.innerHTML = `
 
-                }
+            <div class="ranking-empty">
 
-
-                <div class="rank-user-info">
-
-                  <strong>
-
-                    ${
-
-                      escapeHTML(
-                        user.name
-                      )
-
-                    }
-
-                  </strong>
-
-                </div>
-
-
-              </div>
-
-
-              <div class="rank-score">
-
-                ${
-
-                  formatScore(
-                    user.score
-                  )
-
-                }
-
-                <span>
-
-                  ●
-
-                </span>
-
-              </div>
-
+                Belum ada data peringkat.
 
             </div>
 
-          `)
+        `;
 
-          .join("");
-
-
-      /*
-        Ubah teks tombol supaya
-        pengguna tahu daftar sudah
-        ditampilkan seluruhnya.
-      */
-
-      this.textContent =
-        "Tampilkan Lebih Sedikit";
-
-
-      /*
-        Jika diklik lagi,
-        kembali ke ranking 4-7.
-      */
-
-      this.onclick = function () {
-
-
-        renderRanking();
-
-
-        this.textContent =
-          "Lihat Semua";
-
-
-        /*
-          Pasang kembali handler.
-        */
-
-        this.onclick =
-          showAllRanking;
-
-      };
+        return;
 
     }
 
-  );
 
-}
-
+    podium.innerHTML = `
 
 
-/* ---------------------------------------------------------
-   FUNGSI LIHAT SEMUA
-   --------------------------------------------------------- */
+        <!-- =================================================
+             PERINGKAT 2
+        ================================================== -->
 
-function showAllRanking() {
-
-
-  const ranking =
-
-    getRankingData();
+        <div class="podium-person second">
 
 
-  const container =
+            <div class="podium-avatar-wrap">
 
-    document.getElementById(
-      "rankingList"
-    );
-
-
-  if (!container) {
-
-    return;
-
-  }
+                ${avatarHTML(
+                    second,
+                    "medium"
+                )}
 
 
-  container.innerHTML =
+                <span class="podium-number">
 
-    ranking
+                    2
 
-      .map(user => `
-
-        <div
-
-          class="rank-row"
-
-          data-user-id="${escapeHTML(
-            user.id
-          )}"
-
-        >
-
-
-          <div class="rank-position">
-
-            ${user.rank}
-
-          </div>
-
-
-          <div class="rank-user">
-
-
-            ${
-
-              avatarHTML(
-                user,
-                "small"
-              )
-
-            }
-
-
-            <div class="rank-user-info">
-
-              <strong>
-
-                ${
-
-                  escapeHTML(
-                    user.name
-                  )
-
-                }
-
-              </strong>
+                </span>
 
             </div>
 
 
-          </div>
+            <strong>
+
+                ${escapeHTML(
+                    second.name
+                )}
+
+            </strong>
 
 
-          <div class="rank-score">
+            <span class="podium-score">
 
-            ${
+                ●
 
-              formatScore(
-                user.score
-              )
-
-            }
-
-
-            <span>
-
-              ●
+                ${formatScore(
+                    second.score
+                )}
 
             </span>
 
-          </div>
+
+            <div class="winner-box">
+
+                ♧
+
+            </div>
 
 
         </div>
 
-      `)
-
-      .join("");
 
 
-  const button =
 
-    document.getElementById(
-      "seeAllBtn"
-    );
+        <!-- =================================================
+             PERINGKAT 1
+        ================================================== -->
 
-
-  if (button) {
-
-    button.textContent =
-      "Tampilkan Lebih Sedikit";
+        <div class="podium-person first">
 
 
-    button.onclick =
-      function () {
+            <div class="podium-avatar-wrap">
 
-        renderRanking();
+                ${avatarHTML(
+                    first,
+                    "large"
+                )}
 
-        this.textContent =
-          "Lihat Semua";
 
-        this.onclick =
-          showAllRanking;
+                <span
+                    class="
+                        podium-number
+                        winner-number
+                    ">
 
-      };
+                    1
 
-  }
+                </span>
+
+            </div>
+
+
+            <strong>
+
+                ${escapeHTML(
+                    first.name
+                )}
+
+            </strong>
+
+
+            <span class="podium-score">
+
+                ●
+
+                ${formatScore(
+                    first.score
+                )}
+
+            </span>
+
+
+            <div class="winner-box">
+
+                WINNER
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- =================================================
+             PERINGKAT 3
+        ================================================== -->
+
+        <div class="podium-person third">
+
+
+            <div class="podium-avatar-wrap">
+
+                ${avatarHTML(
+                    third,
+                    "medium"
+                )}
+
+
+                <span class="podium-number">
+
+                    3
+
+                </span>
+
+            </div>
+
+
+            <strong>
+
+                ${escapeHTML(
+                    third.name
+                )}
+
+            </strong>
+
+
+            <span class="podium-score">
+
+                ●
+
+                ${formatScore(
+                    third.score
+                )}
+
+            </span>
+
+
+            <div class="winner-box">
+
+                ♧
+
+            </div>
+
+
+        </div>
+
+    `;
 
 }
 
 
 
-/* ---------------------------------------------------------
-   REAL-TIME UPDATE
-   --------------------------------------------------------- */
+
+/* =====================================================
+   RENDER LIST
+===================================================== */
+
+function renderRankingList(
+    ranking,
+    showAll = false
+) {
+
+    const container =
+        document.getElementById(
+            "rankingList"
+        );
 
 
-/*
-  Karena data ranking berada
-  langsung di dalam JavaScript,
-  halaman tidak perlu mengambil
-  data ranking dari localStorage.
-*/
+    if (!container) {
 
-
-/*
-  Tetap render ulang ketika
-  halaman kembali aktif.
-*/
-
-document.addEventListener(
-  "visibilitychange",
-  function () {
-
-    if (
-      document.visibilityState ===
-      "visible"
-    ) {
-
-      renderRanking();
+        return;
 
     }
 
-  }
-);
+
+    const users = showAll
+
+        ? ranking
+
+        : ranking.slice(3, 7);
+
+
+    if (!users.length) {
+
+        container.innerHTML = `
+
+            <div class="ranking-empty">
+
+                Belum ada pengguna lain.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+
+        users.map(user => `
+
+            <div
+                class="
+                    rank-row
+                    ${
+                        user.id ===
+                        "saroh"
+                            ? "current"
+                            : ""
+                    }
+                "
+                data-user-id="${escapeHTML(
+                    user.id
+                )}">
+
+
+                <!-- NOMOR -->
+
+                <div class="rank-position">
+
+                    ${user.rank}
+
+                </div>
 
 
 
-/* ---------------------------------------------------------
-   INITIAL LOAD
-   --------------------------------------------------------- */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
+                <!-- USER -->
 
-    renderRanking();
+                <div class="rank-user">
 
-  }
-);
+
+                    ${avatarHTML(
+                        user,
+                        "small"
+                    )}
+
+
+                    <div class="rank-user-info">
+
+
+                        <strong>
+
+                            ${escapeHTML(
+                                user.name
+                            )}
+
+                            ${
+                                user.id ===
+                                "saroh"
+
+                                    ? `
+                                        <span
+                                            class="
+                                                current-badge
+                                            ">
+
+                                            Current
+
+                                        </span>
+                                      `
+
+                                    : ""
+                            }
+
+                        </strong>
+
+
+                        <small>
+
+                            ${escapeHTML(
+                                user.village
+                            )}
+
+                        </small>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+                <!-- SCORE -->
+
+                <div class="rank-score">
+
+                    ${formatScore(
+                        user.score
+                    )}
+
+                    <span>
+
+                        ●
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        `)
+
+        .join("");
+
+}
+
+
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderRanking(
+    showAll = false
+) {
+
+    const ranking =
+        getRankingData();
+
+
+    renderPodium(
+        ranking
+    );
+
+
+    renderRankingList(
+        ranking,
+        showAll
+    );
+
+
+    const button =
+        document.getElementById(
+            "seeAllBtn"
+        );
+
+
+    if (button) {
+
+        button.textContent =
+            showAll
+
+                ? "Tampilkan Lebih Sedikit"
+
+                : "Lihat Semua";
+
+    }
+
+}
+
+
+
+
+/* =====================================================
+   TAB
+===================================================== */
+
+document
+
+    .querySelectorAll(
+        ".rank-tab"
+    )
+
+    .forEach(button => {
+
+
+        button.addEventListener(
+            "click",
+            function () {
+
+
+                document
+
+                    .querySelectorAll(
+                        ".rank-tab"
+                    )
+
+                    .forEach(
+                        item => {
+
+                            item.classList
+                                .remove(
+                                    "active"
+                                );
+
+                        }
+                    );
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                /*
+                   Untuk sementara
+                   kedua periode menggunakan
+                   data yang sama.
+                */
+
+                renderRanking(false);
+
+            }
+        );
+
+    });
+
+
+
+
+/* =====================================================
+   LIHAT SEMUA
+===================================================== */
+
+const seeAllBtn =
+    document.getElementById(
+        "seeAllBtn"
+    );
+
+
+let showingAll = false;
+
+
+if (seeAllBtn) {
+
+    seeAllBtn.addEventListener(
+        "click",
+        function () {
+
+
+            showingAll =
+                !showingAll;
+
+
+            renderRanking(
+                showingAll
+            );
+
+        }
+    );
+
+}
+
+
+
+
+/* =====================================================
+   INITIAL
+===================================================== */
+
+renderRanking(false);
+
 
 </script>
 
