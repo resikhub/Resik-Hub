@@ -395,10 +395,10 @@
     <section
         class="panel stat-card clickable-card"
         id="achievementCard"
-        data-nav="reward.html"
+        data-nav="peringkat.html"
         role="button"
         tabindex="0"
-        aria-label="Buka Reward">
+        aria-label="Buka Peringkat Desa">
 
 
         <div class="stat-head">
@@ -698,6 +698,7 @@
 
 <script type="module">
 
+
 /* =====================================================
    ELEMENT
 ===================================================== */
@@ -749,7 +750,9 @@ function getInitials(name) {
         String(name || "").trim();
 
     if (!value) {
+
         return "W";
+
     }
 
     return value
@@ -762,6 +765,7 @@ function getInitials(name) {
                     .toUpperCase()
         )
         .join("");
+
 }
 
 
@@ -784,33 +788,53 @@ function formatNumber(value) {
 function updateAchievement(score) {
 
     let count = 0;
-    let text = "☆ Belum ada pencapaian";
+
+    let text =
+        "☆ Belum ada pencapaian";
 
 
     if (score >= 1000) {
 
         count = 5;
-        text = "♛ Eco Champion";
 
-    } else if (score >= 500) {
+        text =
+            "♛ Eco Champion";
+
+    }
+
+    else if (score >= 500) {
 
         count = 4;
-        text = "✦ Pahlawan Lingkungan";
 
-    } else if (score >= 250) {
+        text =
+            "✦ Pahlawan Lingkungan";
+
+    }
+
+    else if (score >= 250) {
 
         count = 3;
-        text = "♧ Pejuang Hijau";
 
-    } else if (score >= 100) {
+        text =
+            "♧ Pejuang Hijau";
+
+    }
+
+    else if (score >= 100) {
 
         count = 2;
-        text = "♻ Pendaur Ulang Aktif";
 
-    } else if (score >= 25) {
+        text =
+            "♻ Pendaur Ulang Aktif";
+
+    }
+
+    else if (score >= 25) {
 
         count = 1;
-        text = "♧ Pendaur Ulang";
+
+        text =
+            "♧ Pendaur Ulang";
 
     }
 
@@ -840,7 +864,9 @@ function updateAchievement(score) {
 function renderProfile(profile, user) {
 
     if (!profile && !user) {
+
         return;
+
     }
 
 
@@ -849,8 +875,11 @@ function renderProfile(profile, user) {
     ------------------------------------------------- */
 
     const name =
+
         profile?.name ||
+
         user?.displayName ||
+
         "Warga";
 
 
@@ -867,8 +896,11 @@ function renderProfile(profile, user) {
     ------------------------------------------------- */
 
     const email =
+
         profile?.email ||
+
         user?.email ||
+
         "email@example.com";
 
 
@@ -885,15 +917,20 @@ function renderProfile(profile, user) {
     ------------------------------------------------- */
 
     const role =
+
         profile?.role ||
+
         "warga";
 
 
     if (profileRole) {
 
         profileRole.textContent =
+
             role === "admin"
+
                 ? "Admin"
+
                 : "Warga";
 
     }
@@ -916,8 +953,11 @@ function renderProfile(profile, user) {
     ------------------------------------------------- */
 
     const uid =
+
         user?.uid ||
+
         profile?.uid ||
+
         "-";
 
 
@@ -943,7 +983,7 @@ function renderProfile(profile, user) {
 
     /* -------------------------------------------------
        GREEN SCORE
-       
+
        Prioritas:
        1. greenScore Firestore
        2. points Firestore
@@ -951,15 +991,25 @@ function renderProfile(profile, user) {
     ------------------------------------------------- */
 
     const points =
-        Number(profile?.points) || 0;
+
+        Number(
+            profile?.points
+        ) || 0;
+
 
     const firestoreGreenScore =
-        Number(profile?.greenScore) || 0;
+
+        Number(
+            profile?.greenScore
+        ) || 0;
 
 
     const score =
+
         firestoreGreenScore > 0
+
             ? firestoreGreenScore
+
             : points;
 
 
@@ -982,7 +1032,9 @@ function renderProfile(profile, user) {
             greenScoreChange.textContent =
                 "↗ Aktif bulan ini";
 
-        } else {
+        }
+
+        else {
 
             greenScoreChange.textContent =
                 "↗ 0% bulan ini";
@@ -1014,8 +1066,11 @@ function renderProfile(profile, user) {
     if (verificationStatus) {
 
         verificationStatus.textContent =
+
             user?.emailVerified
+
                 ? "Terverifikasi"
+
                 : "Belum diverifikasi";
 
     }
@@ -1036,23 +1091,34 @@ async function waitForFirebase() {
     ) {
 
         if (
+
             window.resikAuth &&
+
             window.resikGetProfile
+
         ) {
 
             return true;
 
         }
 
+
         await new Promise(
+
             resolve =>
+
                 setTimeout(
+
                     resolve,
+
                     50
+
                 )
+
         );
 
     }
+
 
     return false;
 
@@ -1066,13 +1132,16 @@ async function waitForFirebase() {
 async function loadProfile() {
 
     const ready =
+
         await waitForFirebase();
 
 
     if (!ready) {
 
         console.error(
+
             "Firebase RESIK Hub belum siap."
+
         );
 
         return;
@@ -1095,13 +1164,18 @@ async function loadProfile() {
     if (user) {
 
         const profile =
+
             await window.resikGetProfile(
                 user.uid
             );
 
+
         renderProfile(
+
             profile,
+
             user
+
         );
 
     }
@@ -1109,18 +1183,22 @@ async function loadProfile() {
 
     /* -------------------------------------------------
        AUTH STATE
-       
+
        Berguna ketika Firebase belum selesai
        memulihkan session login.
     ------------------------------------------------- */
 
     auth.onAuthStateChanged(
+
         async currentUser => {
+
 
             if (!currentUser) {
 
                 console.log(
+
                     "Tidak ada user login."
+
                 );
 
                 return;
@@ -1131,27 +1209,39 @@ async function loadProfile() {
             try {
 
                 const profile =
+
                     await window.resikGetProfile(
+
                         currentUser.uid
+
                     );
 
 
                 renderProfile(
+
                     profile,
+
                     currentUser
+
                 );
 
 
-            } catch (error) {
+            }
+
+            catch (error) {
 
                 console.error(
+
                     "PROFILE LOAD ERROR:",
+
                     error
+
                 );
 
             }
 
         }
+
     );
 
 }
@@ -1162,19 +1252,26 @@ async function loadProfile() {
 ===================================================== */
 
 const qrButton =
+
     document.getElementById("qr");
 
+
 const qrModal =
+
     document.getElementById("qrModal");
 
+
 const closeQr =
+
     document.getElementById("closeQr");
 
 
 if (qrButton && qrModal) {
 
     qrButton.addEventListener(
+
         "click",
+
         () => {
 
             qrModal.classList.add(
@@ -1182,6 +1279,7 @@ if (qrButton && qrModal) {
             );
 
         }
+
     );
 
 }
@@ -1190,7 +1288,9 @@ if (qrButton && qrModal) {
 if (closeQr && qrModal) {
 
     closeQr.addEventListener(
+
         "click",
+
         () => {
 
             qrModal.classList.remove(
@@ -1198,6 +1298,7 @@ if (closeQr && qrModal) {
             );
 
         }
+
     );
 
 }
@@ -1206,12 +1307,18 @@ if (closeQr && qrModal) {
 if (qrModal) {
 
     qrModal.addEventListener(
+
         "click",
+
         event => {
 
+
             if (
+
                 event.target ===
+
                 qrModal
+
             ) {
 
                 qrModal.classList.remove(
@@ -1221,6 +1328,7 @@ if (qrModal) {
             }
 
         }
+
     );
 
 }
@@ -1231,15 +1339,23 @@ if (qrModal) {
 ===================================================== */
 
 document
+
     .querySelectorAll("[data-nav]")
+
     .forEach(element => {
 
+
         element.addEventListener(
+
             "click",
+
             () => {
 
+
                 const target =
+
                     element.dataset.nav;
+
 
                 if (target) {
 
@@ -1249,22 +1365,33 @@ document
                 }
 
             }
+
         );
 
 
         element.addEventListener(
+
             "keydown",
+
             event => {
 
+
                 if (
+
                     event.key === "Enter" ||
+
                     event.key === " "
+
                 ) {
+
 
                     event.preventDefault();
 
+
                     const target =
+
                         element.dataset.nav;
+
 
                     if (target) {
 
@@ -1276,6 +1403,7 @@ document
                 }
 
             }
+
         );
 
     });
@@ -1286,6 +1414,7 @@ document
 ===================================================== */
 
 loadProfile();
+
 
 </script>
 
