@@ -951,80 +951,25 @@
 </div>
 
 
+<!-- =====================================================
+     FIREBASE / APP.JS
+
+     WAJIB — supaya window.resikStore,
+     window.resikState, dan window.resikReady
+     tersedia untuk halaman ini.
+====================================================== -->
+
+<script
+    type="module"
+    src="js/app.js">
+</script>
 
 
 <!-- =====================================================
-     JAVASCRIPT
+     JAVASCRIPT HALAMAN
 ====================================================== -->
 
 <script>
-
-
-/* =====================================================
-   DATA RANKING
-===================================================== */
-
-const rankingUsers = [
-
-    {
-        id: "hartatik",
-        name: "Hartatik",
-        score: 313,
-        village: "Dusun Mojoroto",
-        initials: "H"
-    },
-
-    {
-        id: "saroh",
-        name: "Saroh",
-        score: 308,
-        village: "Dusun Mojoroto",
-        initials: "S"
-    },
-
-    {
-        id: "tini",
-        name: "Tini",
-        score: 254,
-        village: "Dusun Mojoroto",
-        initials: "T"
-    },
-
-    {
-        id: "pini",
-        name: "Pini",
-        score: 195,
-        village: "Dusun Mojoroto",
-        initials: "P"
-    },
-
-    {
-        id: "iin",
-        name: "Iin",
-        score: 187,
-        village: "Dusun Mojoroto",
-        initials: "I"
-    },
-
-    {
-        id: "ana",
-        name: "Ana",
-        score: 182,
-        village: "Dusun Mojoroto",
-        initials: "A"
-    },
-
-    {
-        id: "wiwik",
-        name: "Wiwik",
-        score: 95,
-        village: "Dusun Mojoroto",
-        initials: "W"
-    }
-
-];
-
-
 
 
 /* =====================================================
@@ -1033,7 +978,7 @@ const rankingUsers = [
 
 function escapeHTML(value) {
 
-    return String(value)
+    return String(value ?? "")
 
         .replace(/&/g, "&amp;")
 
@@ -1080,7 +1025,7 @@ function avatarHTML(user, size) {
 
             ${escapeHTML(
                 user.initials ||
-                user.name.charAt(0)
+                user.name.charAt(0).toUpperCase()
             )}
 
         </div>
@@ -1093,21 +1038,91 @@ function avatarHTML(user, size) {
 
 
 /* =====================================================
-   GET RANKING
+   GET RANKING (DARI FIRESTORE)
 ===================================================== */
 
-function getRankingData() {
+let cachedRanking = [];
 
-    return rankingUsers
 
-        .slice()
+async function getRankingData() {
 
-        .sort(
-            (a, b) =>
-                b.score - a.score
+    const citizens =
+        await window.resikStore.getCitizens();
+
+
+    const currentUid =
+        window.resikState.uid;
+
+
+    const currentCitizenId =
+        String(
+            window.resikState.citizenId || ""
         )
+            .trim()
+            .toUpperCase();
 
-        .map(
+
+    const mapped =
+        citizens.map(citizen => {
+
+            const name =
+                citizen.name || "Warga";
+
+
+            const isCurrent =
+                (
+                    currentUid &&
+                    citizen.uid === currentUid
+                ) ||
+                (
+                    currentCitizenId &&
+                    String(
+                        citizen.citizenId || ""
+                    )
+                        .trim()
+                        .toUpperCase() === currentCitizenId
+                );
+
+
+            return {
+
+                id:
+                    citizen.uid ||
+                    citizen.citizenId ||
+                    citizen.firestoreId,
+
+                name:
+                    name,
+
+                score:
+                    Number(
+                        citizen.greenScore || 0
+                    ),
+
+                village:
+                    citizen.rt
+                        ? `RT ${citizen.rt}`
+                        : "-",
+
+                initials:
+                    name.charAt(0).toUpperCase(),
+
+                isCurrent:
+                    isCurrent
+
+            };
+
+        });
+
+
+    mapped.sort(
+        (a, b) =>
+            b.score - a.score
+    );
+
+
+    cachedRanking =
+        mapped.map(
             (user, index) => ({
 
                 ...user,
@@ -1117,6 +1132,9 @@ function getRankingData() {
 
             })
         );
+
+
+    return cachedRanking;
 
 }
 
@@ -1183,10 +1201,11 @@ function renderPodium(ranking) {
 
             <div class="podium-avatar-wrap">
 
-                ${avatarHTML(
-                    second,
-                    "medium"
-                )}
+                ${
+                    second
+                        ? avatarHTML(second, "medium")
+                        : ""
+                }
 
 
                 <span class="podium-number">
@@ -1200,9 +1219,11 @@ function renderPodium(ranking) {
 
             <strong>
 
-                ${escapeHTML(
-                    second.name
-                )}
+                ${
+                    second
+                        ? escapeHTML(second.name)
+                        : "-"
+                }
 
             </strong>
 
@@ -1211,9 +1232,11 @@ function renderPodium(ranking) {
 
                 ●
 
-                ${formatScore(
-                    second.score
-                )}
+                ${
+                    second
+                        ? formatScore(second.score)
+                        : 0
+                }
 
             </span>
 
@@ -1299,10 +1322,11 @@ function renderPodium(ranking) {
 
             <div class="podium-avatar-wrap">
 
-                ${avatarHTML(
-                    third,
-                    "medium"
-                )}
+                ${
+                    third
+                        ? avatarHTML(third, "medium")
+                        : ""
+                }
 
 
                 <span class="podium-number">
@@ -1316,9 +1340,11 @@ function renderPodium(ranking) {
 
             <strong>
 
-                ${escapeHTML(
-                    third.name
-                )}
+                ${
+                    third
+                        ? escapeHTML(third.name)
+                        : "-"
+                }
 
             </strong>
 
@@ -1327,9 +1353,11 @@ function renderPodium(ranking) {
 
                 ●
 
-                ${formatScore(
-                    third.score
-                )}
+                ${
+                    third
+                        ? formatScore(third.score)
+                        : 0
+                }
 
             </span>
 
@@ -1404,14 +1432,13 @@ function renderRankingList(
                 class="
                     rank-row
                     ${
-                        user.id ===
-                        "saroh"
+                        user.isCurrent
                             ? "current"
                             : ""
                     }
                 "
                 data-user-id="${escapeHTML(
-                    user.id
+                    String(user.id)
                 )}">
 
 
@@ -1447,8 +1474,7 @@ function renderRankingList(
                             )}
 
                             ${
-                                user.id ===
-                                "saroh"
+                                user.isCurrent
 
                                     ? `
                                         <span
@@ -1515,12 +1541,16 @@ function renderRankingList(
    RENDER
 ===================================================== */
 
-function renderRanking(
+async function renderRanking(
     showAll = false
 ) {
 
     const ranking =
-        getRankingData();
+        cachedRanking.length
+
+            ? cachedRanking
+
+            : await getRankingData();
 
 
     renderPodium(
@@ -1650,10 +1680,18 @@ if (seeAllBtn) {
 
 
 /* =====================================================
-   INITIAL
+   INITIAL — TUNGGU FIREBASE SIAP
 ===================================================== */
 
-renderRanking(false);
+window.resikReady.then(
+    async () => {
+
+        await getRankingData();
+
+        renderRanking(false);
+
+    }
+);
 
 
 </script>
