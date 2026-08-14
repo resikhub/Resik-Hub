@@ -4600,6 +4600,8 @@ function updateDashboardElements() {
 
     updateAIInsight();
 
+    updateRankingCard();
+
 }
 
 
@@ -4846,6 +4848,212 @@ function updateAIInsight() {
         }
 
     }
+
+}
+
+
+/* =========================================================
+   UPDATE RANKING CARD
+   =========================================================
+
+   Menghitung peringkat warga berdasarkan urutan
+   Green Score seluruh warga (Firestore), sama seperti
+   yang dipakai di peringkat-desa.html — bukan lagi
+   berdasarkan batas (threshold) poin manual.
+   ========================================================= */
+
+async function updateRankingCard() {
+
+    const rankingElement =
+        document.getElementById(
+            "ranking"
+        );
+
+
+    if (!rankingElement) {
+
+        return;
+
+    }
+
+
+    /*
+     * Admin tidak punya peringkat warga.
+     */
+
+    if (
+        isAdmin()
+    ) {
+
+        rankingElement.textContent =
+            "-";
+
+        return;
+
+    }
+
+
+    if (
+        !state.uid
+    ) {
+
+        rankingElement.textContent =
+            "-";
+
+        return;
+
+    }
+
+
+    try {
+
+        const citizens =
+            await getAllCitizens();
+
+
+        const sorted =
+            citizens
+                .slice()
+                .sort(
+                    (a, b) => {
+
+                        return (
+                            (Number(b.greenScore) || 0) -
+                            (Number(a.greenScore) || 0)
+                        );
+
+                    }
+                );
+
+
+        const currentCitizenId =
+            normalizeCitizenId(
+                state.citizenId
+            );
+
+
+        const position =
+            sorted.findIndex(
+                citizen => {
+
+                    if (
+                        state.uid &&
+                        citizen.uid === state.uid
+                    ) {
+
+                        return true;
+
+                    }
+
+
+                    if (
+                        currentCitizenId &&
+                        normalizeCitizenId(
+                            citizen.citizenId
+                        ) === currentCitizenId
+                    ) {
+
+                        return true;
+
+                    }
+
+
+                    return false;
+
+                }
+            );
+
+
+        rankingElement.textContent =
+            position === -1
+                ? "-"
+                : `#${position + 1}`;
+
+
+    } catch (error) {
+
+        console.error(
+            "RANKING UPDATE ERROR:",
+            error
+        );
+
+
+        rankingElement.textContent =
+            "-";
+
+    }
+
+}
+
+
+window.resikUpdateRanking =
+    updateRankingCard;
+
+
+/* =========================================================
+   RANKING CARD → PERINGKAT DESA
+   =========================================================
+
+   Membuat kartu "Peringkat Desa" di dashboard bisa
+   diklik untuk menuju halaman peringkat-desa.html,
+   tanpa mengubah struktur HTML.
+   ========================================================= */
+
+function initializeRankingCardLink() {
+
+    const rankingElement =
+        document.getElementById(
+            "ranking"
+        );
+
+
+    if (!rankingElement) {
+
+        return;
+
+    }
+
+
+    const card =
+        rankingElement.closest(
+            ".metric-card"
+        );
+
+
+    if (!card) {
+
+        return;
+
+    }
+
+
+    if (
+        card.dataset.rankingLinkReady ===
+        "true"
+    ) {
+
+        return;
+
+    }
+
+
+    card.dataset.rankingLinkReady =
+        "true";
+
+
+    card.style.cursor =
+        "pointer";
+
+
+    card.addEventListener(
+        "click",
+        function() {
+
+            window.location.href =
+                "peringkat-desa.html";
+
+        }
+    );
 
 }
 
@@ -6626,6 +6834,8 @@ document.addEventListener(
 
 
         initializeDataNavigation();
+
+        initializeRankingCardLink();
 
         initializeRegister();
 
