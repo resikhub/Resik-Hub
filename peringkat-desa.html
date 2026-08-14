@@ -1,96 +1,164 @@
 <!doctype html>
 <html lang="id">
+
 <head>
+
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
 
   <title>Peringkat Desa — RESIK Hub</title>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link
+    rel="stylesheet"
+    href="css/style.css">
+
 </head>
+
 
 <body>
 
+
 <div class="app-shell">
 
-  <!-- HEADER -->
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
   <header class="app-header">
 
-    <button class="icon-btn" id="menuBtn" aria-label="Menu">
+    <button
+      class="icon-btn"
+      id="menuBtn"
+      aria-label="Menu">
+
       ☰
+
     </button>
 
+
     <div class="app-brand">
+
       Peringkat Desa
+
     </div>
 
-    <button class="icon-btn" id="notifBtn" aria-label="Notifikasi">
+
+    <button
+      class="icon-btn"
+      id="notifBtn"
+      aria-label="Notifikasi">
+
       ♧
+
     </button>
 
   </header>
 
 
-  <!-- MAIN -->
+
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
   <main class="app-main ranking-page">
 
-    <!-- TAB -->
+
+    <!-- ===================================================
+         TAB PERIODE
+         =================================================== -->
+
     <div class="rank-tabs">
 
       <button
         class="rank-tab active"
         data-period="month">
+
         Bulan Ini
+
       </button>
+
 
       <button
         class="rank-tab"
         data-period="all">
+
         Sepanjang Waktu
+
       </button>
 
     </div>
 
 
-    <!-- PODIUM -->
-    <section class="podium" id="podium">
 
-      <!-- dibuat otomatis oleh JS -->
+    <!-- ===================================================
+         PODIUM
+         =================================================== -->
+
+    <section
+      class="podium"
+      id="podium">
+
+      <!--
+        Podium dibuat otomatis oleh JavaScript
+      -->
 
     </section>
 
 
-    <!-- USER RANK -->
+
+    <!-- ===================================================
+         DAFTAR PERINGKAT
+         =================================================== -->
+
     <section class="panel ranking-list-panel">
+
 
       <div id="rankingList">
 
-        <!-- dibuat otomatis oleh JS -->
+        <!--
+          Daftar ranking dibuat otomatis oleh JavaScript
+        -->
 
       </div>
+
 
       <button
         class="see-all-btn"
         id="seeAllBtn">
+
         Lihat Semua
+
       </button>
 
+
     </section>
+
 
   </main>
 
 
-  <!-- BOTTOM NAV -->
+
+  <!-- =====================================================
+       BOTTOM NAVIGATION
+       ===================================================== -->
+
   <nav class="app-bottom">
+
 
     <a
       class="nav-item"
       href="dashboard-warga.html">
 
       <span>▦</span>
+
       Beranda
 
     </a>
+
 
 
     <a
@@ -98,9 +166,11 @@
       href="riwayat-penukaran.html">
 
       <span>▤</span>
+
       Riwayat
 
     </a>
+
 
 
     <a
@@ -108,9 +178,11 @@
       href="sampah.html">
 
       <span>♻</span>
+
       Sampah
 
     </a>
+
 
 
     <a
@@ -118,60 +190,185 @@
       href="profil.html">
 
       <span>◎</span>
+
       Profil
 
     </a>
 
+
   </nav>
+
 
 </div>
 
 
+
+<!-- =====================================================
+     APP JS
+     ===================================================== -->
+
 <script src="js/app.js"></script>
+
 
 
 <script>
 
 /* =========================================================
    RESIK HUB
-   REAL-TIME RANKING
+   PERINGKAT DESA
    ========================================================= */
 
 
 /* ---------------------------------------------------------
-   KONFIGURASI LOCAL STORAGE
+   DATA PERINGKAT DESA
+   ---------------------------------------------------------
+
+   Data dibuat langsung di halaman agar ranking
+   menggunakan data yang sudah ditentukan.
+
+   Urutan akan tetap dihitung otomatis berdasarkan score.
    --------------------------------------------------------- */
 
-const STORAGE_KEYS = {
+const rankingUsers = [
 
-  currentUser: [
-    "resik_current_user",
-    "currentUser",
-    "current_user",
-    "loggedUser",
-    "user"
-  ],
+  {
+    id: "hartatik",
+    name: "Hartatik",
+    score: 313,
+    greenScore: 313,
+    village: "Dusun Mojoroto",
+    gender: "female",
+    avatar: ""
+  },
 
-  users: [
-    "resik_users",
-    "users",
-    "resikHub_users"
-  ]
+  {
+    id: "saroh",
+    name: "Saroh",
+    score: 308,
+    greenScore: 308,
+    village: "Dusun Mojoroto",
+    gender: "female",
+    avatar: ""
+  },
 
-};
+  {
+    id: "tini",
+    name: "Tini",
+    score: 254,
+    greenScore: 254,
+    village: "Dusun Mojoroto",
+    gender: "female",
+    avatar: ""
+  },
+
+  {
+    id: "pini",
+    name: "Pini",
+    score: 195,
+    greenScore: 195,
+    village: "Dusun Mojoroto",
+    gender: "female",
+    avatar: ""
+  },
+
+  {
+    id: "iin",
+    name: "Iin",
+    score: 187,
+    greenScore: 187,
+    village: "Dusun Mojoroto",
+    gender: "female",
+    avatar: ""
+  },
+
+  {
+    id: "ana",
+    name: "Ana",
+    score: 182,
+    greenScore: 182,
+    village: "Dusun Mojoroto",
+    gender: "female",
+    avatar: ""
+  },
+
+  {
+    id: "wiwik",
+    name: "Wiwik",
+    score: 95,
+    greenScore: 95,
+    village: "Dusun Mojoroto",
+    gender: "female",
+    avatar: ""
+  }
+
+];
+
 
 
 /* ---------------------------------------------------------
-   AMBIL DATA LOCAL STORAGE
+   CURRENT USER
    --------------------------------------------------------- */
 
-function getStorageObject(keys) {
+function getCurrentUser() {
+
+  try {
+
+    if (
+      typeof getCurrentUserFromStorage === "function"
+    ) {
+
+      const user =
+        getCurrentUserFromStorage();
+
+      if (user) {
+
+        return user;
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Tidak dapat mengambil current user."
+    );
+
+  }
+
+
+  /*
+    Cek beberapa kemungkinan key
+    dari localStorage.
+  */
+
+  const keys = [
+
+    "resik_current_user",
+
+    "currentUser",
+
+    "current_user",
+
+    "loggedUser",
+
+    "user"
+
+  ];
+
 
   for (const key of keys) {
 
-    const value = localStorage.getItem(key);
+    const value =
+      localStorage.getItem(key);
 
-    if (!value) continue;
+
+    if (!value) {
+
+      continue;
+
+    }
+
 
     try {
 
@@ -180,7 +377,7 @@ function getStorageObject(keys) {
     } catch (error) {
 
       console.warn(
-        "Data localStorage tidak valid:",
+        "Data current user tidak valid:",
         key
       );
 
@@ -188,78 +385,11 @@ function getStorageObject(keys) {
 
   }
 
+
   return null;
 
 }
 
-
-/* ---------------------------------------------------------
-   USER YANG SEDANG LOGIN
-   --------------------------------------------------------- */
-
-function getCurrentUser() {
-
-  /*
-   Prioritas:
-   1. Fungsi auth yang sudah ada
-   2. localStorage current user
-  */
-
-  try {
-
-    if (
-      typeof getCurrentUserFromStorage === "function"
-    ) {
-
-      const user = getCurrentUserFromStorage();
-
-      if (user) return user;
-
-    }
-
-  } catch (error) {}
-
-
-  return getStorageObject(
-    STORAGE_KEYS.currentUser
-  );
-
-}
-
-
-/* ---------------------------------------------------------
-   SEMUA USER
-   --------------------------------------------------------- */
-
-function getUsers() {
-
-  const data = getStorageObject(
-    STORAGE_KEYS.users
-  );
-
-  if (Array.isArray(data)) {
-
-    return data;
-
-  }
-
-  /*
-   Jika storage menggunakan object
-   {users:[...]}
-  */
-
-  if (
-    data &&
-    Array.isArray(data.users)
-  ) {
-
-    return data.users;
-
-  }
-
-  return [];
-
-}
 
 
 /* ---------------------------------------------------------
@@ -268,53 +398,89 @@ function getUsers() {
 
 function normalizeUser(user) {
 
-  if (!user) return null;
+  if (!user) {
+
+    return null;
+
+  }
 
 
   const name =
+
     user.name ||
+
     user.nama ||
+
     user.fullName ||
+
     user.full_name ||
+
     user.username ||
+
     "Pengguna";
 
 
   const score =
+
     Number(
-      user.greenScore ??
-      user.green_score ??
-      user.greenPoints ??
-      user.green_points ??
-      user.points ??
-      user.point ??
+
       user.score ??
+
+      user.greenScore ??
+
+      user.green_score ??
+
+      user.greenPoints ??
+
+      user.green_points ??
+
+      user.points ??
+
+      user.point ??
+
       0
+
     );
 
 
   const village =
+
     user.village ||
+
     user.villageName ||
+
     user.desa ||
+
     "Dusun Mojoroto";
 
 
   const avatar =
+
     user.avatar ||
+
     user.photo ||
+
     user.photoURL ||
+
     user.profilePhoto ||
+
     user.image ||
+
     "";
 
 
   const id =
+
     user.id ||
+
     user.userId ||
+
     user.user_id ||
+
     user.email ||
+
     user.username ||
+
     name;
 
 
@@ -322,116 +488,64 @@ function normalizeUser(user) {
 
     ...user,
 
-    id,
-    name,
+    id: id,
+
+    name: name,
+
     score: Number.isFinite(score)
+
       ? score
+
       : 0,
 
-    village,
-    avatar
+    village: village,
+
+    avatar: avatar
 
   };
 
 }
 
 
+
 /* ---------------------------------------------------------
-   DATA RANKING
+   AMBIL DATA RANKING
    --------------------------------------------------------- */
 
 function getRankingData() {
 
-  let users = getUsers();
-
-  const currentUser =
-    normalizeUser(
-      getCurrentUser()
-    );
-
 
   /*
-   Jika database users kosong tetapi
-   user sedang login, masukkan user login
-   sebagai data ranking.
+    Gunakan data ranking yang sudah ditentukan.
   */
 
-  if (
-    users.length === 0 &&
-    currentUser
-  ) {
+  const users = rankingUsers
 
-    users = [currentUser];
-
-  }
-
-
-  users = users
     .map(normalizeUser)
+
     .filter(Boolean);
 
 
   /*
-   Pastikan user yang sedang login
-   ada di ranking.
+    Urutkan dari score terbesar
+    ke score terkecil.
   */
 
-  if (currentUser) {
+  users.sort(
 
-    const exists =
-      users.some(
-        user =>
-          String(user.id) ===
-          String(currentUser.id)
-      );
-
-
-    if (!exists) {
-
-      users.push(currentUser);
-
-    }
-
-  }
-
-
-  /*
-   Hilangkan duplikasi user
-  */
-
-  const unique = [];
-
-  const ids = new Set();
-
-
-  users.forEach(user => {
-
-    const id = String(user.id);
-
-    if (ids.has(id)) return;
-
-    ids.add(id);
-
-    unique.push(user);
-
-  });
-
-
-  /*
-   Urutkan skor terbesar
-  */
-
-  unique.sort(
     (a, b) =>
+
       b.score - a.score
+
   );
 
 
   /*
-   Tambahkan ranking
+    Tambahkan nomor ranking.
   */
 
-  return unique.map(
+  return users.map(
+
     (user, index) => ({
 
       ...user,
@@ -439,64 +553,113 @@ function getRankingData() {
       rank: index + 1
 
     })
+
   );
 
 }
 
 
+
 /* ---------------------------------------------------------
-   AVATAR
+   AVATAR HTML
    --------------------------------------------------------- */
 
-function avatarHTML(user, size = "normal") {
+function avatarHTML(
+  user,
+  size = "normal"
+) {
+
+
+  /*
+    Jika user mempunyai foto,
+    gunakan foto tersebut.
+  */
 
   if (user.avatar) {
 
     return `
+
       <img
+
         class="rank-avatar ${size}"
+
         src="${escapeHTML(user.avatar)}"
+
         alt="${escapeHTML(user.name)}"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+
+        onerror="
+          this.style.display='none';
+          this.nextElementSibling.style.display='flex';
+        "
+
       >
 
+
       <div
+
         class="rank-avatar-fallback ${size}"
-        style="display:none">
+
+        style="display:none"
+
+      >
+
         ${getAvatarEmoji(user)}
+
       </div>
+
     `;
 
   }
 
 
+  /*
+    Jika tidak ada foto,
+    gunakan avatar emoji.
+  */
+
   return `
-    <div class="rank-avatar-fallback ${size}">
+
+    <div
+      class="rank-avatar-fallback ${size}">
+
       ${getAvatarEmoji(user)}
+
     </div>
+
   `;
 
 }
 
 
+
 /* ---------------------------------------------------------
-   EMOJI AVATAR
+   AVATAR EMOJI
    --------------------------------------------------------- */
 
 function getAvatarEmoji(user) {
 
+
   const gender =
+
     String(
+
       user.gender ||
+
       user.jenisKelamin ||
+
       ""
+
     ).toLowerCase();
 
 
   if (
+
     gender === "female" ||
+
     gender === "perempuan" ||
+
     gender === "wanita"
+
   ) {
 
     return "👩";
@@ -505,9 +668,13 @@ function getAvatarEmoji(user) {
 
 
   if (
+
     gender === "male" ||
+
     gender === "laki-laki" ||
+
     gender === "pria"
+
   ) {
 
     return "👨";
@@ -520,6 +687,7 @@ function getAvatarEmoji(user) {
 }
 
 
+
 /* ---------------------------------------------------------
    ESCAPE HTML
    --------------------------------------------------------- */
@@ -527,13 +695,34 @@ function getAvatarEmoji(user) {
 function escapeHTML(value) {
 
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
+
 
 
 /* ---------------------------------------------------------
@@ -543,9 +732,11 @@ function escapeHTML(value) {
 function formatScore(score) {
 
   return Number(score || 0)
+
     .toLocaleString("id-ID");
 
 }
+
 
 
 /* ---------------------------------------------------------
@@ -554,29 +745,47 @@ function formatScore(score) {
 
 function renderPodium(ranking) {
 
+
   const podium =
-    document.getElementById("podium");
+
+    document.getElementById(
+      "podium"
+    );
 
 
-  if (!podium) return;
+  if (!podium) {
+
+    return;
+
+  }
 
 
   const first =
+
     ranking[0] || null;
 
+
   const second =
+
     ranking[1] || null;
 
+
   const third =
+
     ranking[2] || null;
+
 
 
   if (!first) {
 
     podium.innerHTML = `
+
       <div class="ranking-empty">
+
         Belum ada data peringkat.
+
       </div>
+
     `;
 
     return;
@@ -584,116 +793,234 @@ function renderPodium(ranking) {
   }
 
 
+
   /*
-   Susunan sengaja:
-   kiri = peringkat 2
-   tengah = peringkat 1
-   kanan = peringkat 3
+    Susunan podium:
+
+    Kiri   = Peringkat 2
+    Tengah = Peringkat 1
+    Kanan  = Peringkat 3
   */
+
 
   podium.innerHTML = `
 
-    <!-- SECOND -->
+
+    <!-- =================================================
+         PERINGKAT 2
+         ================================================= -->
 
     <div class="podium-person second">
 
+
       <div class="podium-avatar-wrap">
+
 
         ${
           second
-            ? avatarHTML(second, "medium")
-            : `<div class="rank-avatar-fallback medium">👤</div>`
+
+            ? avatarHTML(
+                second,
+                "medium"
+              )
+
+            : `
+              <div
+                class="rank-avatar-fallback medium">
+
+                👤
+
+              </div>
+            `
         }
 
+
         <span class="podium-number">
+
           2
+
         </span>
+
 
       </div>
 
+
       <strong>
+
         ${
           second
-            ? escapeHTML(second.name)
+
+            ? escapeHTML(
+                second.name
+              )
+
             : "-"
         }
+
       </strong>
 
+
       <span class="podium-score">
+
         ●
+
         ${
           second
-            ? formatScore(second.score)
+
+            ? formatScore(
+                second.score
+              )
+
             : "0"
         }
+
       </span>
+
 
     </div>
 
 
-    <!-- FIRST -->
+
+    <!-- =================================================
+         PERINGKAT 1
+         ================================================= -->
 
     <div class="podium-person first">
 
+
       <div class="podium-avatar-wrap">
 
-        ${avatarHTML(first, "large")}
 
-        <span class="podium-number winner-number">
+        ${
+
+          avatarHTML(
+            first,
+            "large"
+          )
+
+        }
+
+
+        <span
+          class="podium-number winner-number">
+
           1
+
         </span>
 
+
       </div>
+
 
       <strong>
-        ${escapeHTML(first.name)}
+
+        ${
+
+          escapeHTML(
+            first.name
+          )
+
+        }
+
       </strong>
 
+
       <span class="podium-score">
-        ● ${formatScore(first.score)}
+
+        ●
+
+        ${
+
+          formatScore(
+            first.score
+          )
+
+        }
+
       </span>
 
+
       <div class="winner-label">
+
         WINNER
+
       </div>
+
 
     </div>
 
 
-    <!-- THIRD -->
+
+    <!-- =================================================
+         PERINGKAT 3
+         ================================================= -->
 
     <div class="podium-person third">
 
+
       <div class="podium-avatar-wrap">
+
 
         ${
           third
-            ? avatarHTML(third, "medium")
-            : `<div class="rank-avatar-fallback medium">👤</div>`
+
+            ? avatarHTML(
+                third,
+                "medium"
+              )
+
+            : `
+              <div
+                class="rank-avatar-fallback medium">
+
+                👤
+
+              </div>
+            `
         }
 
+
         <span class="podium-number">
+
           3
+
         </span>
+
 
       </div>
 
+
       <strong>
+
         ${
           third
-            ? escapeHTML(third.name)
+
+            ? escapeHTML(
+                third.name
+              )
+
             : "-"
         }
+
       </strong>
 
+
       <span class="podium-score">
+
         ●
+
         ${
           third
-            ? formatScore(third.score)
+
+            ? formatScore(
+                third.score
+              )
+
             : "0"
         }
+
       </span>
+
 
     </div>
 
@@ -702,71 +1029,50 @@ function renderPodium(ranking) {
 }
 
 
+
 /* ---------------------------------------------------------
-   RENDER LIST
+   RENDER DAFTAR RANKING
    --------------------------------------------------------- */
 
 function renderRankingList(ranking) {
 
+
   const container =
+
     document.getElementById(
       "rankingList"
     );
 
 
-  if (!container) return;
+  if (!container) {
 
-
-  const currentUser =
-    normalizeUser(
-      getCurrentUser()
-    );
-
-
-  /*
-   Tampilkan ranking 4-7
-  */
-
-  const list =
-    ranking.slice(3, 7);
-
-
-  /*
-   Jika user login berada di luar
-   ranking 4-7, tetap tampilkan dia.
-  */
-
-  let displayList = [...list];
-
-
-  if (currentUser) {
-
-    const current =
-      ranking.find(
-        user =>
-          String(user.id) ===
-          String(currentUser.id)
-      );
-
-
-    if (
-      current &&
-      current.rank > 7
-    ) {
-
-      displayList.push(current);
-
-    }
+    return;
 
   }
 
 
-  if (displayList.length === 0) {
+  /*
+    Ambil ranking 4 sampai 7.
+  */
+
+  const displayList =
+
+    ranking.slice(3, 7);
+
+
+
+  if (
+    displayList.length === 0
+  ) {
 
     container.innerHTML = `
+
       <div class="ranking-empty">
+
         Belum ada pengguna lain.
+
       </div>
+
     `;
 
     return;
@@ -774,82 +1080,126 @@ function renderRankingList(ranking) {
   }
 
 
+
   container.innerHTML =
+
     displayList
+
       .map(user => {
 
-        const isCurrent =
-          currentUser &&
-          String(user.id) ===
-          String(currentUser.id);
+
+        /*
+          Karena data ranking dibuat
+          sebagai data desa tetap,
+          tidak ada label "Anda"
+          yang dipaksakan.
+        */
 
 
         return `
 
           <div
-            class="
-              rank-row
-              ${isCurrent ? "current" : ""}
-            "
-            data-user-id="${escapeHTML(user.id)}">
+
+            class="rank-row"
+
+            data-user-id="${escapeHTML(
+              user.id
+            )}"
+
+          >
+
+
+            <!-- NOMOR RANKING -->
 
             <div class="rank-position">
+
               ${user.rank}
+
             </div>
 
+
+
+            <!-- USER -->
 
             <div class="rank-user">
 
-              ${avatarHTML(user, "small")}
+
+              ${
+
+                avatarHTML(
+                  user,
+                  "small"
+                )
+
+              }
+
 
               <div class="rank-user-info">
 
+
                 <strong>
-                  ${escapeHTML(user.name)}
+
+                  ${
+
+                    escapeHTML(
+                      user.name
+                    )
+
+                  }
+
                 </strong>
 
-                ${
-                  isCurrent
-                    ? `
-                      <span class="current-label">
-                        Anda
-                      </span>
-                    `
-                    : ""
-                }
 
               </div>
 
+
             </div>
 
+
+
+            <!-- SCORE -->
 
             <div class="rank-score">
 
-              ${formatScore(user.score)}
+              ${
+
+                formatScore(
+                  user.score
+                )
+
+              }
+
 
               <span>
+
                 ●
+
               </span>
 
             </div>
+
 
           </div>
 
         `;
 
       })
+
       .join("");
 
 }
 
 
+
 /* ---------------------------------------------------------
-   RENDER SEMUA
+   RENDER SEMUA RANKING
    --------------------------------------------------------- */
 
 function renderRanking() {
 
+
   const ranking =
+
     getRankingData();
 
 
@@ -865,40 +1215,63 @@ function renderRanking() {
 }
 
 
+
 /* ---------------------------------------------------------
-   TAB
+   TAB BULAN INI / SEPANJANG WAKTU
    --------------------------------------------------------- */
 
 document
-  .querySelectorAll(".rank-tab")
+
+  .querySelectorAll(
+    ".rank-tab"
+  )
+
   .forEach(button => {
+
 
     button.addEventListener(
       "click",
       function () {
 
-        document
-          .querySelectorAll(".rank-tab")
-          .forEach(
-            item =>
-              item.classList.remove(
-                "active"
-              )
-          );
 
+        /*
+          Hapus active dari semua tab.
+        */
+
+        document
+
+          .querySelectorAll(
+            ".rank-tab"
+          )
+
+          .forEach(item => {
+
+            item.classList.remove(
+              "active"
+            );
+
+          });
+
+
+
+        /*
+          Aktifkan tab yang dipilih.
+        */
 
         this.classList.add(
           "active"
         );
 
 
-        /*
-         Saat ini menggunakan skor
-         yang tersimpan.
 
-         Nanti bisa dipisahkan:
-         greenScoreMonthly
-         greenScoreLifetime
+        /*
+          Saat ini kedua tab menggunakan
+          data ranking yang sama.
+
+          Kalau nanti ingin membuat
+          data bulanan dan sepanjang waktu
+          berbeda, bagian ini bisa
+          dikembangkan.
         */
 
         renderRanking();
@@ -909,27 +1282,343 @@ document
   });
 
 
+
+/* ---------------------------------------------------------
+   TOMBOL LIHAT SEMUA
+   --------------------------------------------------------- */
+
+const seeAllBtn =
+
+  document.getElementById(
+    "seeAllBtn"
+  );
+
+
+if (seeAllBtn) {
+
+
+  seeAllBtn.addEventListener(
+    "click",
+    function () {
+
+
+      const ranking =
+
+        getRankingData();
+
+
+      const container =
+
+        document.getElementById(
+          "rankingList"
+        );
+
+
+      if (!container) {
+
+        return;
+
+      }
+
+
+      /*
+        Tampilkan seluruh ranking
+        ketika tombol Lihat Semua
+        ditekan.
+      */
+
+      container.innerHTML =
+
+        ranking
+
+          .map(user => `
+
+            <div
+
+              class="rank-row"
+
+              data-user-id="${escapeHTML(
+                user.id
+              )}"
+
+            >
+
+
+              <div class="rank-position">
+
+                ${user.rank}
+
+              </div>
+
+
+              <div class="rank-user">
+
+
+                ${
+
+                  avatarHTML(
+                    user,
+                    "small"
+                  )
+
+                }
+
+
+                <div class="rank-user-info">
+
+                  <strong>
+
+                    ${
+
+                      escapeHTML(
+                        user.name
+                      )
+
+                    }
+
+                  </strong>
+
+                </div>
+
+
+              </div>
+
+
+              <div class="rank-score">
+
+                ${
+
+                  formatScore(
+                    user.score
+                  )
+
+                }
+
+                <span>
+
+                  ●
+
+                </span>
+
+              </div>
+
+
+            </div>
+
+          `)
+
+          .join("");
+
+
+      /*
+        Ubah teks tombol supaya
+        pengguna tahu daftar sudah
+        ditampilkan seluruhnya.
+      */
+
+      this.textContent =
+        "Tampilkan Lebih Sedikit";
+
+
+      /*
+        Jika diklik lagi,
+        kembali ke ranking 4-7.
+      */
+
+      this.onclick = function () {
+
+
+        renderRanking();
+
+
+        this.textContent =
+          "Lihat Semua";
+
+
+        /*
+          Pasang kembali handler.
+        */
+
+        this.onclick =
+          showAllRanking;
+
+      };
+
+    }
+
+  );
+
+}
+
+
+
+/* ---------------------------------------------------------
+   FUNGSI LIHAT SEMUA
+   --------------------------------------------------------- */
+
+function showAllRanking() {
+
+
+  const ranking =
+
+    getRankingData();
+
+
+  const container =
+
+    document.getElementById(
+      "rankingList"
+    );
+
+
+  if (!container) {
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+
+    ranking
+
+      .map(user => `
+
+        <div
+
+          class="rank-row"
+
+          data-user-id="${escapeHTML(
+            user.id
+          )}"
+
+        >
+
+
+          <div class="rank-position">
+
+            ${user.rank}
+
+          </div>
+
+
+          <div class="rank-user">
+
+
+            ${
+
+              avatarHTML(
+                user,
+                "small"
+              )
+
+            }
+
+
+            <div class="rank-user-info">
+
+              <strong>
+
+                ${
+
+                  escapeHTML(
+                    user.name
+                  )
+
+                }
+
+              </strong>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="rank-score">
+
+            ${
+
+              formatScore(
+                user.score
+              )
+
+            }
+
+
+            <span>
+
+              ●
+
+            </span>
+
+          </div>
+
+
+        </div>
+
+      `)
+
+      .join("");
+
+
+  const button =
+
+    document.getElementById(
+      "seeAllBtn"
+    );
+
+
+  if (button) {
+
+    button.textContent =
+      "Tampilkan Lebih Sedikit";
+
+
+    button.onclick =
+      function () {
+
+        renderRanking();
+
+        this.textContent =
+          "Lihat Semua";
+
+        this.onclick =
+          showAllRanking;
+
+      };
+
+  }
+
+}
+
+
+
 /* ---------------------------------------------------------
    REAL-TIME UPDATE
    --------------------------------------------------------- */
 
 
 /*
-   Update ketika localStorage berubah
-   dari TAB / WINDOW lain.
+  Karena data ranking berada
+  langsung di dalam JavaScript,
+  halaman tidak perlu mengambil
+  data ranking dari localStorage.
 */
 
-window.addEventListener(
-  "storage",
-  function(event) {
+
+/*
+  Tetap render ulang ketika
+  halaman kembali aktif.
+*/
+
+document.addEventListener(
+  "visibilitychange",
+  function () {
 
     if (
-      STORAGE_KEYS.users.includes(
-        event.key
-      ) ||
-      STORAGE_KEYS.currentUser.includes(
-        event.key
-      )
+      document.visibilityState ===
+      "visible"
     ) {
 
       renderRanking();
@@ -939,19 +1628,6 @@ window.addEventListener(
   }
 );
 
-
-/*
-   Update pada halaman yang sama.
-
-   Karena event "storage" tidak aktif
-   untuk perubahan localStorage dari
-   tab yang sama.
-*/
-
-setInterval(
-  renderRanking,
-  1000
-);
 
 
 /* ---------------------------------------------------------
@@ -969,5 +1645,7 @@ document.addEventListener(
 
 </script>
 
+
 </body>
+
 </html>
