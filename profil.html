@@ -395,7 +395,6 @@
     <section
         class="panel stat-card clickable-card"
         id="achievementCard"
-        data-nav="peringkat-desa.html"
         role="button"
         tabindex="0"
         aria-label="Buka Peringkat Desa">
@@ -1338,75 +1337,89 @@ if (qrModal) {
    NAVIGASI CARD
 ===================================================== */
 
-document
 
-    .querySelectorAll("[data-nav]")
+/* -----------------------------------------------------
+   GREEN SCORE → REWARD
+----------------------------------------------------- */
 
-    .forEach(element => {
+const greenScoreCard =
+    document.getElementById("greenScoreCard");
 
+if (greenScoreCard) {
 
-        element.addEventListener(
+    greenScoreCard.addEventListener(
+        "click",
+        () => {
 
-            "click",
+            window.location.href =
+                "reward.html";
 
-            () => {
-
-
-                const target =
-
-                    element.dataset.nav;
-
-
-                if (target) {
-
-                    window.location.href =
-                        target;
-
-                }
-
-            }
-
-        );
+        }
+    );
 
 
-        element.addEventListener(
+    greenScoreCard.addEventListener(
+        "keydown",
+        event => {
 
-            "keydown",
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
 
-            event => {
+                event.preventDefault();
 
-
-                if (
-
-                    event.key === "Enter" ||
-
-                    event.key === " "
-
-                ) {
-
-
-                    event.preventDefault();
-
-
-                    const target =
-
-                        element.dataset.nav;
-
-
-                    if (target) {
-
-                        window.location.href =
-                            target;
-
-                    }
-
-                }
+                window.location.href =
+                    "reward.html";
 
             }
 
-        );
+        }
+    );
 
-    });
+}
+
+
+/* -----------------------------------------------------
+   PENCAPAIAN → PERINGKAT DESA
+----------------------------------------------------- */
+
+const achievementCard =
+    document.getElementById("achievementCard");
+
+if (achievementCard) {
+
+    achievementCard.addEventListener(
+        "click",
+        () => {
+
+            window.location.href =
+                "peringkat-desa.html";
+
+        }
+    );
+
+
+    achievementCard.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+
+                event.preventDefault();
+
+                window.location.href =
+                    "peringkat-desa.html";
+
+            }
+
+        }
+    );
+
+}
 
 
 /* =====================================================
